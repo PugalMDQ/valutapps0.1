@@ -1,0 +1,975 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.SignupActivity">
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/colorBG"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10sp"
+        android:animateLayoutChanges="true"
+        android:padding="5dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TableRow
+            android:id="@+id/tableRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/tab_dialog"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/butCompany"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginBottom="3dp"
+                android:layout_weight="1"
+                android:background="@drawable/select_dialog"
+                android:text="Company"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <Button
+                android:id="@+id/butIndividual"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginBottom="3dp"
+                android:layout_weight="1"
+                android:background="@drawable/tab_dialog"
+                android:text="Individual"
+                android:textColor="@color/colorWhite" />
+        </TableRow>
+
+        <RelativeLayout
+            android:id="@+id/tabCompany"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tableRow"
+            android:visibility="gone">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/linCompany"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:orientation="vertical">
+
+                    <Spinner
+                        android:id="@+id/upComType"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="10dp" />
+
+                    <LinearLayout
+                        android:id="@+id/linType"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <Spinner
+                            android:id="@+id/upComSize"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp" />
+
+                        <Spinner
+                            android:id="@+id/upComCategory"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp" />
+                    </LinearLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/upComNameLay"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerHorizontal="true"
+                        android:textColorHint="@color/colorHint">
+
+                        <EditText
+                            android:id="@+id/upComName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="Company Name"
+                            android:inputType="textCapWords" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/upComPersonLay"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColorHint="@color/colorHint">
+
+                        <EditText
+                            android:id="@+id/upComPerson"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="Contact Person Name"
+                            android:inputType="textCapWords"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/upComEmailLay"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColorHint="@color/colorHint">
+
+                        <EditText
+                            android:id="@+id/upComEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/upComName"
+                            android:ems="10"
+                            android:hint="Email ID"
+                            android:inputType="textEmailAddress" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/upComPhoneLay"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColorHint="@color/colorHint">
+
+                        <EditText
+                            android:id="@+id/upComPhone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:maxLength="10"
+                            android:hint="Phone No."
+                            android:inputType="phone"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/upComAddressLay"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColorHint="@color/colorHint"
+                        android:visibility="visible">
+
+                        <EditText
+                            android:id="@+id/upComAddress"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="Company Address"
+                            android:inputType="textCapWords"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/upComWebsiteLay"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColorHint="@color/colorHint"
+                        android:visibility="visible">
+
+                        <EditText
+                            android:id="@+id/upComWebsite"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="Company Website"
+                            android:inputType="textUri"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/upComGSTLay"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColorHint="@color/colorHint"
+                        android:visibility="visible">
+
+                        <EditText
+                            android:id="@+id/upComGST"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="GST Registration"
+                            android:inputType="textCapCharacters"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/upComPANLay"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColorHint="@color/colorHint"
+                        android:visibility="visible">
+
+                        <EditText
+                            android:id="@+id/upComPAN"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="Company PAN"
+                            android:inputType="textCapCharacters"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/upComIncDateLay"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColorHint="@color/colorHint"
+                        android:visibility="visible">
+
+                        <EditText
+                            android:id="@+id/upComIncDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:clickable="true"
+                            android:focusable="false"
+                            android:hint="Date of Incorporation"
+                            android:inputType="date" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/upComCountryLay"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColorHint="@color/colorHint"
+                        android:visibility="visible">
+
+                        <EditText
+                            android:id="@+id/upComCountry"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="Country"
+                            android:inputType="textCapWords"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/upComStateLay"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColorHint="@color/colorHint"
+                        android:visibility="visible">
+
+                        <EditText
+                            android:id="@+id/upComState"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="State"
+                            android:inputType="textCapWords"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/upComCityLay"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColorHint="@color/colorHint"
+                        android:visibility="visible">
+
+                        <EditText
+                            android:id="@+id/upComCity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="City"
+                            android:inputType="textCapWords"
+                            android:textColor="@color/colorAccent" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/upComPinLay"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColorHint="@color/colorHint"
+                        android:visibility="visible"
+                        app:passwordToggleTint="@color/colorAccent">
+
+                        <EditText
+                            android:id="@+id/upComPin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:maxLength="6"
+                            android:hint="Pin code"
+                            android:inputType="number"
+                            android:textColor="@color/colorAccent" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Spinner
+                        android:id="@+id/upComBusinessNature"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="10dp" />
+
+                    <LinearLayout
+                        android:id="@+id/upComServiceOffered"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/upComServiceOfferedTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="7dp"
+                            android:text="@string/service_offered"
+                            android:textColor="@color/colorInactive"
+                            android:textSize="20sp" />
+
+                        <CheckBox
+                            android:id="@+id/upComServiceOffered_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:buttonTint="@color/colorAccent"
+                            android:text="Vibration Analysis"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="18sp" />
+
+                        <CheckBox
+                            android:id="@+id/upComServiceOffered_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:buttonTint="@color/colorAccent"
+                            android:text="Dynamic Balancing"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="18sp" />
+
+                        <CheckBox
+                            android:id="@+id/upComServiceOffered_3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:buttonTint="@color/colorAccent"
+                            android:text="Thermography"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="18sp" />
+
+                        <CheckBox
+                            android:id="@+id/upComServiceOffered_4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:buttonTint="@color/colorAccent"
+                            android:text="NDT"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="18sp" />
+
+                        <CheckBox
+                            android:id="@+id/upComServiceOffered_5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:buttonTint="@color/colorAccent"
+                            android:text="UT"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="18sp" />
+
+                        <CheckBox
+                            android:id="@+id/upComServiceOffered_6"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:buttonTint="@color/colorAccent"
+                            android:text="CFD"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="18sp" />
+
+                        <CheckBox
+                            android:id="@+id/upComServiceOffered_7"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:buttonTint="@color/colorAccent"
+                            android:text="Structural Analysis"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="18sp" />
+
+                        <CheckBox
+                            android:id="@+id/upComServiceOffered_8"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:buttonTint="@color/colorAccent"
+                            android:text="Laser Alignment Service"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linDetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/upComExpLay"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColorHint="@color/colorHint"
+                            android:visibility="visible"
+                            app:passwordToggleTint="@color/colorAccent">
+
+                            <EditText
+                                android:id="@+id/upComExp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ems="10"
+                                android:hint="Industry Experience (in Years)"
+                                android:inputType="number"
+                                android:maxLength="2"
+                                android:textColor="@color/colorAccent" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <LinearLayout
+                            android:id="@+id/linComInstruments"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/dialog"
+                            android:gravity="center_horizontal"
+                            android:orientation="horizontal"
+                            android:padding="15dp"
+                            android:visibility="visible">
+
+                            <ImageView
+                                android:id="@+id/imageComInst"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_marginRight="10sp"
+                                android:background="@mipmap/edit" />
+
+                            <TextView
+                                android:id="@+id/textComInstruments"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:maxLines="2"
+                                android:text="ADD INSTRUMENTS IN HAND"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/upComProjectsLay"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:textColorHint="@color/colorHint"
+                            android:visibility="visible"
+                            app:passwordToggleTint="@color/colorAccent">
+
+                            <EditText
+                                android:id="@+id/upComProjects"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ems="10"
+                                android:hint="Key Projects Handled"
+                                android:inputType="textCapSentences|textMultiLine"
+                                android:maxHeight="150sp"
+                                android:maxLines="4"
+                                android:textColor="@color/colorAccent" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/upComSign"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/upConPwdLay"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/button"
+                        android:text="SIGN UP"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </ScrollView>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/tabIndividual"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tableRow"
+            android:visibility="visible">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/linIndividual"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:orientation="vertical" >
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/upIndNameLay"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerHorizontal="true"
+                        android:textColorHint="@color/colorHint"
+                        app:passwordToggleTint="@color/colorAccent">
+
+                        <EditText
+                            android:id="@+id/upIndName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="Name"
+                            android:inputType="textCapWords"
+                            android:textColor="@color/colorAccent" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/upIndEmailLay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColorHint="@color/colorHint"
+                        app:passwordToggleTint="@color/colorAccent">
+
+                        <EditText
+                            android:id="@+id/upIndEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/upComName"
+                            android:ems="10"
+                            android:hint="Email ID (or) PhoneNo"
+                            android:textColor="@color/colorAccent" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+<!--                    <com.google.android.material.textfield.TextInputLayout-->
+<!--                        android:id="@+id/upIndPhoneLay"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textColorHint="@color/colorHint"-->
+<!--                        app:passwordToggleTint="@color/colorAccent">-->
+
+<!--                        <EditText-->
+<!--                            android:id="@+id/upIndPhone"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:ems="10"-->
+<!--                            android:maxLength="10"-->
+<!--                            android:hint="Phone No."-->
+<!--                            android:inputType="phone"-->
+<!--                            android:textColor="@color/colorAccent" />-->
+
+<!--                    </com.google.android.material.textfield.TextInputLayout>-->
+
+<!--                    <Spinner-->
+<!--                        android:id="@+id/upIndGender"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="60dp"-->
+<!--                        android:layout_marginTop="10dp" />-->
+
+<!--                    <com.google.android.material.textfield.TextInputLayout-->
+<!--                        android:id="@+id/upIndAddressLay"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textColorHint="@color/colorHint"-->
+<!--                        android:visibility="visible"-->
+<!--                        app:passwordToggleTint="@color/colorAccent">-->
+
+<!--                        <EditText-->
+<!--                            android:id="@+id/upIndAddress"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:ems="10"-->
+<!--                            android:hint="Address"-->
+<!--                            android:inputType="textCapWords"-->
+<!--                            android:textColor="@color/colorAccent" />-->
+
+<!--                    </com.google.android.material.textfield.TextInputLayout>-->
+
+<!--                    <com.google.android.material.textfield.TextInputLayout-->
+<!--                        android:id="@+id/upIndPANLay"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:textColorHint="@color/colorHint"-->
+<!--                        android:visibility="visible"-->
+<!--                        app:passwordToggleTint="@color/colorAccent">-->
+
+<!--                        <EditText-->
+<!--                            android:id="@+id/upIndPAN"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:ems="10"-->
+<!--                            android:hint="PAN"-->
+<!--                            android:inputType="textCapCharacters"-->
+<!--                            android:textColor="@color/colorAccent" />-->
+
+<!--                    </com.google.android.material.textfield.TextInputLayout>-->
+
+<!--                    <com.google.android.material.textfield.TextInputLayout-->
+<!--                        android:id="@+id/upIndWebsiteLay"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:textColorHint="@color/colorHint"-->
+<!--                        android:visibility="visible"-->
+<!--                        app:passwordToggleTint="@color/colorAccent">-->
+
+<!--                        <EditText-->
+<!--                            android:id="@+id/upIndWebsite"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:ems="10"-->
+<!--                            android:hint="Website"-->
+<!--                            android:inputType="textUri"-->
+<!--                            android:textColor="@color/colorAccent" />-->
+
+<!--                    </com.google.android.material.textfield.TextInputLayout>-->
+
+<!--                    <com.google.android.material.textfield.TextInputLayout-->
+<!--                        android:id="@+id/upIndAADHARLay"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textColorHint="@color/colorHint"-->
+<!--                        android:visibility="visible"-->
+<!--                        app:passwordToggleTint="@color/colorAccent">-->
+
+<!--                        <EditText-->
+<!--                            android:id="@+id/upIndAADHAR"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:ems="10"-->
+<!--                            android:maxLength="12"-->
+<!--                            android:hint="AADHAR No."-->
+<!--                            android:inputType="number"-->
+<!--                            android:textColor="@color/colorAccent" />-->
+
+<!--                    </com.google.android.material.textfield.TextInputLayout>-->
+
+<!--                    <com.google.android.material.textfield.TextInputLayout-->
+<!--                        android:id="@+id/upIndCountryLay"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textColorHint="@color/colorHint"-->
+<!--                        android:visibility="visible"-->
+<!--                        app:passwordToggleTint="@color/colorAccent">-->
+
+<!--                        <EditText-->
+<!--                            android:id="@+id/upIndCountry"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:ems="10"-->
+<!--                            android:hint="Country"-->
+<!--                            android:inputType="textCapWords"-->
+<!--                            android:textColor="@color/colorAccent" />-->
+
+<!--                    </com.google.android.material.textfield.TextInputLayout>-->
+
+<!--                    <com.google.android.material.textfield.TextInputLayout-->
+<!--                        android:id="@+id/upIndStateLay"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textColorHint="@color/colorHint"-->
+<!--                        android:visibility="visible"-->
+<!--                        app:passwordToggleTint="@color/colorAccent">-->
+
+<!--                        <EditText-->
+<!--                            android:id="@+id/upIndState"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:ems="10"-->
+<!--                            android:hint="State"-->
+<!--                            android:inputType="textCapWords"-->
+<!--                            android:textColor="@color/colorAccent" />-->
+
+<!--                    </com.google.android.material.textfield.TextInputLayout>-->
+
+<!--                    <com.google.android.material.textfield.TextInputLayout-->
+<!--                        android:id="@+id/upIndCityLay"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textColorHint="@color/colorHint"-->
+<!--                        android:visibility="visible"-->
+<!--                        app:passwordToggleTint="@color/colorAccent">-->
+
+<!--                        <EditText-->
+<!--                            android:id="@+id/upIndCity"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:ems="10"-->
+<!--                            android:hint="City"-->
+<!--                            android:inputType="textCapWords"-->
+<!--                            android:textColor="@color/colorAccent" />-->
+
+<!--                    </com.google.android.material.textfield.TextInputLayout>-->
+
+<!--                    <com.google.android.material.textfield.TextInputLayout-->
+<!--                        android:id="@+id/upIndPinLay"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textColorHint="@color/colorHint"-->
+<!--                        android:visibility="visible"-->
+<!--                        app:passwordToggleTint="@color/colorAccent">-->
+
+<!--                        <EditText-->
+<!--                            android:id="@+id/upIndPin"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:ems="10"-->
+<!--                            android:maxLength="6"-->
+<!--                            android:hint="Pin code"-->
+<!--                            android:inputType="number"-->
+<!--                            android:textColor="@color/colorAccent" />-->
+
+<!--                    </com.google.android.material.textfield.TextInputLayout>-->
+
+<!--                    <Spinner-->
+<!--                        android:id="@+id/upIndBusinessNature"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="60dp"-->
+<!--                        android:layout_marginTop="10dp" />-->
+
+                    <LinearLayout
+                        android:id="@+id/upIndServiceOffered"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="7dp"
+                            android:text="Select Services Offered"
+                            android:textColor="@color/colorInactive"
+                            android:textSize="20sp" />
+
+                        <CheckBox
+                            android:id="@+id/upIndServiceOffered_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:buttonTint="@color/colorAccent"
+                            android:text="Vibration Analysis"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="18sp" />
+
+                        <CheckBox
+                            android:id="@+id/upIndServiceOffered_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:buttonTint="@color/colorAccent"
+                            android:text="Dynamic Balancing"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="18sp" />
+
+                        <CheckBox
+                            android:id="@+id/upIndServiceOffered_3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:buttonTint="@color/colorAccent"
+                            android:text="Thermography"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="18sp" />
+
+                        <CheckBox
+                            android:id="@+id/upIndServiceOffered_4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:buttonTint="@color/colorAccent"
+                            android:text="NDT"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="18sp" />
+
+                        <CheckBox
+                            android:id="@+id/upIndServiceOffered_5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:buttonTint="@color/colorAccent"
+                            android:text="UT"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="18sp" />
+
+                        <CheckBox
+                            android:id="@+id/upIndServiceOffered_6"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:buttonTint="@color/colorAccent"
+                            android:text="CFD"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="18sp" />
+
+                        <CheckBox
+                            android:id="@+id/upIndServiceOffered_7"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:buttonTint="@color/colorAccent"
+                            android:text="Structural Analysis"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="18sp" />
+
+                        <CheckBox
+                            android:id="@+id/upIndServiceOffered_8"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:buttonTint="@color/colorAccent"
+                            android:text="Laser Alignment Service"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/upIndExpLay"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColorHint="@color/colorHint"
+                        android:visibility="visible"
+                        app:passwordToggleTint="@color/colorAccent">
+
+                        <EditText
+                            android:id="@+id/upIndExp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:maxLength="2"
+                            android:hint="Industry Experience (in Years)"
+                            android:inputType="number"
+                            android:textColor="@color/colorAccent" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linIndInstruments"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:visibility="visible"
+                        android:layout_marginTop="10dp"
+                        android:padding="15dp"
+                        android:background="@drawable/dialog"
+                        android:gravity="center_horizontal">
+
+                        <ImageView
+                            android:id="@+id/imageIndInst"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginRight="10sp"
+                            android:background="@mipmap/edit"/>
+
+                        <TextView
+                            android:id="@+id/textIndInstruments"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:textSize="15sp"
+                            android:maxLines="2"
+                            android:textStyle="bold"
+                            android:textColor="@color/colorPrimary"
+                            android:text="ADD INSTRUMENTS IN HAND" />
+                    </LinearLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/upIndProjectsLay"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColorHint="@color/colorHint"
+                        android:visibility="visible"
+                        android:layout_marginTop="10dp"
+                        app:passwordToggleTint="@color/colorAccent">
+
+                        <EditText
+                            android:id="@+id/upIndProjects"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:maxHeight="150sp"
+                            android:maxLines="4"
+                            android:hint="Key Projects Handled"
+                            android:inputType="textCapSentences|textMultiLine"
+                            android:textColor="@color/colorAccent" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/upIndSign"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/upConPwdLay"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/button"
+                        android:text="SIGN UP"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </ScrollView>
+
+
+        </RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Vibrocare</string>
+
+    <string-array name="login_type">
+        <item>@string/login_select</item>
+        <item>Company</item>
+        <item>Individual</item>
+    </string-array>
+
+    <string name="login_select">Please select User Type</string>
+    <string name="phone">Phone No.</string>
+    <string name="password">Password</string>
+    <string name="login">LOGIN</string>
+    <string name="forget">Forget Password?</string>
+    <string name="login_otp">Login via OTP</string>
+    <string name="signup">New User? Sign up here…</string>
+    <string name="change_password">Change Password</string>
+    <string name="service_required">Select Services Required</string>
+    <string name="service_offered">Select Services Offered</string>
+
+    <string name="title_activity_candidate">CandidateActivity</string>
+    <string name="title_activity_company">CompanyActivity</string>
+
+    <string name="list">Job List</string>
+    <string name="post">My Post</string>
+    <string name="active">Active Job</string>
+    <string name="support">Support</string>
+    <string name="shop">Shop</string>
+
+
+</resources>

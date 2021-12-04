@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@+id/can_list">
+
+    <fragment
+        android:id="@+id/can_list"
+        android:name="com.vibro.care.Activity.fragment.candidate.CanListFragment"
+        android:label="@string/list"
+        tools:layout="@layout/fragment_can_list" />
+
+    <fragment
+        android:id="@+id/can_active"
+        android:name="com.vibro.care.Activity.fragment.candidate.CanActiveFragment"
+        android:label="@string/active"
+        tools:layout="@layout/fragment_can_active" />
+
+    <fragment
+        android:id="@+id/can_support"
+        android:name="com.vibro.care.Activity.fragment.common.SupportFragment"
+        android:label="@string/support"
+        tools:layout="@layout/fragment_support" />
+
+    <fragment
+        android:id="@+id/can_shop"
+        android:name="com.vibro.care.Activity.fragment.common.ShopFragment"
+        android:label="@string/shop"
+        tools:layout="@layout/fragment_shop" />
+</navigation>

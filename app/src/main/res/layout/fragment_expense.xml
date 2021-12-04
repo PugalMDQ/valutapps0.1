@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".expense">
+
+
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/karla"
+        android:text="Details"
+        android:textColor="#8A8A8A"
+        android:textFontWeight="700"
+        android:textSize="14sp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="29dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardforamount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20sp"
+        android:layout_marginRight="20sp"
+        android:layout_marginTop="11dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:strokeColor="#D8D8D8"
+        app:strokeWidth="1dp"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/Amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_weight="400"
+                    android:fontFamily="@font/karla"
+                    android:text="Amount"
+                    android:textSize="11dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.09"
+                        android:layout_marginLeft="12sp"
+                        android:fontFamily="@font/karla"
+                        android:gravity="center_vertical"
+                        android:inputType="number"
+                        android:text="$"
+                        android:textColor="#1C1C1C"
+                        android:textFontWeight="400"
+                        android:textSize="16sp"/>
+
+
+                    <EditText
+                        android:id="@+id/Editamount"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.9"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="6dp"
+                        android:autoSizeTextType="uniform"
+                        android:background="@null"
+                        android:fontFamily="@font/karla"
+                        android:gravity="center_vertical"
+                        android:inputType="number"
+                        android:textColor="#1C1C1C"
+                        android:textFontWeight="400"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/Amount" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/Cardforaccounttype"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20sp"
+        android:layout_marginTop="12dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="#D8D8D8"
+        android:layout_marginRight="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/cardforamount"
+        app:layout_constraintTop_toBottomOf="@+id/cardforamount"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2.6"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/selcetaccounttype"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="7dp"
+                    android:fontFamily="@font/lato"
+                    android:text="Select an account "
+                    android:textSize="11dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/Accounttypes"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="2dp"
+                        android:autoSizeTextType="uniform"
+                        android:background="@null"
+                        android:fontFamily="@font/karla"
+                        android:gravity="center_vertical"
+                        android:inputType="number"
+                        android:textColor="#1C1C1C"
+                        android:textFontWeight="400"
+                        android:textSize="16sp"
+                        android:layout_marginBottom="6dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/Amount" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.4">
+
+                <ImageView
+                    android:id="@+id/scrolforaccounttype"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.4"
+                    android:src="@drawable/ic_baseline_keyboard_arrow_down_24" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardforcategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20sp"
+        android:layout_marginRight="20sp"
+        app:strokeColor="#D8D8D8"
+        app:strokeWidth="1dp"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/Cardforaccounttype"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+       >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            >
+
+            <ImageView
+                android:id="@+id/choosecategory"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:visibility="gone"
+                android:layout_marginLeft="12sp" />
+
+            <EditText
+                android:id="@+id/Category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_toLeftOf="@id/categoryScroll"
+                android:layout_toRightOf="@+id/choosecategory"
+                android:background="@null"
+                android:fontFamily="@font/karla"
+                android:hint="Select a category"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:textColorHint="#8A8A8A"
+                android:textFontWeight="400"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:id="@+id/categoryScroll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_alignParentRight="true"
+                >
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="15sp"
+                    android:src="@drawable/ic_baseline_keyboard_arrow_down_24" />
+            </LinearLayout>
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardforday"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20sp"
+        app:strokeWidth="1dp"
+        app:strokeColor="#D8D8D8"
+        android:layout_marginRight="20sp"
+        app:layout_constraintTop_toBottomOf="@+id/cardforcategory"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+      >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            >
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="2.6"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:id="@+id/editdate"
+                android:layout_marginLeft="12dp"
+                android:hint="Today"
+                android:paddingBottom="15dp"
+                android:paddingTop="15dp"
+                android:textFontWeight="400"
+                android:textSize="14sp"
+                android:fontFamily="@font/karla"
+                android:textColorHint="#8A8A8A"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="0.4"
+                android:padding="10dp"
+                android:layout_height="match_parent"
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:src="@drawable/datepicker" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/cardforday"
+        android:layout_marginTop="12dp"
+        app:strokeColor="#D8D8D8"
+        app:strokeWidth="1dp"
+        android:id="@+id/cardfornotes"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="11dp"
+                android:fontFamily="@font/karla"
+                android:text="Note"
+                android:textColor="#8A8A8A"
+                android:textFontWeight="400"
+                android:textSize="11sp" />
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:background="@null"
+                android:fontFamily="@font/karla"
+                android:paddingBottom="20dp"
+                android:text="spent for some thing"
+                android:textColor="#8A8A8A"
+                android:textFontWeight="400"
+                android:textSize="11dp" />
+
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/cardfornotes"
+        android:layout_marginTop="28.35dp"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:id="@+id/linearadditional"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.6"
+            android:text="Additional Details"
+            android:fontFamily="@font/karla"
+            android:textFontWeight="700"
+            android:textSize="14sp"
+            android:textColor="#8A8A8A"
+            />
+        <ImageView
+            android:id="@+id/additionaldetail"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.4"
+            android:src="@drawable/ic_baseline_keyboard_arrow_down_24"/>
+    </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:id="@+id/cardforgone"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/linearadditional"
+        app:strokeColor="#D8D8D8"
+        app:strokeWidth="1dp"
+        android:visibility="gone"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="12dp"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            >
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2.6"
+               android:layout_marginTop="6dp"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/rvinnamelist"/>
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="0.4"
+                android:paddingTop="10dp"
+                android:layout_gravity="center"
+                android:paddingBottom="5dp"
+                android:id="@+id/contactpicker"
+                android:src="@drawable/useradd"
+                />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+    <LinearLayout
+        android:id="@+id/insta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="33dp"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:visibility="gone"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="50dp"
+        app:layout_constraintBottom_toTopOf="@id/addaccountsubmit"
+        app:layout_constraintTop_toBottomOf="@+id/cardforgone">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_gravity="end"
+            android:layout_marginLeft="70dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:id="@+id/GalaryImage"
+            android:src="@drawable/image" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="70dp"
+            android:layout_weight="1"
+            android:id="@+id/capture"
+            android:src="@drawable/instagram" />
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/addaccountsubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="78dp"
+        android:layout_marginRight="78dp"
+        android:layout_marginBottom="78dp"
+        android:background="@drawable/rippleforconsbackround"
+        android:fontFamily="@font/lato"
+        android:gravity="center"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:text="Add transaction"
+        android:textColor="@color/white"
+        android:textFontWeight="600"
+        android:textSize="16dp"
+        android:layout_marginTop="130dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearadditional"
+        app:layout_constraintVertical_bias="1.0" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

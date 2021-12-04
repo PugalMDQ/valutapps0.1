@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/white">
+
+    <TextView
+        android:id="@+id/textHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16sp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16sp"
+        android:text="Vibro Care"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="23sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/textMessage"
+        android:layout_width="0sp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textHeader"
+        android:layout_marginStart="16sp"
+        android:layout_marginTop="16sp"
+        android:layout_marginEnd="16sp"
+        android:text="Payment failed! Try again?"
+        android:textAlignment="center"
+        android:textColor="@color/colorRed"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textHeader"
+        tools:ignore="MissingConstraints" />
+
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="0sp"
+        android:layout_height="1sp"
+        android:layout_marginTop="24sp"
+        android:layout_below="@id/textMessage"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textMessage"/>
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="1sp"
+        android:layout_height="0sp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider1"/>
+
+    <Button
+        android:id="@+id/buttonYes"
+        android:layout_width="0sp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider2"
+        android:background="@color/colorGreen"
+        android:text="RETRY"
+        android:textColor="@color/colorBG"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/divider2"
+        app:layout_constraintTop_toTopOf="@id/divider2"/>
+
+    <Button
+        android:id="@+id/buttonNo"
+        android:layout_width="0sp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorRed"
+        android:text="EXIT"
+        android:textColor="@color/colorBG"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/divider2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/divider2"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

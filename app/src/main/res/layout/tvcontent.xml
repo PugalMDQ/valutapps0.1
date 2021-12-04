@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linear_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/linearforcontent"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal"
+>
+        <TextView
+            android:id="@+id/tvContent"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:background="@drawable/backgroundformarkertext"
+            android:text="Abc"
+            />
+
+        <ImageView
+            android:layout_marginTop="-1.5dp"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:layout_gravity="center"
+            android:background="@drawable/backgroundformarher"
+            />
+    </LinearLayout>
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/linearforcontent1"-->
+<!--        android:layout_width="100dp"-->
+<!--        android:layout_height="60dp"-->
+<!--        android:orientation="vertical"-->
+<!--        android:visibility="gone"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        >-->
+<!--        <TextView-->
+<!--            android:id="@+id/tvContent1"-->
+<!--            android:layout_width="100dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:gravity="center"-->
+<!--            android:clipChildren="false"-->
+<!--            android:clipToPadding="false"-->
+<!--            android:background="@drawable/backgroundformarkertext"-->
+<!--            android:text="Abc"-->
+<!--            />-->
+
+<!--        <ImageView-->
+<!--            android:layout_marginTop="-1.5dp"-->
+<!--            android:layout_width="16dp"-->
+<!--            android:layout_height="16dp"-->
+<!--            android:clipChildren="false"-->
+<!--            android:clipToPadding="false"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:background="@drawable/backgroundformarher"-->
+<!--            />-->
+<!--    </LinearLayout>-->
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/linearforcontent2"-->
+<!--        android:layout_width="100dp"-->
+<!--        android:layout_height="60dp"-->
+<!--        android:orientation="vertical"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        >-->
+<!--        <TextView-->
+<!--            android:id="@+id/tvContent2"-->
+<!--            android:layout_width="100dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:gravity="center"-->
+<!--            android:clipChildren="false"-->
+<!--            android:clipToPadding="false"-->
+<!--            android:background="@drawable/backgroundformarkertext"-->
+<!--            android:text="Abc"-->
+<!--            />-->
+
+<!--        <ImageView-->
+<!--            android:layout_marginTop="-1.5dp"-->
+<!--            android:layout_width="16dp"-->
+<!--            android:layout_height="16dp"-->
+<!--            android:clipChildren="false"-->
+<!--            android:clipToPadding="false"-->
+<!--            android:layout_marginRight="5dp"-->
+<!--            android:layout_gravity="end"-->
+<!--            android:background="@drawable/backgroundformarher"-->
+<!--            />-->
+<!--    </LinearLayout>-->
+
+</LinearLayout>

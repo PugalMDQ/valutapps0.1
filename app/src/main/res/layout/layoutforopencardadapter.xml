@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        >
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="0.5"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/logos"
+            />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.6"
+            android:orientation="vertical"
+            android:layout_marginLeft="18dp"
+            android:weightSum="2"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.1"
+                android:text="Geegorsory"
+                android:textColor="#3D5E87"
+                android:fontFamily="@font/lato"
+                android:textFontWeight="400"
+                android:textSize="16dp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/nameofincomeanddebit"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.9"
+                android:fontFamily="@font/lato"
+                android:textFontWeight="400"
+                android:textSize="12dp"
+                android:id="@+id/secondName"
+                android:textColor="#A8C3EC"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"/>
+
+
+
+
+
+        </LinearLayout>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="end|center_vertical"
+            android:layout_weight="0.9"
+            android:layout_marginRight="24dp"
+            android:textColor="#EE6E70"
+            android:fontFamily="@font/roboto"
+            android:textFontWeight="400"
+            android:textSize="16dp"
+            android:text="-76276"
+            android:id="@+id/amounts"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/top"
+        android:background="#50A8C3EC"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/cons"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/myfinalyst"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lato_bold"
+        android:gravity="center"
+        android:text="MyFinalyst"
+        android:layout_marginTop="170dp"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lato_bold"
+        android:text="Keep your cards in one place"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/myfinalyst"
+        android:layout_marginTop="70dp"
+        android:id="@+id/keep1"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:layout_marginLeft="20sp"
+        android:layout_marginRight="20sp"
+        app:layout_constraintTop_toBottomOf="@+id/keep1"
+        android:id="@+id/keep2"
+        android:textColor="@color/white"
+        android:layout_marginTop="20dp"
+        android:text="Keep your cards in one safe place. We can secure your information "
+        />
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/keep2"-->
+<!--        android:layout_marginTop="80dp"-->
+<!--        android:weightSum="3"-->
+<!--        android:layout_marginLeft="164dp"-->
+<!--        android:layout_marginRight="164dp"-->
+<!--        android:orientation="horizontal"-->
+<!--        >-->
+<!--        <ImageView-->
+<!--            android:layout_width="8dp"-->
+<!--            android:layout_height="8dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:src="@drawable/active"-->
+<!--            />-->
+<!--        <ImageView-->
+<!--            android:layout_width="4dp"-->
+<!--            android:layout_height="4dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:src="@drawable/inactive"-->
+<!--            />-->
+<!--        <ImageView-->
+<!--            android:layout_width="4dp"-->
+<!--            android:layout_height="4dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:src="@drawable/inactive"-->
+<!--            android:layout_gravity="center"-->
+<!--            />-->
+
+<!--    </LinearLayout>-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/getstart"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="54dp"-->
+<!--        android:layout_marginLeft="10dp"-->
+<!--        android:layout_marginRight="10dp"-->
+<!--        android:layout_marginBottom="190dp"-->
+<!--        android:background="@drawable/getstart"-->
+<!--        android:fontFamily="@font/lato_bold"-->
+<!--        android:gravity="center"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:text="Get Started"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/Login"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="54dp"-->
+<!--        android:layout_marginLeft="10dp"-->
+<!--        android:layout_marginRight="10dp"-->
+<!--        android:layout_marginBottom="108dp"-->
+<!--        android:background="@drawable/login"-->
+<!--        android:fontFamily="@font/lato_bold"-->
+<!--        android:gravity="center"-->
+<!--        android:text="Log In"-->
+<!--        android:textColor="@color/white"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.476"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
+</androidx.constraintlayout.widget.ConstraintLayout>

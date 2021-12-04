@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable-v24/active.xml" value="0.19282051282051282" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable-v24/back_tabs.xml" value="0.17168949771689498" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable-v24/backforregister.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable-v24/editbackround.xml" value="0.18888888888888888" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable-v24/inactive.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable-v24/login.xml" value="0.19282051282051282" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable-v24/tab_selector.xml" value="0.11805555555555555" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/active.xml" value="0.15864978902953586" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/back_tabs.xml" value="0.17168949771689498" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/backforcard.xml" value="0.17168949771689498" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/backforcardpic.xml" value="0.12777777777777777" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/backforcardviewinhome.xml" value="0.17168949771689498" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/backfordown.xml" value="0.12920962199312716" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/backforregister.xml" value="0.17168949771689498" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/backfortabbutton.xml" value="0.17168949771689498" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/backgroundforback.xml" value="0.15833333333333333" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/backgroundformarher.xml" value="0.12920962199312716" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/balancebackground.xml" value="0.12920962199312716" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/boderback.xml" value="0.13055555555555556" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/cardsbacks.xml" value="0.11944444444444445" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/cardshadow1.xml" value="0.12920962199312716" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/colorlinear1.xml" value="0.15925925925925927" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/colorlinear2.xml" value="0.15925925925925927" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/consback3.xml" value="0.12361111111111112" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/consbackround.xml" value="0.19282051282051282" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/consbackround2.xml" value="0.19282051282051282" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/consbackroundforaddaccount.xml" value="0.15864978902953586" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/consbackroundforaddaccountbutton.xml" value="0.15864978902953586" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/consbackroundforaddaccountforactive.xml" value="0.17168949771689498" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/custom_switch_key.xml" value="0.17037037037037037" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/custom_switch_track.xml" value="0.17037037037037037" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/dashborderedbackground.xml" value="0.17222222222222222" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/editbackround.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/elevation.xml" value="0.13055555555555556" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/gardiantbackgroundforbalance.xml" value="0.15864978902953586" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/getstart.xml" value="0.19282051282051282" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/ic_baseline_keyboard_arrow_down_24.xml" value="0.16296296296296298" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/ic_baseline_keyboard_arrow_up_24.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/ic_launcher_background.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.15864978902953586" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/inactive.xml" value="0.15864978902953586" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/login.xml" value="0.15864978902953586" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/rippleforconsbackround.xml" value="0.15833333333333333" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/rippleforgetstart.xml" value="0.15833333333333333" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/rippleforlogin.xml" value="0.15833333333333333" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/rippleforwhite.xml" value="0.15833333333333333" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/drawable/tabbackground.xml" value="0.15864978902953586" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/font/wellfleet.xml" value="0.1935185185185185" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/activity_add_card_screen.xml" value="0.12" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/activity_add_transactionscreen.xml" value="0.1" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/activity_balancehome.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/activity_cardslist.xml" value="0.11979166666666667" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/activity_chat.xml" value="0.14743589743589744" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/activity_choose_category.xml" value="0.13333333333333333" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/activity_currentmpin.xml" value="0.10666666666666667" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/activity_edittransaction.xml" value="0.12" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/activity_edittransaction_main.xml" value="0.1513157894736842" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/activity_enteryourmpin.xml" value="0.12" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/activity_file_uploading.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/activity_helpandsupport.xml" value="0.134765625" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/activity_login.xml" value="0.12" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/activity_main.xml" value="0.10666666666666667" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/activity_newmpin.xml" value="0.1" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/activity_notification.xml" value="0.1796875" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/activity_opencard.xml" value="0.5" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/activity_personalinformation.xml" value="0.12" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/activity_phone_num_verfication.xml" value="0.13333333333333333" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/activity_phonenumberverfication2.xml" value="0.13333333333333333" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/activity_profile.xml" value="0.12" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/activity_re_enter_new_mpin.xml" value="0.1796875" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/activity_register.xml" value="0.12" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/activity_security.xml" value="0.10666666666666667" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/activity_setmpin.xml" value="0.13333333333333333" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/activity_valut.xml" value="0.12" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/activity_valut_main.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/activity_verificationsuccess.xml" value="0.1" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/backgroundformarher.xml" value="0.11979166666666667" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/backgroundformarkertext.xml" value="0.11979166666666667" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/bottomforlogin.xml" value="0.22" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/bottomforopencard.xml" value="0.1" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/bottomforpersonalinformation.xml" value="0.11979166666666667" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/bottomforregister.xml" value="0.22" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/bottomforverification.xml" value="0.15092592592592594" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/downforpersonalinformation.xml" value="0.22" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/downforsecurity.xml" value="0.11979166666666667" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/downforvalut.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/downforvalutprocessing.xml" value="0.1796875" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/downhelpandsupport.xml" value="0.12" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/downprofile.xml" value="0.13333333333333333" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/fragment_expense.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/fragment_f001.xml" value="0.10666666666666667" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/fragment_f002.xml" value="0.14743589743589744" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/fragment_f003.xml" value="0.14743589743589744" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/fragment_f004.xml" value="0.14743589743589744" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/fragment_fragment0.xml" value="0.12" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/fragment_fragment1.xml" value="0.14743589743589744" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/fragment_fragment2.xml" value="0.14743589743589744" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/fragment_income.xml" value="0.1597222222222222" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/layoutforadapterinhome.xml" value="0.12" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/layoutforcardlist.xml" value="0.12" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/layoutforcardtransactionhistory.xml" value="0.11979166666666667" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/layoutforchoosec.xml" value="0.11348684210526316" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/layoutfornamelist.xml" value="0.11348684210526316" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/layoutforopencardadapter.xml" value="0.14666666666666667" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/layoutforvalutadapter.xml" value="0.4466666666666667" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/summa.xml" value="0.134765625" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/layout/tvcontent.xml" value="0.11979166666666667" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/menu/menu.xml" value="0.14743589743589744" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
+        <entry key="..\:/Users/sanjai/AndroidStudioProjects/valutapps/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
