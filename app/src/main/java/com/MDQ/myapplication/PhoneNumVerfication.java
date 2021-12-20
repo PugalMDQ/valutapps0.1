@@ -32,6 +32,7 @@ import com.MDQ.myapplication.interfaces.viewresponceinterface.AuthenticationResp
 import com.MDQ.myapplication.interfaces.viewresponceinterface.OtpResponseInterface;
 import com.MDQ.myapplication.interfaces.viewresponceinterface.RegisterSuccessResponseInterface;
 import com.MDQ.myapplication.pojo.jsonresponse.ErrorBody;
+import com.MDQ.myapplication.utils.PreferenceManager;
 import com.MDQ.myapplication.viewmodel.AuthenticationRequestViewModel;
 import com.MDQ.myapplication.viewmodel.OtpRequestViewModel;
 import com.MDQ.myapplication.viewmodel.RegisterRequestViewModel;
@@ -42,17 +43,18 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 public class PhoneNumVerfication extends AppCompatActivity implements RegisterSuccessResponseInterface , OtpResponseInterface {
     ActivityPhoneNumVerficationBinding ap;
     String token, otp,phones,activities;
-
     String enteredotp;
-
     RegisterSuccessRequestViewModel registerSuccessRequestViewModel;
-
     OtpRequestViewModel otpRequestViewModel;
+    PreferenceManager preferenceManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //initialize with viewModel
         ap = ActivityPhoneNumVerficationBinding.inflate(getLayoutInflater());
         setContentView(ap.getRoot());
+
+        //For transparent the parent color
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -60,8 +62,7 @@ public class PhoneNumVerfication extends AppCompatActivity implements RegisterSu
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
 
-
-        //getting token and otp
+        //getting token,otp,phones,activities from previous screen
         Intent intent = getIntent();
         token = intent.getStringExtra("token");
         otp = intent.getStringExtra("otp");
@@ -74,6 +75,7 @@ public class PhoneNumVerfication extends AppCompatActivity implements RegisterSu
         ap.Resend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Checking internet connection if available call the setOtpDeclare else toast the error message
                 ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext()
                         .getSystemService(Context.CONNECTIVITY_SERVICE);
                 if ((connectivityManager
@@ -91,9 +93,8 @@ public class PhoneNumVerfication extends AppCompatActivity implements RegisterSu
             }
         });
 
+        //setting edit text inputType null
         ap.editone.requestFocus();
-
-
         ap.editone.setRawInputType(InputType.TYPE_NULL);
         ap.editone.setFocusable(true);
         ap.edittwo.setRawInputType(InputType.TYPE_NULL);
@@ -107,7 +108,7 @@ public class PhoneNumVerfication extends AppCompatActivity implements RegisterSu
         ap.editsix.setRawInputType(InputType.TYPE_NULL);
         ap.editsix.setFocusable(true);
 
-
+        //setting touchListener for edittext when its touched it will change to blue color
         ap.editone.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -170,7 +171,7 @@ public class PhoneNumVerfication extends AppCompatActivity implements RegisterSu
             }
         });
 
-
+        //adding textChangeListener for edit text when the first edittext filled it will focus on next edit text
         ap.editone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -318,7 +319,7 @@ public class PhoneNumVerfication extends AppCompatActivity implements RegisterSu
             }
         });
 
-        //for numbers
+        //For numbers textView the num have clicked it will show on edit text
         ap.one.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -500,7 +501,7 @@ public class PhoneNumVerfication extends AppCompatActivity implements RegisterSu
             }
         });
 
-        //backspace
+        //backspace imageView when the view clicked it will delete the lastly typed number
         ap.backspace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -602,35 +603,48 @@ public class PhoneNumVerfication extends AppCompatActivity implements RegisterSu
         otpRequestViewModel=new OtpRequestViewModel(getApplicationContext(),this);
     }
 
+    //set request item for resent otp api
     private void setOtpDeclare() {
         otpRequestViewModel.setPhone(phones);
         otpRequestViewModel.setCountry_code("91");
         otpRequestViewModel.generateOtpRequest();
     }
 
+    //set request item for register success  api
     private void setdeclare() {
         registerSuccessRequestViewModel.setToken(token);
         registerSuccessRequestViewModel.generateRegisterSuccessRequest();
     }
 
+    /**
+     * @param Token
+     * @param msg
+     * @breif getting response from the register success api
+     */
     @Override
     public void generateRegisterSuccessProcessed(String Token, String msg) {
 
         if(Token!=null){
             if(activities.equals("Register")) {
                 Intent intent1 = new Intent(PhoneNumVerfication.this, verificationsuccess.class);
-                intent1.putExtra("token", token);
+                intent1.putExtra("token", Token);
+                getPreferenceManager().setPrefToken(Token);
                 startActivity(intent1);
-
+                finish();
             }
             else if(activities.equals("Login")){
                 Intent intent2=new Intent(PhoneNumVerfication.this,enteryourmpin.class);
                 intent2.putExtra("token",token);
+                getPreferenceManager().setPrefToken(Token);
                 startActivity(intent2);
+                finish();
             }
             }
     }
-
+    /**
+     * @param Otp
+     * @breif getting response from the resend otp api
+     */
     @Override
     public void generateOtpProcessed(String Otp) {
 
@@ -642,16 +656,30 @@ public class PhoneNumVerfication extends AppCompatActivity implements RegisterSu
 
     @Override
     public void onFailure(ErrorBody errorBody, int statusCode) {
+        //do nothing
 
     }
 
     @Override
     public void ShowErrorMessage(MessageViewType messageViewType, String errorMessage) {
-
+        //do nothing
     }
 
     @Override
     public void ShowErrorMessage(MessageViewType messageViewType, ViewType viewType, String errorMessage) {
+        //do nothing
+    }
 
+
+    /**
+     * @return
+     * @brief initializing the preferenceManager from shared preference for local use in this activity
+     */
+    public PreferenceManager getPreferenceManager() {
+        if (preferenceManager == null) {
+            preferenceManager = PreferenceManager.getInstance();
+            preferenceManager.initialize(getApplicationContext());
+        }
+        return preferenceManager;
     }
 }

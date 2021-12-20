@@ -1,5 +1,7 @@
 package com.MDQ.myapplication.pojo.jsonrequest;
 
+
+//api request items
 public class GenerateAddAccountRequestModel {
 
     public String account_type;

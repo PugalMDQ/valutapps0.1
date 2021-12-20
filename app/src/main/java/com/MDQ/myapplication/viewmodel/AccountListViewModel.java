@@ -40,7 +40,6 @@ public class AccountListViewModel extends AccountListBaseViewModel implements Ac
                 Log.i("otpR","rr");
                 if(item.getMsg()!=null) {
                     Log.i("otpRecevied", item.getMsg());
-                    //Toast.makeText(mContext, "" + item.getMsg(), Toast.LENGTH_SHORT).show();
                     accountListResponseInterface.generateAccountListProcessed(item);
                 }
 

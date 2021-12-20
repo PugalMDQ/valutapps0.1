@@ -46,7 +46,6 @@ public class ListTransactionViewModel extends ListTransactionBaseViewModel imple
                 Log.i("otpR","rr");
                 if(item.getMsg()!=null) {
                     Log.i("otpRecevied", item.getMsg());
-                    Toast.makeText(mContext, ""+item.getMsg(), Toast.LENGTH_SHORT).show();
                     listTransactionResponseInterface.generateListTransactionProcessed(item);
                 }
 

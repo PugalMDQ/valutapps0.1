@@ -33,8 +33,17 @@ public class AddAccountDataManager {
     }
 
     public void callEnqueue(String url, String token, GenerateAddAccountRequestModel generateAddAccountRequestModel, final ResponseHandler<GenerateAddAccountResponseModel> dataresponse) {
+
+
+        //calling the generatePostAddAccountCall methode from call apiInterface
         Call<GenerateAddAccountResponseModel> userAddAccountCall = apiInterface.generatePostAddAccountCall(url,token,generateAddAccountRequestModel);
         userAddAccountCall.enqueue(new Callback<GenerateAddAccountResponseModel>() {
+
+            /**
+             * @param call
+             * @param response
+             * @breif getting response from api
+             */
             @Override
             public void onResponse(Call<GenerateAddAccountResponseModel> call, Response<GenerateAddAccountResponseModel> response) {
                 /**
@@ -48,6 +57,8 @@ public class AddAccountDataManager {
                  */
                 Log.i("responce","response get");
                 int statusCode = response.code();
+
+                //if response is successful set the body of response to onSuccess methode in GenerateRegisterResponseModel else get the error body and set on onFailure in generateRegisterResponseModel
                 if (response.isSuccessful()) {
                     dataresponse.onSuccess(response.body(), "SuccessModel");
                 } else {
@@ -57,19 +68,21 @@ public class AddAccountDataManager {
                         ErrorBody errorBody = new Gson().fromJson(serviceResponse, ErrorBody.class);
                         dataresponse.onFailure(errorBody, statusCode);
                     } catch (JsonSyntaxException e) {
-//                        dataresponse.onTokenExpired("Something went wrong - Error Code: " + statusCode);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
                 }
             }
 
+            /**
+             * @param call
+             * @param t
+             * @breif when api call failure
+             */
             @Override
             public void onFailure(Call<GenerateAddAccountResponseModel> call, Throwable t) {
                 Log.d(TAG, "onTokenExpired: " + t.getMessage());
                 Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_LONG).show();
-//                dataresponse.onTokenExpired(t.getMessage());
             }
         });
 

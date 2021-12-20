@@ -8,38 +8,70 @@ import androidx.appcompat.widget.SwitchCompat;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import com.MDQ.myapplication.enums.MessageViewType;
+import com.MDQ.myapplication.enums.ViewType;
+import com.MDQ.myapplication.interfaces.viewresponceinterface.BioMetricsResponseInterface;
+import com.MDQ.myapplication.interfaces.viewresponceinterface.BioMetricsValidationResponseInterface;
+import com.MDQ.myapplication.pojo.jsonresponse.ErrorBody;
+import com.MDQ.myapplication.pojo.jsonresponse.GenerateBioMetricsResponseModel;
+import com.MDQ.myapplication.pojo.jsonresponse.GenerateBioMetricsValidationResponseModel;
 import com.MDQ.myapplication.utils.PreferenceManager;
+import com.MDQ.myapplication.viewmodel.BioMetricsValidationViewModel;
+import com.MDQ.myapplication.viewmodel.BioMetricsViewModel;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.lang.reflect.Field;
 
-public class security extends AppCompatActivity {
+public class security extends AppCompatActivity implements BioMetricsResponseInterface, BioMetricsValidationResponseInterface {
     BottomSheetDialog bottomSheetDialog;
     LinearLayout transaction;
     PreferenceManager preferenceManager;
-    ImageView backFor;
+    ImageView backFor,addtransaction;
+    SwitchCompat switchCompat;
     LinearLayout linearhome,linearvalut,linearnotification,linearprofile;
+    BioMetricsViewModel bioMetricsViewModel;
+    BioMetricsValidationViewModel bioMetricsValidationViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_security);
+        bioMetricsValidationViewModel=new BioMetricsValidationViewModel(getApplicationContext(),this);
+        setDeclareForBioValidation();
+        bioMetricsViewModel=new BioMetricsViewModel(getApplicationContext(),this);
+
+        //making status bar color as transparent
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+        else {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+
         bottom();
 
+    }
 
+    private void setDeclareForBioValidation() {
+        bioMetricsValidationViewModel.setToken(getPreferenceManager().getPrefToken());
+        bioMetricsValidationViewModel.generateBioMetricsValidationRequest();
     }
 
     private void bottom() {
         LinearLayout changempin;
-        SwitchCompat switchCompat;
         bottomSheetDialog=new BottomSheetDialog(this);
         bottomSheetDialog.setContentView(R.layout.downforsecurity);
         bottomSheetDialog.setCanceledOnTouchOutside(false);
@@ -49,16 +81,29 @@ public class security extends AppCompatActivity {
         linearnotification=bottomSheetDialog.findViewById(R.id.linearnotification);
         linearprofile=bottomSheetDialog.findViewById(R.id.linearprofile);
         backFor=bottomSheetDialog.findViewById(R.id.backFor);
+        switchCompat=(SwitchCompat) bottomSheetDialog.findViewById(R.id.swOnOff);
+        addtransaction=bottomSheetDialog.findViewById(R.id.addtransaction);
         setclick();
 
+        switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Log.e("You are :", "EnChecked"+isChecked);
+
+                if (isChecked) {
+                    preferenceManager.setPrefBiometric("yes");
+                    setDeclare("1");
+                    Log.i("You are :", "Checked");
+                }
+                else{
+                    getPreferenceManager().setPrefBiometric(null);
+                    setDeclare("0");
+                    Log.i("You are :", "UnChecked");
+                }
+            }
+        });
 
 
-
-        switchCompat=bottomSheetDialog.findViewById(R.id.swOnOff);
-        if (getPreferenceManager().getPrefBiometric()!=""){
-            switchCompat.setOnCheckedChangeListener(null);
-            switchCompat.setChecked(true);
-        }
         changempin=bottomSheetDialog.findViewById(R.id.personal);
         transaction=bottomSheetDialog.findViewById(R.id.linearTransaction);
         bottomSheetDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
@@ -94,7 +139,6 @@ public class security extends AppCompatActivity {
                     }
 
                 }
-
                 @Override
                 public void onSlide(@NonNull View bottomSheet, float slideOffset) {
 
@@ -107,25 +151,25 @@ public class security extends AppCompatActivity {
 
         }
 
-
-
-        switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    getPreferenceManager().setPrefBiometric("true1");
-                }
-                else {
-                    getPreferenceManager().setPrefBiometric("");
-                }
-            }
-        });
-
         bottomSheetDialog.show();
 
 
     }
+
+    private void setDeclare(String bio) {
+        bioMetricsViewModel.setBio(bio);
+        bioMetricsViewModel.setToken(getPreferenceManager().getPrefToken());
+        bioMetricsViewModel.generateBioMetricsRequest();
+    }
+
     private void setclick() {
+
+        addtransaction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),AddTransactionscreen.class));
+            }
+        });
 
         linearnotification.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,7 +206,6 @@ public class security extends AppCompatActivity {
 
     }
 
-
     public PreferenceManager getPreferenceManager() {
         if (preferenceManager == null) {
             preferenceManager = PreferenceManager.getInstance();
@@ -175,4 +218,33 @@ public class security extends AppCompatActivity {
     public void onBackPressed() {
         startActivity(new Intent(security.this,profile.class));
     }
+
+    @Override
+    public void ShowErrorMessage(MessageViewType messageViewType, String errorMessage) {
+
+    }
+
+    @Override
+    public void ShowErrorMessage(MessageViewType messageViewType, ViewType viewType, String errorMessage) {
+
+    }
+
+    @Override
+    public void generateBioMetricsProcessed(GenerateBioMetricsResponseModel generateBioMetricsResponseModel) {
+    }
+
+    @Override
+    public void generateBioMetricsValidationProcessed(GenerateBioMetricsValidationResponseModel generateBioMetricsValidationsResponseModel) {
+        if(generateBioMetricsValidationsResponseModel.getMsg().equals("Biometric Activated")){
+            switchCompat.setChecked(true);
+            if(generateBioMetricsValidationsResponseModel.getData().getToken()!=null){
+            getPreferenceManager().setPrefToken(generateBioMetricsValidationsResponseModel.getData().getToken());
+        }
+    }
+    }
+
+    @Override
+    public void onFailure(ErrorBody errorBody, int statusCode) {
+    }
+
 }

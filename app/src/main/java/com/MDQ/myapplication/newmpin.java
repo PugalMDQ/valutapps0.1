@@ -16,21 +16,29 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.MDQ.myapplication.databinding.ActivityNewmpinBinding;
+import com.MDQ.myapplication.enums.MessageViewType;
+import com.MDQ.myapplication.enums.ViewType;
+import com.MDQ.myapplication.interfaces.viewresponceinterface.MpinResponseInterface;
+import com.MDQ.myapplication.pojo.jsonresponse.ErrorBody;
 import com.MDQ.myapplication.utils.PreferenceManager;
+import com.MDQ.myapplication.viewmodel.MpinRequestViewModel;
+import com.MDQ.myapplication.viewmodel.MpinValidationViewModel;
 
-public class newmpin extends AppCompatActivity {
+public class newmpin extends AppCompatActivity implements MpinResponseInterface {
 
     ActivityNewmpinBinding ap;
     PreferenceManager preferenceManager;
+    MpinRequestViewModel mpinRequestViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ap =ActivityNewmpinBinding.inflate(getLayoutInflater());
         setContentView(ap.getRoot());
+        mpinRequestViewModel=new MpinRequestViewModel(getApplicationContext(),this);
+
         ap.Done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext()
                         .getSystemService(Context.CONNECTIVITY_SERVICE);
                 if ((connectivityManager
@@ -40,9 +48,8 @@ public class newmpin extends AppCompatActivity {
                         .getNetworkInfo(ConnectivityManager.TYPE_WIFI) != null && connectivityManager
                         .getNetworkInfo(ConnectivityManager.TYPE_WIFI)
                         .getState() == NetworkInfo.State.CONNECTED)) {
-                    Intent intent = new Intent(newmpin.this, verificationsuccess.class);
-                    intent.putExtra("token", getPreferenceManager().getPrefToken());
-                    startActivity(intent);
+
+                    ValidatePassword();
                 }
                 else{
                     Toast.makeText(getApplicationContext(), "This App Require Internet", Toast.LENGTH_SHORT).show();
@@ -185,6 +192,7 @@ public class newmpin extends AppCompatActivity {
 
                 }
             }
+
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -396,11 +404,58 @@ public class newmpin extends AppCompatActivity {
         });
 
     }
+
+    private void ValidatePassword() {
+        String password = "" + ap.editthree.getText() + ap.editfour.getText() + ap.editfive.getText()
+                + ap.editsix.getText();
+        if(password.length()==4) {
+            mpinRequestViewModel.setMpin(password);
+            mpinRequestViewModel.setToken(getPreferenceManager().getPrefToken());
+            mpinRequestViewModel.generateMpinRequest();
+        }else
+        {
+            Toast.makeText(getApplicationContext(), "Enter password Correctly", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     public PreferenceManager getPreferenceManager() {
         if (preferenceManager == null) {
             preferenceManager = PreferenceManager.getInstance();
             preferenceManager.initialize(getApplicationContext());
         }
         return preferenceManager;
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(),Login.class));
+    }
+
+    @Override
+    public void ShowErrorMessage(MessageViewType messageViewType, String errorMessage) {
+
+    }
+
+    @Override
+    public void ShowErrorMessage(MessageViewType messageViewType, ViewType viewType, String errorMessage) {
+
+    }
+
+    @Override
+    public void generateMpinProcessed(String Msg) {
+        String mm=" MPIN updated successfuly";
+        if(Msg.trim().equals(mm.trim())) {
+            Intent intent = new Intent(newmpin.this, verificationsuccess.class);
+            intent.putExtra("token", getPreferenceManager().getPrefToken());
+            intent.putExtra("screen", "new");
+            startActivity(intent);
+            finish();
+        }
+        }
+
+
+    @Override
+    public void onFailure(ErrorBody errorBody, int statusCode) {
+
     }
 }

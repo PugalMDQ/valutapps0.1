@@ -29,11 +29,12 @@ public class UploadVaultViewModel extends UploadVaultBaseviewModel implements Up
 
     private void goGenerateOtp() {
         GenerateUploadValutRequestModel generateUploadValutRequestModel=new GenerateUploadValutRequestModel();
-        uploadVaultDataManager.callEnqueue(ApiClass.UPLOAD_VAULT,getToken(),getFilename(),getProof(), new ResponseHandler<GenerateUploadVaultResponseModel>() {
+        uploadVaultDataManager.callEnqueue(ApiClass.UPLOAD_VAULT,getToken(),getFilename(),getProof(),getEncoded(), new ResponseHandler<GenerateUploadVaultResponseModel>() {
             @Override
             public void onSuccess(String message) {
 
             }
+
             @Override
             public void onSuccess(GenerateUploadVaultResponseModel item, String message) {
                 if(item.getMsg()!=null) {

@@ -3,6 +3,7 @@ package com.MDQ.myapplication.pojo.jsonresponse;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+//api response inner arrayList items
 public class DataForGetUser {
 
     @SerializedName("user_name")
@@ -26,11 +27,11 @@ public class DataForGetUser {
     @Expose
     public String email;
 
- @SerializedName("phone")
+    @SerializedName("phone")
     @Expose
     public String phone;
 
- @SerializedName("country_code")
+    @SerializedName("country_code")
     @Expose
     public String country_code;
 

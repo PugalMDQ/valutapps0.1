@@ -32,8 +32,16 @@ public class MpinDataManager {
     }
 
     public void callEnqueue(String url,String token, GenerateMpinRequestModel generateMpinRequestModel, final ResponseHandler<GenerateMpinResponseModel> dataresponse) {
+
+        //calling the generatePostMpinCall methode from call apiInterface
         Call<GenerateMpinResponseModel> userMpinCall = apiInterface.generatePostMpinCall(url,token,generateMpinRequestModel);
         userMpinCall.enqueue(new Callback<GenerateMpinResponseModel>() {
+
+            /**
+             * @param call
+             * @param response
+             * @breif getting response from api
+             */
             @Override
             public void onResponse(Call<GenerateMpinResponseModel> call, Response<GenerateMpinResponseModel> response) {
                 /**
@@ -47,6 +55,8 @@ public class MpinDataManager {
                  */
                 Log.i("responce","response get");
                 int statusCode = response.code();
+
+                //if response is successful set the body of response to onSuccess methode in GenerateRegisterResponseModel else get the error body and set on onFailure in generateRegisterResponseModel
                 if (response.isSuccessful()) {
                     dataresponse.onSuccess(response.body(), "SuccessModel");
                 } else {
@@ -56,7 +66,6 @@ public class MpinDataManager {
                         ErrorBody errorBody = new Gson().fromJson(serviceResponse, ErrorBody.class);
                         dataresponse.onFailure(errorBody, statusCode);
                     } catch (JsonSyntaxException e) {
-//                        dataresponse.onTokenExpired("Something went wrong - Error Code: " + statusCode);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -64,11 +73,15 @@ public class MpinDataManager {
                 }
             }
 
+            /**
+             * @param call
+             * @param t
+             * @breif api call failure
+             */
             @Override
             public void onFailure(Call<GenerateMpinResponseModel> call, Throwable t) {
                 Log.d(TAG, "onTokenExpired: " + t.getMessage());
                 Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_LONG).show();
-//                dataresponse.onTokenExpired(t.getMessage());
             }
         });
 

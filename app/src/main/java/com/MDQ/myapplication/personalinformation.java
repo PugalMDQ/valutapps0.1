@@ -5,6 +5,7 @@ import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,30 +13,37 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.MDQ.myapplication.datamanager.UpdateProfileDataManager;
 import com.MDQ.myapplication.enums.MessageViewType;
 import com.MDQ.myapplication.enums.ViewType;
 import com.MDQ.myapplication.interfaces.viewinterface.GetUserRequestInterface;
 import com.MDQ.myapplication.interfaces.viewresponceinterface.GetUserResponseInterface;
+import com.MDQ.myapplication.interfaces.viewresponceinterface.UpdateProfileResponseInterface;
 import com.MDQ.myapplication.pojo.jsonresponse.ErrorBody;
+import com.MDQ.myapplication.pojo.jsonresponse.GenerateUpdateProfileResponseModel;
 import com.MDQ.myapplication.utils.PreferenceManager;
 import com.MDQ.myapplication.viewmodel.GetUserViewModel;
+import com.MDQ.myapplication.viewmodel.UpdateProfileViewModel;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.lang.reflect.Field;
 
-public class personalinformation extends AppCompatActivity implements GetUserResponseInterface {
+public class personalinformation extends AppCompatActivity implements GetUserResponseInterface, UpdateProfileResponseInterface {
     BottomSheetDialog bottomSheetDialog;
     LinearLayout transaction;
     CardView cardfore, cardforu, cardforp;
@@ -43,14 +51,27 @@ public class personalinformation extends AppCompatActivity implements GetUserRes
     PreferenceManager preferenceManager;
     GetUserViewModel getUserViewModel;
     String token;
-    ImageView backFor;
+    ConstraintLayout backFor;
+    TextView saveProfile;
     LinearLayout linearhome,linearvalut,linearnotification,linearprofile;
+    UpdateProfileViewModel updateProfileViewModel;
+    ImageView addtransaction;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personalinformation);
         bottom();
         getUserViewModel=new GetUserViewModel(getApplicationContext(),this);
+
+        //making status bar color as transparent
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+        else {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+
         ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         if ((connectivityManager
@@ -65,8 +86,11 @@ public class personalinformation extends AppCompatActivity implements GetUserRes
         else{
             Toast.makeText(getApplicationContext(), "This App Require Internet", Toast.LENGTH_SHORT).show();
         }
+        updateProfileViewModel=new UpdateProfileViewModel(getApplicationContext(),this);
+
 
     }
+
     private void declare() {
 
         token=getPreferenceManager().getPrefToken();
@@ -75,7 +99,6 @@ public class personalinformation extends AppCompatActivity implements GetUserRes
             getUserViewModel.generateGetUserRequest();
         }
     }
-
 
     private void bottom() {
 
@@ -88,20 +111,28 @@ public class personalinformation extends AppCompatActivity implements GetUserRes
         linearvalut=bottomSheetDialog.findViewById(R.id.linearTransaction);
         linearnotification=bottomSheetDialog.findViewById(R.id.linearnotification);
         linearprofile=bottomSheetDialog.findViewById(R.id.linearprofile);
+        saveProfile=bottomSheetDialog.findViewById(R.id.Resend);
+        addtransaction=bottomSheetDialog.findViewById(R.id.addtransaction);
 
-        backFor.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_keyboard_arrow_left_24));
         setclick();
+
         cardforu = bottomSheetDialog.findViewById(R.id.cardforusername);
-
         cardfore = bottomSheetDialog.findViewById(R.id.cardforemail);
-
         cardforp = bottomSheetDialog.findViewById(R.id.cardforphonenumber);
-
 
         user = bottomSheetDialog.findViewById(R.id.username);
         email = bottomSheetDialog.findViewById(R.id.email);
         phone = bottomSheetDialog.findViewById(R.id.Phonenumber);
 
+        saveProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!user.getText().toString().isEmpty() && !email.getText().toString().isEmpty() && !phone.getText().toString().isEmpty())
+                {
+                    setdeclare();
+                }
+            }
+        });
 
         ViewGroup.LayoutParams layoutParams = cardforu.getLayoutParams();
         ViewGroup.LayoutParams layoutParams1 = cardfore.getLayoutParams();
@@ -175,6 +206,7 @@ public class personalinformation extends AppCompatActivity implements GetUserRes
                 return false;
             }
         });
+
         phone.setOnTouchListener(new View.OnTouchListener() {
             @SuppressLint("ClickableViewAccessibility")
 
@@ -191,6 +223,7 @@ public class personalinformation extends AppCompatActivity implements GetUserRes
                 return false;
             }
         });
+
         cardfore.setOnTouchListener(new View.OnTouchListener() {
             @SuppressLint("ClickableViewAccessibility")
 
@@ -207,6 +240,7 @@ public class personalinformation extends AppCompatActivity implements GetUserRes
                 return false;
             }
         });
+
         cardforu.setOnTouchListener(new View.OnTouchListener() {
             @SuppressLint("ClickableViewAccessibility")
             @Override
@@ -242,7 +276,27 @@ public class personalinformation extends AppCompatActivity implements GetUserRes
         bottomSheetDialog.show();
     }
 
+    private void setdeclare() {
+        updateProfileViewModel.setAuthtoken(getPreferenceManager().getPrefToken());
+        updateProfileViewModel.setDob("05-05-2001");
+        updateProfileViewModel.setFullname(user.getText().toString());
+        updateProfileViewModel.setMpin("1222");
+        updateProfileViewModel.setCountrycode("91");
+        updateProfileViewModel.setPhone(phone.getText().toString());
+        updateProfileViewModel.generateUpdateProfileRequest();
+    }
+
     private void setclick() {
+
+        addtransaction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),AddTransactionscreen.class));
+            }
+        });
+
+
+
         linearnotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -294,6 +348,11 @@ public class personalinformation extends AppCompatActivity implements GetUserRes
           email.setText(Email);
           user.setText(User_name);
            }
+    }
+
+    @Override
+    public void generateUpdateProfileProcessed(GenerateUpdateProfileResponseModel generateUpdateProfileResponseModel) {
+
     }
     @Override
     public void onFailure(ErrorBody errorBody, int statusCode) {

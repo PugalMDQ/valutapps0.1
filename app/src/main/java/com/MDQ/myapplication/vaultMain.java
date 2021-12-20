@@ -1,20 +1,20 @@
 package com.MDQ.myapplication;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DownloadManager;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.URLUtil;
 import android.widget.LinearLayout;
@@ -30,6 +30,7 @@ import com.MDQ.myapplication.interfaces.viewresponceinterface.VaultListResponceI
 import com.MDQ.myapplication.pojo.jsonresponse.DataForVaultList;
 import com.MDQ.myapplication.pojo.jsonresponse.ErrorBody;
 import com.MDQ.myapplication.pojo.jsonresponse.GenerateVaultListResponseModel;
+import com.MDQ.myapplication.utils.PreferenceManager;
 import com.MDQ.myapplication.viewmodel.VaultListBaseViewModel;
 import com.MDQ.myapplication.viewmodel.VaultListViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -52,6 +53,7 @@ public class vaultMain extends AppCompatActivity implements InterfaceForValut, V
     public static  TextView textindownvalut;
     VaultListViewModel vaultListViewModel;
     ActivityValutMainBinding av;
+    PreferenceManager preferenceManager;
     int position;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +61,21 @@ public class vaultMain extends AppCompatActivity implements InterfaceForValut, V
         av=ActivityValutMainBinding.inflate(getLayoutInflater());
         setContentView(av.getRoot());
 
+        //making status bar color as transparent
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+        else {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+
         vaultListViewModel=new VaultListViewModel(getApplicationContext(),this);
-        vaultListViewModel.setToken("6aa481448fd98c8b8d42e256b96d95b6c641916e");
-        vaultListViewModel.generateVaultListRequest();
+        String token=getPreferenceManager().getPrefToken().toString();
+        if(token!=null) {
+            vaultListViewModel.setToken(token);
+            vaultListViewModel.generateVaultListRequest();
+        }
 
         recyclerView=findViewById(R.id.rvcontainer);
 
@@ -100,7 +114,7 @@ public class vaultMain extends AppCompatActivity implements InterfaceForValut, V
     }
     private void setclick() {
 
-        av.linearTransaction.setOnClickListener(new View.OnClickListener() {
+        av.linearnotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(),Notification.class));
@@ -109,7 +123,7 @@ public class vaultMain extends AppCompatActivity implements InterfaceForValut, V
         av.backc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                startActivity(new Intent(getApplicationContext(),balancehome.class));
             }
         });
         av.linearhome.setOnClickListener(new View.OnClickListener() {
@@ -165,6 +179,7 @@ public class vaultMain extends AppCompatActivity implements InterfaceForValut, V
     this.position=position;
         bottoms();
         textindownvalut.setText(name);
+
     }
 
     @Override
@@ -191,6 +206,19 @@ public class vaultMain extends AppCompatActivity implements InterfaceForValut, V
     public void onFailure(ErrorBody errorBody, int statusCode) {
         //do nothing
     }
-
-
+    /**
+     * @return
+     * @brief initializing the preferenceManager from shared preference for local use in this activity
+     */
+    public PreferenceManager getPreferenceManager() {
+        if (preferenceManager == null) {
+            preferenceManager = PreferenceManager.getInstance();
+            preferenceManager.initialize(getApplicationContext());
+        }
+        return preferenceManager;
+    }
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(),balancehome.class));
+    }
 }

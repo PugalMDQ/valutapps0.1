@@ -16,10 +16,13 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.MDQ.myapplication.databinding.ActivityCurrentmpinBinding;
+import com.MDQ.myapplication.utils.PreferenceManager;
 
 public class currentmpin extends AppCompatActivity {
 
     ActivityCurrentmpinBinding ap;
+    PreferenceManager preferenceManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +31,7 @@ public class currentmpin extends AppCompatActivity {
         ap.back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            startActivity(new Intent(currentmpin.this,Login.class));
+                onBackPressed();
             }
         });
         ap.Done.setOnClickListener(new View.OnClickListener() {
@@ -43,13 +46,14 @@ public class currentmpin extends AppCompatActivity {
                         .getNetworkInfo(ConnectivityManager.TYPE_WIFI) != null && connectivityManager
                         .getNetworkInfo(ConnectivityManager.TYPE_WIFI)
                         .getState() == NetworkInfo.State.CONNECTED)) {
-                    startActivity(new Intent(currentmpin.this, newmpin.class));
+                    VerifyPassword();
+                } else {
+                    Toast.makeText(getApplicationContext(), "This App Require Internet", Toast.LENGTH_SHORT).show();
                 }
-                Toast.makeText(getApplicationContext(), "This App Require Internet", Toast.LENGTH_SHORT).show();
             }
         });
 
-        Typeface tf=Typeface.createFromAsset(getAssets(),"fonts/ZillaSlab-Bold.ttf");
+        Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/ZillaSlab-Bold.ttf");
 
 
         ap.editthree.requestFocus();
@@ -65,45 +69,46 @@ public class currentmpin extends AppCompatActivity {
         ap.editsix.setFocusable(true);
 
 
-
         ap.editthree.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(ap.editthree.length()==0){
+                if (ap.editthree.length() == 0) {
                     ap.editthree.setText("");
-                    ap.linearThree.setBackgroundColor(getResources().getColor(R.color.blue));}
+                    ap.linearThree.setBackgroundColor(getResources().getColor(R.color.blue));
+                }
                 return false;
             }
         });
         ap.editfour.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(ap.editfour.length()==0){
+                if (ap.editfour.length() == 0) {
                     ap.editfour.setText("");
-                    ap.linearFour.setBackgroundColor(getResources().getColor(R.color.blue));}
+                    ap.linearFour.setBackgroundColor(getResources().getColor(R.color.blue));
+                }
                 return false;
             }
         });
         ap.editfive.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(ap.editfive.length()==0){
+                if (ap.editfive.length() == 0) {
                     ap.editfive.setText("");
-                    ap.linearFive.setBackgroundColor(getResources().getColor(R.color.blue));}
+                    ap.linearFive.setBackgroundColor(getResources().getColor(R.color.blue));
+                }
                 return false;
             }
         });
         ap.editsix.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(ap.editsix.length()==0){
+                if (ap.editsix.length() == 0) {
                     ap.editsix.setText("");
-                    ap.linearSix.setBackgroundColor(getResources().getColor(R.color.blue));}
+                    ap.linearSix.setBackgroundColor(getResources().getColor(R.color.blue));
+                }
                 return false;
             }
         });
-
-
 
 
         ap.editthree.addTextChangedListener(new TextWatcher() {
@@ -358,11 +363,11 @@ public class currentmpin extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (ap.editthree.hasFocus()) {
-                    if(ap.editthree.length()==1){
+                    if (ap.editthree.length() == 1) {
                         ap.editthree.setText("");
                     }
                 } else if (ap.editfour.hasFocus()) {
-                    if(ap.editfour.length()==1) {
+                    if (ap.editfour.length() == 1) {
                         ap.editfour.setText("");
                         ap.editthree.requestFocus();
                     } else {
@@ -370,26 +375,48 @@ public class currentmpin extends AppCompatActivity {
                         ap.editthree.requestFocus();
                     }
                 } else if (ap.editfive.hasFocus()) {
-                    if(ap.editfive.length()==1){
+                    if (ap.editfive.length() == 1) {
                         ap.editfive.setText("");
-                        ap.editfour.requestFocus();}
-                    else {
+                        ap.editfour.requestFocus();
+                    } else {
                         ap.editfour.setText("");
                         ap.editfour.requestFocus();
                     }
                 } else if (ap.editsix.hasFocus()) {
-                    if(ap.editsix.length()==1){
+                    if (ap.editsix.length() == 1) {
                         ap.editsix.setText("");
-                        ap.editfive.requestFocus();}
-                    else {
+                        ap.editfive.requestFocus();
+                    } else {
                         ap.editfive.setText("");
                         ap.editfive.requestFocus();
                     }
                 }
 
 
-
             }
         });
+    }
+
+    private void VerifyPassword() {
+
+        String password = "" + ap.editthree.getText() + ap.editfour.getText() + ap.editfive.getText()
+                + ap.editsix.getText();
+        if (password.equals(getPreferenceManager().getPrefMpin())) {
+            startActivity(new Intent(currentmpin.this, newmpin.class));
+        } else {
+            Toast.makeText(getApplicationContext(), "Enter Correct Password", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * @return
+     * @brief initializing the preferenceManager from shared preference for local use in this activity
+     */
+    public PreferenceManager getPreferenceManager() {
+        if (preferenceManager == null) {
+            preferenceManager = PreferenceManager.getInstance();
+            preferenceManager.initialize(getApplicationContext());
+        }
+        return preferenceManager;
     }
 }

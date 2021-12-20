@@ -1,25 +1,29 @@
 package com.MDQ.myapplication;
 
 import android.content.Context;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.MDQ.myapplication.pojo.jsonresponse.DataForDashBoard;
 import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.utils.MPPointF;
 
+import java.util.List;
+
 class YourMarkerView extends MarkerView {
 
-    private TextView tvContent;
+    public static TextView tvContent,tvContent1;
     Context context;
-    public YourMarkerView(Context context, int layoutResource) {
+    List<DataForDashBoard> data;
+    public YourMarkerView(Context context, int layoutResource, List<DataForDashBoard> data) {
         super(context, layoutResource);
 
+        this.data=data;
         this.context=context;
         // find your layout components
         tvContent = (TextView) findViewById(R.id.tvContent);
-
+        tvContent1 = (TextView) findViewById(R.id.tvContent1);
 
 
     }
@@ -27,10 +31,9 @@ class YourMarkerView extends MarkerView {
     // content (user-interface)
     @Override
      public void refreshContent(Entry e, Highlight highlight) {
-
-        tvContent.setText("" + e.getY());
-        balancehome.textView.setText(""+e.getY());
-        balancehome.linearLayout.setVisibility(VISIBLE);
+        int i= (int) e.getX();
+        tvContent.setText(data.get(i).getDay());
+        tvContent1.setText("" + e.getY());
         // this will perform necessary layouting
         super.refreshContent(e, highlight);
     }

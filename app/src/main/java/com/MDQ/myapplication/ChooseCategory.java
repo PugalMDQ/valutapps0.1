@@ -34,9 +34,12 @@ public class ChooseCategory extends AppCompatActivity implements CategorySpentRe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_category);
+        //initialize with variables
         recyclerView=findViewById(R.id.rev);
         Token= getPreferenceManager().getPrefToken();
         cardView=findViewById(R.id.backc);
+
+        //navigate to cardSList
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,6 +49,7 @@ public class ChooseCategory extends AppCompatActivity implements CategorySpentRe
         });
         categorySpendViewModel=new CategorySpendViewModel(getApplicationContext(),this);
 
+        //Checking internet connection if available calling setDeclare methode else toast an error message
         ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         if ((connectivityManager
@@ -63,12 +67,17 @@ public class ChooseCategory extends AppCompatActivity implements CategorySpentRe
         }
     }
 
+    //set request fro categorySpend api
     private void setdeclare() {
         categorySpendViewModel.setToken(Token);
         categorySpendViewModel.setType("“credit” or “debit”");
         categorySpendViewModel.generateCategorySpentRequest();
     }
 
+    /**
+     * @param generateCategorySpentResponseModel
+     * @breif get response from categorySpend api
+     */
     @Override
     public void generateCategorySpendProcessed(GenerateCategorySpentResponseModel generateCategorySpentResponseModel) {
         adapterForChooseCategory=new AdapterForChooseCategory(this,generateCategorySpentResponseModel,this);
@@ -80,8 +89,13 @@ public class ChooseCategory extends AppCompatActivity implements CategorySpentRe
 
     @Override
     public void onFailure(ErrorBody errorBody, int statusCode) {
-
+        //do nothing
     }
+
+    /**
+     * @return
+     * @brief initializing the preferenceManager from shared preference for local use in this activity
+     */
     public PreferenceManager getPreferenceManager() {
         if (preferenceManager == null) {
             preferenceManager = PreferenceManager.getInstance();
@@ -90,6 +104,7 @@ public class ChooseCategory extends AppCompatActivity implements CategorySpentRe
         return preferenceManager;
     }
 
+    //set logo and name in sharedPreference local storage
     @Override
     public void ChooseCategory(String logo, String name) {
         getPreferenceManager().setPrefImageUrl(logo);

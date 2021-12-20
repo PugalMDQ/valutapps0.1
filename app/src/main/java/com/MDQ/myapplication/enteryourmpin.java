@@ -22,10 +22,13 @@ import android.widget.Toast;
 import com.MDQ.myapplication.databinding.ActivityEnteryourmpinBinding;
 import com.MDQ.myapplication.enums.MessageViewType;
 import com.MDQ.myapplication.enums.ViewType;
+import com.MDQ.myapplication.interfaces.viewresponceinterface.BioMetricsValidationResponseInterface;
 import com.MDQ.myapplication.interfaces.viewresponceinterface.MpinValidationResponseInterfacce;
 import com.MDQ.myapplication.interfaces.viewresponceinterface.OtpResponseInterface;
 import com.MDQ.myapplication.pojo.jsonresponse.ErrorBody;
+import com.MDQ.myapplication.pojo.jsonresponse.GenerateBioMetricsValidationResponseModel;
 import com.MDQ.myapplication.utils.PreferenceManager;
+import com.MDQ.myapplication.viewmodel.BioMetricsValidationViewModel;
 import com.MDQ.myapplication.viewmodel.MpinValidationViewModel;
 import com.MDQ.myapplication.viewmodel.OtpRequestViewModel;
 
@@ -33,17 +36,21 @@ import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executor;
 
-public class enteryourmpin extends AppCompatActivity implements OtpResponseInterface, MpinValidationResponseInterfacce {
+public class enteryourmpin extends AppCompatActivity implements OtpResponseInterface, MpinValidationResponseInterfacce, BioMetricsValidationResponseInterface {
 
     ActivityEnteryourmpinBinding ap;
     private OtpRequestViewModel otpRequestViewModel;
     private MpinValidationViewModel mpinValidationViewModel;
+    BioMetricsValidationViewModel bioMetricsValidationViewModel;
     PreferenceManager preferenceManager;
     String Token,mpins;
     String otp;
 
+    ArrayList<String> pin=new ArrayList<>();
     private Executor executor;
     private BiometricPrompt biometricPrompt;
     private BiometricPrompt.PromptInfo promptInfo;
@@ -51,55 +58,84 @@ public class enteryourmpin extends AppCompatActivity implements OtpResponseInter
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //initialize with View
         ap =ActivityEnteryourmpinBinding.inflate(getLayoutInflater());
         setContentView(ap.getRoot());
+
+        //set underline for forgot text
         ap.forgot.setPaintFlags(ap.forgot.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
 
-
+        //get token from previous screen
         Intent intent=getIntent();
         Token=intent.getStringExtra("token");
 
         numberAndEditText();
-        String ttrue=getPreferenceManager().getPrefBiometric();
-        if(ttrue!="") {
-                biometricAuthentication();
-        }
-        //backspace
+
+        //get biometric is on or of information from local storage
+//        String ttrue=getPreferenceManager().getPrefBiometric();
+//        if(ttrue!="") {
+//                biometricAuthentication();
+//        }
+
+        bioMetricsValidationViewModel=new BioMetricsValidationViewModel(getApplicationContext(),this);
+        setdeclareforbioValidation();
+
+
+        //backspace imageView when the view clicked it will delete the lastly typed number
         ap.backspace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ap.editthree.hasFocus()) {
-                    if(ap.editthree.length()==1){
-                        ap.editthree.setText("");
-                    }
-                } else if (ap.editfour.hasFocus()) {
-                    if(ap.editfour.length()==1) {
-                        ap.editfour.setText("");
-                        ap.editthree.requestFocus();
-                    } else {
-                        ap.editthree.setText("");
-                        ap.editthree.requestFocus();
-                    }
-                } else if (ap.editfive.hasFocus()) {
-                    if(ap.editfive.length()==1){
-                        ap.editfive.setText("");
-                        ap.editfour.requestFocus();}
-                    else {
-                        ap.editfour.setText("");
-                        ap.editfour.requestFocus();
-                    }
-                } else if (ap.editsix.hasFocus()) {
-                    if(ap.editsix.length()==1){
+                int i = pin.size();
+                if (i != 0) {
+                    Log.i("i", "" + i);
+                    pin.remove(i - 1);
+                    if (pin.size() == 3) {
                         ap.editsix.setText("");
-                        ap.editfive.requestFocus();}
-                    else {
+                        ap.editsix.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_CLASS_TEXT);
+                        ap.linearSix.setBackgroundColor(getResources().getColor(R.color.white));
+
+                    }
+                    if (pin.size() == 2) {
+                        ap.editsix.setText("");
                         ap.editfive.setText("");
-                        ap.editfive.requestFocus();
+                        ap.editsix.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_CLASS_TEXT);
+                        ap.editfive.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_CLASS_TEXT);
+                        ap.linearSix.setBackgroundColor(getResources().getColor(R.color.white));
+                        ap.linearFive.setBackgroundColor(getResources().getColor(R.color.white));
+                    }
+                    if (pin.size() == 1) {
+                        ap.editsix.setText("");
+                        ap.editfive.setText("");
+                        ap.editfour.setText("");
+                        ap.editsix.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_CLASS_TEXT);
+                        ap.editfive.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_CLASS_TEXT);
+                        ap.editfour.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_CLASS_TEXT);
+                        ap.linearSix.setBackgroundColor(getResources().getColor(R.color.white));
+                        ap.linearFive.setBackgroundColor(getResources().getColor(R.color.white));
+                        ap.linearFour.setBackgroundColor(getResources().getColor(R.color.white));
+                    }
+                    if(pin.size()==0){
+                        ap.editsix.setText("");
+                        ap.editfive.setText("");
+                        ap.editfour.setText("");
+                        ap.editthree.setText("");
+                        ap.editthree.setText("");
+                        ap.editsix.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_CLASS_TEXT);
+                        ap.editfive.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_CLASS_TEXT);
+                        ap.editfour.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_CLASS_TEXT);
+                        ap.editthree.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_CLASS_TEXT);
+                        ap.linearSix.setBackgroundColor(getResources().getColor(R.color.white));
+                        ap.linearFive.setBackgroundColor(getResources().getColor(R.color.white));
+                        ap.linearFour.setBackgroundColor(getResources().getColor(R.color.white));
+                        ap.linearThree.setBackgroundColor(getResources().getColor(R.color.white));
                     }
                 }
+
             }
         });
 
+
+        //checking internet connection if available call setDeclareForValidation methode else toast the error message
         ap.Done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,9 +155,11 @@ public class enteryourmpin extends AppCompatActivity implements OtpResponseInter
                 }
             }
         });
+        //initialize with viewModel
         otpRequestViewModel=new OtpRequestViewModel(getApplicationContext(),this);
         mpinValidationViewModel=new MpinValidationViewModel(getApplicationContext(),this);
 
+        //Checking for internet connection if available call setDeclare methode else toast error message
         ap.forgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,6 +183,12 @@ public class enteryourmpin extends AppCompatActivity implements OtpResponseInter
 
     }
 
+    private void setdeclareforbioValidation() {
+        bioMetricsValidationViewModel.setToken(getPreferenceManager().getPrefToken());
+        bioMetricsValidationViewModel.generateBioMetricsValidationRequest();
+    }
+
+    //Authenticate using biometric sensor
     private void biometricAuthentication() {
         executor = ContextCompat.getMainExecutor(this);
         BiometricManager biometricManager=BiometricManager.from(this);
@@ -183,17 +227,15 @@ public class enteryourmpin extends AppCompatActivity implements OtpResponseInter
                 .setNegativeButtonText("cancel")
                 .build();
 
-
-
             biometricPrompt.authenticate(promptInfo);
     }
 
     private void numberAndEditText() {
+        //set font type for edittext
         Typeface tf=Typeface.createFromAsset(getAssets(),"fonts/ZillaSlab-Bold.ttf");
         ap.editthree.requestFocus();
 
-
-
+        //set input type as null for edit text
         ap.editthree.setRawInputType(InputType.TYPE_NULL);
         ap.editthree.setFocusable(true);
         ap.editfour.setRawInputType(InputType.TYPE_NULL);
@@ -203,325 +245,157 @@ public class enteryourmpin extends AppCompatActivity implements OtpResponseInter
         ap.editsix.setRawInputType(InputType.TYPE_NULL);
         ap.editsix.setFocusable(true);
 
-        ap.editthree.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(ap.editthree.length()==0){
-                    ap.editthree.setText("");
-                    ap.linearThree.setBackgroundColor(getResources().getColor(R.color.blue));}
-                return false;
-            }
-        });
-        ap.editfour.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(ap.editfour.length()==0){
-                    ap.editfour.setText("");
-                    ap.linearFour.setBackgroundColor(getResources().getColor(R.color.blue));}
-                return false;
-            }
-        });
-        ap.editfive.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(ap.editfive.length()==0){
-                    ap.editfive.setText("");
-                    ap.linearFive.setBackgroundColor(getResources().getColor(R.color.blue));}
-                return false;
-            }
-        });
-        ap.editsix.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(ap.editsix.length()==0){
-                    ap.editsix.setText("");
-                    ap.linearSix.setBackgroundColor(getResources().getColor(R.color.blue));}
-                return false;
-            }
-        });
 
-
-
-
-        ap.editthree.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (ap.editthree.getText().length() == 1) {
-                    ap.editthree.setTypeface(tf);
-                    ap.editfour.requestFocus();
-                    ap.editthree.setTextColor(getResources().getColor(R.color.blue));
-                    ap.linearThree.setBackgroundColor(getResources().getColor(R.color.blue));
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                           ap.editthree.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
-                        }
-                    },1000);
-                } else {
-                    ap.editthree.setTextColor(getResources().getColor(R.color.white));
-                    ap.linearThree.setBackgroundColor(getResources().getColor(R.color.white));
-                    ap.editthree.setInputType(0);
-
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        ap.editfour.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (ap.editfour.getText().length() == 1) {
-                    ap.editfour.setTypeface(tf);
-                    ap.editfive.requestFocus();
-                    ap.editfour.setTextColor(getResources().getColor(R.color.blue));
-                    ap.linearFour.setBackgroundColor(getResources().getColor(R.color.blue));
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            ap.editfour.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
-                        }
-                    },1000);
-                } else {
-                    ap.editthree.requestFocus();
-                    ap.editfour.setTextColor(getResources().getColor(R.color.white));
-                    ap.linearFour.setBackgroundColor(getResources().getColor(R.color.white));
-                    ap.editfour.setInputType(0);
-
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        ap.editfive.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (ap.editfive.getText().length() == 1) {
-                    ap.editsix.requestFocus();
-                    ap.editfive.setTypeface(tf);
-                    ap.editfive.setTextColor(getResources().getColor(R.color.blue));
-                    ap.linearFive.setBackgroundColor(getResources().getColor(R.color.blue));
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            ap.editfive.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
-                        }
-                    },1000);
-                } else {
-                    ap.editfour.requestFocus();
-                    ap.editfive.setTextColor(getResources().getColor(R.color.white));
-                    ap.linearFive.setBackgroundColor(getResources().getColor(R.color.white));
-                    ap.editfive.setInputType(0);
-
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        ap.editsix.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (ap.editsix.getText().length() == 1) {
-                    ap.editsix.setTypeface(tf);
-                    ap.editsix.setTextColor(getResources().getColor(R.color.blue));
-                    ap.linearSix.setBackgroundColor(getResources().getColor(R.color.blue));
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            ap.editsix.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
-                        }
-                    },1000);
-                } else {
-                    ap.editfive.requestFocus();
-                    ap.editsix.setTextColor(getResources().getColor(R.color.white));
-                    ap.linearSix.setBackgroundColor(getResources().getColor(R.color.white));
-                    ap.editsix.setInputType(0);
-
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        //for numbers
+        //For numbers textView the num have clicked it will show on edit text
         ap.one.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ap.editthree.hasFocus()) {
-                    ap.editthree.setText("1");
-                } else if (ap.editfour.hasFocus()) {
-                    ap.editfour.setText("1");
-                } else if (ap.editfive.hasFocus()) {
-                    ap.editfive.setText("1");
-                } else if (ap.editsix.hasFocus()) {
-                    ap.editsix.setText("1");
-                }
+                addpin("1");
+
             }
         });
         ap.two.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ap.editthree.hasFocus()) {
-                    ap.editthree.setText("2");
-                } else if (ap.editfour.hasFocus()) {
-                    ap.editfour.setText("2");
-                } else if (ap.editfive.hasFocus()) {
-                    ap.editfive.setText("2");
-                } else if (ap.editsix.hasFocus()) {
-                    ap.editsix.setText("2");
-                }
+                addpin("2");
+
             }
         });
         ap.three.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ap.editthree.hasFocus()) {
-                    ap.editthree.setText("3");
-                } else if (ap.editfour.hasFocus()) {
-                    ap.editfour.setText("3");
-                } else if (ap.editfive.hasFocus()) {
-                    ap.editfive.setText("3");
-                } else if (ap.editsix.hasFocus()) {
-                    ap.editsix.setText("3");
-                }
+                addpin("3");
             }
         });
         ap.four.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ap.editthree.hasFocus()) {
-                    ap.editthree.setText("4");
-                } else if (ap.editfour.hasFocus()) {
-                    ap.editfour.setText("4");
-                } else if (ap.editfive.hasFocus()) {
-                    ap.editfive.setText("4");
-                } else if (ap.editsix.hasFocus()) {
-                    ap.editsix.setText("4");
-                }
+                addpin("4");
+
             }
         });
         ap.five.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ap.editthree.hasFocus()) {
-                    ap.editthree.setText("5");
-                } else if (ap.editfour.hasFocus()) {
-                    ap.editfour.setText("5");
-                } else if (ap.editfive.hasFocus()) {
-                    ap.editfive.setText("5");
-                } else if (ap.editsix.hasFocus()) {
-                    ap.editsix.setText("5");
-                }
+                addpin("5");
+
             }
         });
         ap.six.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ap.editthree.hasFocus()) {
-                    ap.editthree.setText("6");
-                } else if (ap.editfour.hasFocus()) {
-                    ap.editfour.setText("6");
-                } else if (ap.editfive.hasFocus()) {
-                    ap.editfive.setText("6");
-                } else if (ap.editsix.hasFocus()) {
-                    ap.editsix.setText("6");
-                }
+                addpin("6");
             }
         });
         ap.seven.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ap.editthree.hasFocus()) {
-                    ap.editthree.setText("7");
-                } else if (ap.editfour.hasFocus()) {
-                    ap.editfour.setText("7");
-                } else if (ap.editfive.hasFocus()) {
-                    ap.editfive.setText("7");
-                } else if (ap.editsix.hasFocus()) {
-                    ap.editsix.setText("7");
-                }
+                addpin("7");
             }
         });
         ap.eight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ap.editthree.hasFocus()) {
-                    ap.editthree.setText("8");
-                } else if (ap.editfour.hasFocus()) {
-                    ap.editfour.setText("8");
-                } else if (ap.editfive.hasFocus()) {
-                    ap.editfive.setText("8");
-                } else if (ap.editsix.hasFocus()) {
-                    ap.editsix.setText("8");
-                }
+                addpin("8");
+
             }
         });
         ap.nine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ap.editthree.hasFocus()) {
-                    ap.editthree.setText("9");
-                } else if (ap.editfour.hasFocus()) {
-                    ap.editfour.setText("9");
-                } else if (ap.editfive.hasFocus()) {
-                    ap.editfive.setText("9");
-                } else if (ap.editsix.hasFocus()) {
-                    ap.editsix.setText("9");
-                }
+                addpin("9");
             }
         });
         ap.zero.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ap.editthree.hasFocus()) {
-                    ap.editthree.setText("0");
-                } else if (ap.editfour.hasFocus()) {
-                    ap.editfour.setText("0");
-                } else if (ap.editfive.hasFocus()) {
-                    ap.editfive.setText("0");
-                } else if (ap.editsix.hasFocus()) {
-                    ap.editsix.setText("0");
-                }
+                addpin("0");
+
             }
         });
 
     }
 
+    private void addpin(String s) {
+        if(pin.size()<4){
+        pin.add(s);}
+
+        if (pin.size() == 1) {
+            ap.editthree.setText(pin.get(0));
+            ap.editthree.setTextColor(getResources().getColor(R.color.blue));
+            ap.linearThree.setBackgroundColor(getResources().getColor(R.color.blue));
+            new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                           ap.editthree.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+                        }
+                    },1000);
+        }
+        if (pin.size() == 2 ) {
+            ap.editthree.setText(pin.get(0));
+            ap.editfour.setText(pin.get(1));
+            ap.editthree.setTextColor(getResources().getColor(R.color.blue));
+            ap.editfour.setTextColor(getResources().getColor(R.color.blue));
+            ap.linearThree.setBackgroundColor(getResources().getColor(R.color.blue));
+            ap.linearFour.setBackgroundColor(getResources().getColor(R.color.blue));
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ap.editthree.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+                    ap.editfour.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+                }
+            },1000);
+        }
+        if (pin.size() ==3) {
+            ap.editthree.setText(pin.get(0));
+            ap.editfour.setText(pin.get(1));
+            ap.editfive.setText(pin.get(2));
+            ap.editthree.setTextColor(getResources().getColor(R.color.blue));
+            ap.editfour.setTextColor(getResources().getColor(R.color.blue));
+            ap.editfive.setTextColor(getResources().getColor(R.color.blue));
+            ap.linearThree.setBackgroundColor(getResources().getColor(R.color.blue));
+            ap.linearFour.setBackgroundColor(getResources().getColor(R.color.blue));
+            ap.linearFive.setBackgroundColor(getResources().getColor(R.color.blue));
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ap.editthree.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+                    ap.editfour.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+                    ap.editfive.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+                }
+            },1000);
+        }
+        if (pin.size() ==4) {
+            ap.editthree.setText(pin.get(0));
+            ap.editfour.setText(pin.get(1));
+            ap.editfive.setText(pin.get(2));
+            ap.editsix.setText(pin.get(3));
+            ap.editthree.setTextColor(getResources().getColor(R.color.blue));
+            ap.editfour.setTextColor(getResources().getColor(R.color.blue));
+            ap.editfive.setTextColor(getResources().getColor(R.color.blue));
+            ap.editsix.setTextColor(getResources().getColor(R.color.blue));
+            ap.linearThree.setBackgroundColor(getResources().getColor(R.color.blue));
+            ap.linearFour.setBackgroundColor(getResources().getColor(R.color.blue));
+            ap.linearFive.setBackgroundColor(getResources().getColor(R.color.blue));
+            ap.linearSix.setBackgroundColor(getResources().getColor(R.color.blue));
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ap.editthree.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+                    ap.editfour.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+                    ap.editfive.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+                    ap.editsix.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+                }
+            },1000);
+        }
+    }
+
+
+
+    //set request for mpinValidaton api
     private void setDeclareforvalidation() {
         mpins = ""+ ap.editthree.getText() + ap.editfour.getText() + ap.editfive.getText()
                 + ap.editsix.getText();
-
         Token=getPreferenceManager().getPrefToken();
         if(mpins.length()==4) {
             mpinValidationViewModel.setToken(Token);
@@ -530,6 +404,7 @@ public class enteryourmpin extends AppCompatActivity implements OtpResponseInter
         }
     }
 
+    //set request for resend otp api
     private void setDecler() {
         otpRequestViewModel.setPhone(getPreferenceManager().getPrefPhoneNum());
         otpRequestViewModel.setCountry_code("91");
@@ -538,14 +413,19 @@ public class enteryourmpin extends AppCompatActivity implements OtpResponseInter
 
     @Override
     public void ShowErrorMessage(MessageViewType messageViewType, String errorMessage) {
-
+        //do nothing
     }
 
     @Override
     public void ShowErrorMessage(MessageViewType messageViewType, ViewType viewType, String errorMessage) {
+        //do nothing
 
     }
 
+    /**
+     * @param Otp
+     * @breif get response from resend otp api
+     */
     @Override
     public void generateOtpProcessed(String Otp) {
         if(Otp!=null){
@@ -561,6 +441,11 @@ public class enteryourmpin extends AppCompatActivity implements OtpResponseInter
         }
     }
 
+    /**
+     * @param Token
+     * @param msg
+     * @breif get response from mpinValidation api
+     */
     @Override
     public void generateMpinValidationProcessed(String Token,String msg)
     {
@@ -572,11 +457,29 @@ public class enteryourmpin extends AppCompatActivity implements OtpResponseInter
     }
 
     @Override
+    public void generateBioMetricsValidationProcessed(GenerateBioMetricsValidationResponseModel generateBioMetricsValidationsResponseModel) {
+
+        if(generateBioMetricsValidationsResponseModel.getMsg().equals("Biometric Activated")){
+            biometricAuthentication();
+            String token=generateBioMetricsValidationsResponseModel.getData().getToken();
+            getPreferenceManager().setPrefToken(token);
+        }
+    }
+
+    /**
+     * @param errorBody
+     * @param statusCode
+     * @breif if any error toast the error message
+     */
+    @Override
     public void onFailure(ErrorBody errorBody, int statusCode) {
         Toast.makeText(getApplicationContext(), ""+errorBody.ErrorMessage, Toast.LENGTH_SHORT).show();
     }
 
-
+    /**
+     * @return
+     * @brief initializing the preferenceManager from shared preference for local use in this activity
+     */
     public PreferenceManager getPreferenceManager() {
         if (preferenceManager == null) {
             preferenceManager = PreferenceManager.getInstance();

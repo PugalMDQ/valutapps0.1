@@ -63,10 +63,26 @@
         android:textFontWeight="400"
         android:layout_marginLeft="75dp"
         android:textSize="18sp"
+        android:layout_marginRight="20dp"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chooser" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:layout_constraintTop_toBottomOf="@+id/NameOfFile"
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="Upload"
+        android:id="@+id/Upload"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:textSize="20dp"/>
+
+
 
     <ImageView
         android:id="@+id/imageView"

@@ -34,8 +34,16 @@ public class AuthenticationDataManager {
     }
 
     public void callEnqueue(String url, GenerateAuthenticationRequestModel generateAuthenticationRequestModel, final ResponseHandler<GenerateAuthenticationResponseModel> dataresponse) {
+
+        //calling the generatePostAuthenticationCall methode from call apiInterface
         Call<GenerateAuthenticationResponseModel> authenticationCall = apiInterface.generatePostAuthenticationCall(url,generateAuthenticationRequestModel);
         authenticationCall.enqueue(new Callback<GenerateAuthenticationResponseModel>() {
+
+            /**
+             * @param call
+             * @param response
+             * @breif getting response from api
+             */
             @Override
             public void onResponse(Call<GenerateAuthenticationResponseModel> call, Response<GenerateAuthenticationResponseModel> response) {
                 /**
@@ -49,6 +57,8 @@ public class AuthenticationDataManager {
                  */
                 Log.i("responce","response get");
                 int statusCode = response.code();
+
+                //if response is successful set the body of response to onSuccess methode in GenerateRegisterResponseModel else get the error body and set on onFailure in generateRegisterResponseModel
                 if (response.isSuccessful()) {
                     dataresponse.onSuccess(response.body(), "SuccessModel");
                 } else {
@@ -58,19 +68,22 @@ public class AuthenticationDataManager {
                         ErrorBody errorBody = new Gson().fromJson(serviceResponse, ErrorBody.class);
                         dataresponse.onFailure(errorBody, statusCode);
                     } catch (JsonSyntaxException e) {
-//                        dataresponse.onTokenExpired("Something went wrong - Error Code: " + statusCode);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
                 }
             }
 
+
+            /**
+             * @param call
+             * @param t
+             * @breif when api call failure
+             */
             @Override
             public void onFailure(Call<GenerateAuthenticationResponseModel> call, Throwable t) {
                 Log.d(TAG, "onTokenExpired: " + t.getMessage());
                 Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_LONG).show();
-//                dataresponse.onTokenExpired(t.getMessage());
             }
         });
 

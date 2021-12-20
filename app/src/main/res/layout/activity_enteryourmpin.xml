@@ -43,7 +43,7 @@
     <LinearLayout
         android:id="@+id/linear2"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="35dp"
         android:layout_marginLeft="83dp"
         android:layout_marginRight="83dp"
         android:layout_marginTop="20dp"
@@ -54,20 +54,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/set">
 
-
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:weightSum="3">
+            android:weightSum="3.1">
 
-            <EditText
+            <TextView
                 android:id="@+id/editthree"
                 android:layout_width="33dp"
                 android:layout_height="0dp"
-                android:layout_weight="2.8"
+                android:layout_weight="2.9"
                 android:background="@null"
                 android:fontFamily="@font/zillaslabmedium"
                 android:gravity="center"
@@ -97,13 +96,13 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:weightSum="3">
+            android:weightSum="3.1">
 
-            <EditText
+            <TextView
                 android:id="@+id/editfour"
                 android:layout_width="33dp"
                 android:layout_height="0dp"
-                android:layout_weight="2.8"
+                android:layout_weight="2.9"
                 android:background="@null"
                 android:fontFamily="@font/zillaslabmedium"
                 android:gravity="center"
@@ -132,13 +131,13 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:weightSum="3">
+            android:weightSum="3.1">
 
-            <EditText
+            <TextView
                 android:id="@+id/editfive"
                 android:layout_width="33dp"
                 android:layout_height="0dp"
-                android:layout_weight="2.8"
+                android:layout_weight="2.9"
                 android:background="@null"
                 android:fontFamily="@font/zillaslabmedium"
                 android:gravity="center"
@@ -166,17 +165,18 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:weightSum="3">
+            android:weightSum="3.1">
 
-            <EditText
+            <TextView
                 android:id="@+id/editsix"
                 android:layout_width="33dp"
                 android:layout_height="0dp"
-                android:layout_weight="2.8"
+                android:layout_weight="2.9"
                 android:background="@null"
                 android:fontFamily="@font/zillaslabmedium"
                 android:gravity="center"
                 android:hint="●"
+                android:inputType="none"
                 android:maxLength="1"
                 android:padding="5dp"
                 android:textColor="@color/white"
@@ -225,6 +225,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/zillaslabmedium"
                 android:gravity="center"
+                android:padding="5dp"
                 android:text="1"
                 android:textColor="#5EA7FF"
                 android:textSize="25sp" />
@@ -237,6 +238,7 @@
                 android:fontFamily="@font/zillaslabmedium"
                 android:gravity="center"
                 android:text="2"
+                android:padding="5dp"
                 android:textColor="#5EA7FF"
                 android:textSize="25dp" />
 
@@ -248,6 +250,7 @@
                 android:fontFamily="@font/zillaslabmedium"
                 android:gravity="center"
                 android:text="3"
+                android:padding="5dp"
                 android:textColor="#5EA7FF"
                 android:textSize="25dp" />
 
@@ -272,6 +275,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/zillaslabmedium"
                 android:gravity="center"
+                android:padding="5dp"
                 android:text="4"
                 android:textColor="#5EA7FF"
                 android:textSize="25dp" />
@@ -283,6 +287,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/zillaslabmedium"
                 android:gravity="center"
+                android:padding="5dp"
                 android:text="5"
                 android:textColor="#5EA7FF"
                 android:textSize="25dp" />
@@ -295,6 +300,7 @@
                 android:fontFamily="@font/zillaslabmedium"
                 android:gravity="center"
                 android:text="6"
+                android:padding="5dp"
                 android:textColor="#5EA7FF"
                 android:textSize="25dp" />
 
@@ -319,6 +325,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/zillaslabmedium"
                 android:gravity="center"
+                android:padding="5dp"
                 android:text="7"
                 android:textColor="#5EA7FF"
                 android:textSize="25dp" />
@@ -331,6 +338,7 @@
                 android:fontFamily="@font/zillaslabmedium"
                 android:gravity="center"
                 android:text="8"
+                android:padding="5dp"
                 android:textColor="#5EA7FF"
                 android:textSize="25dp" />
 
@@ -342,6 +350,7 @@
                 android:fontFamily="@font/zillaslabmedium"
                 android:gravity="center"
                 android:text="9"
+                android:padding="5dp"
                 android:textColor="#5EA7FF"
                 android:textSize="25dp" />
 
@@ -376,6 +385,7 @@
                 android:fontFamily="@font/zillaslabmedium"
                 android:gravity="center"
                 android:text="0"
+                android:padding="5dp"
                 android:textColor="#5EA7FF"
                 android:textSize="25dp" />
 
@@ -387,6 +397,7 @@
                 android:gravity="center"
                 android:src="@drawable/vg"
                 android:text="9"
+                android:padding="5dp"
                 android:textColor="#5EA7FF"
                 android:textSize="25dp" />
 

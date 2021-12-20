@@ -3,6 +3,7 @@ package com.MDQ.myapplication;
 import static android.app.Activity.RESULT_OK;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -57,6 +58,11 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
+import com.onegravity.contactpicker.contact.Contact;
+import com.onegravity.contactpicker.contact.ContactDescription;
+import com.onegravity.contactpicker.contact.ContactSortOrder;
+import com.onegravity.contactpicker.core.ContactPickerActivity;
+import com.onegravity.contactpicker.picture.ContactPictureType;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -94,7 +100,8 @@ public class income extends Fragment implements BankListResponseInterface {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_expense, container, false);
+        View view = inflater.inflate(R.layout.fragment_income, container, false);
+        //initialize with view
         accountType = view.findViewById(R.id.Accounttypes);
         category = view.findViewById(R.id.categoryScroll);
         imageView = view.findViewById(R.id.additionaldetail);
@@ -117,9 +124,12 @@ public class income extends Fragment implements BankListResponseInterface {
         contactpicker = view.findViewById(R.id.contactpicker);
         GalleryImage = view.findViewById(R.id.GalaryImage);
         capture=view.findViewById(R.id.capture);
+
         setclick();
         setbackround();
         setDeclare();
+
+        //set inputType as null to editText
         accountType.setRawInputType(InputType.TYPE_NULL);
         accountType.setFocusable(true);
         Category.setRawInputType(InputType.TYPE_NULL);
@@ -127,6 +137,7 @@ public class income extends Fragment implements BankListResponseInterface {
         today.setRawInputType(InputType.TYPE_NULL);
         today.setFocusable(true);
 
+        //checking permission of READ_CONTACT if available calling getContact methode else calling getPermission
         contactpicker.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
@@ -138,6 +149,8 @@ public class income extends Fragment implements BankListResponseInterface {
                 }
             }
         });
+
+        //checking permission of CAMERA if available calling getCameraImage methode else calling getPermissionCamera
         capture.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
@@ -150,6 +163,7 @@ public class income extends Fragment implements BankListResponseInterface {
             }
         });
 
+        //intent for getting image
         GalleryImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,13 +175,14 @@ public class income extends Fragment implements BankListResponseInterface {
             }
         });
 
-
+        //set visibility of card for gone
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cardforgone.setVisibility(View.VISIBLE);
             }
         });
+        //changing visibility and layout params
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -194,6 +209,7 @@ public class income extends Fragment implements BankListResponseInterface {
             }
         });
 
+        //Checking internet connection and if available calling setDeclareFoeAddSpend method else toast an error message
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -220,6 +236,7 @@ public class income extends Fragment implements BankListResponseInterface {
         return view;
     }
 
+    //get permission
     private void getPermissionCamera() {
         Dexter.withContext(getContext()).withPermission(Manifest.permission.CAMERA)
                 .withListener(new PermissionListener() {
@@ -240,12 +257,14 @@ public class income extends Fragment implements BankListResponseInterface {
                 }).check();
     }
 
+    //set request for the get image from camera
     private void getCameraImage() {
         Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(cameraIntent, 1);
 
     }
 
+    //getpermission
     private void getPermission() {
         Dexter.withContext(getContext()).withPermission(Manifest.permission.READ_CONTACTS)
                 .withListener(new PermissionListener() {
@@ -267,10 +286,19 @@ public class income extends Fragment implements BankListResponseInterface {
                 }).check();
     }
 
+    //get request for contack picker
     private void getContact() {
+//        Intent intent = new Intent(getContext(), ContactPickerActivity.class)
+//                .putExtra(ContactPickerActivity.EXTRA_THEME,true)
+//                .putExtra(ContactPickerActivity.EXTRA_CONTACT_BADGE_TYPE, ContactPictureType.ROUND.name())
+//                .putExtra(ContactPickerActivity.EXTRA_SHOW_CHECK_ALL, true)
+//                .putExtra(ContactPickerActivity.EXTRA_CONTACT_DESCRIPTION, ContactDescription.ADDRESS.name())
+//                .putExtra(ContactPickerActivity.EXTRA_CONTACT_DESCRIPTION_TYPE, ContactsContract.CommonDataKinds.Email.TYPE_WORK)
+//                .putExtra(ContactPickerActivity.EXTRA_CONTACT_SORT_ORDER, ContactSortOrder.AUTOMATIC.name());
+//        startActivityForResult(intent, 2);
         Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        startActivityForResult(intent, 2);
+         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+         startActivityForResult(intent, 2);
     }
 
     @Override
@@ -295,6 +323,7 @@ public class income extends Fragment implements BankListResponseInterface {
         }
     }
 
+    //set request to the AddSpend api
     private void setDeclareForAddSpend() {
         addSpentViewModel.setAmount(amounts);
         addSpentViewModel.setAccount_id(accounts);
@@ -302,12 +331,16 @@ public class income extends Fragment implements BankListResponseInterface {
         addSpentViewModel.generateAddSpendRequest();
     }
 
+    //set request to the bankList api
     private void setDeclare() {
         bankListViewModel.setToken(token);
         bankListViewModel.generateBankListRequest();
     }
 
+
+    @SuppressLint("ClickableViewAccessibility")
     private void setclick() {
+        //day picker
         cardforday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -319,8 +352,10 @@ public class income extends Fragment implements BankListResponseInterface {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        String dates = year + "/" + month + "/" + dayOfMonth;
+                        month=month+1;
+                        String dates = year + "-" + month + "-" + dayOfMonth;
                         today.setText(dates);
+
                     }
                 }, years, months, days);
                 int positiveColor = ContextCompat.getColor(getContext(), R.color.blue);
@@ -333,7 +368,7 @@ public class income extends Fragment implements BankListResponseInterface {
             }
         });
 
-
+        //changing background
         cardforgone.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -348,7 +383,7 @@ public class income extends Fragment implements BankListResponseInterface {
             }
         });
 
-
+        //changing background
         cardforaccounttype.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -363,6 +398,7 @@ public class income extends Fragment implements BankListResponseInterface {
             }
         });
 
+        //changing background
         cardforamount.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -377,6 +413,7 @@ public class income extends Fragment implements BankListResponseInterface {
             }
         });
 
+        //changing background
         cardforday.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -391,6 +428,7 @@ public class income extends Fragment implements BankListResponseInterface {
             }
         });
 
+        //changing background
         cardforcategory.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -405,6 +443,7 @@ public class income extends Fragment implements BankListResponseInterface {
             }
         });
 
+        //changing background
         cardfornotes.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -419,6 +458,7 @@ public class income extends Fragment implements BankListResponseInterface {
             }
         });
 
+        //add position of selected item to the accounts
         accountType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -426,12 +466,14 @@ public class income extends Fragment implements BankListResponseInterface {
             }
         });
 
+        //ScrollDown for accountType
         ScroolAccountType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 accountType.showDropDown();
             }
         });
+        //ScrollDown for accountType
         accountType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -439,12 +481,15 @@ public class income extends Fragment implements BankListResponseInterface {
             }
         });
 
+        //navigate to ChooseCategory screen
         cardforcategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), ChooseCategory.class));
             }
         });
+
+        ///Navigate to chooseCategory screen
         category.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -453,6 +498,7 @@ public class income extends Fragment implements BankListResponseInterface {
         });
     }
 
+    //set background for edit text
     private void setbackround() {
         cardforgone.setBackground(getResources().getDrawable(R.drawable.consbackroundforaddaccount));
         cardforamount.setBackground(getResources().getDrawable(R.drawable.consbackroundforaddaccount));
@@ -464,14 +510,19 @@ public class income extends Fragment implements BankListResponseInterface {
 
     @Override
     public void ShowErrorMessage(MessageViewType messageViewType, String errorMessage) {
-
+        //do nothing
     }
 
     @Override
     public void ShowErrorMessage(MessageViewType messageViewType, ViewType viewType, String errorMessage) {
+        //do nothing
 
     }
 
+    /**
+     * @param generateBankListResponseModel
+     * @breif get response from BankList api
+     */
     @Override
     public void generateBankListProcessed(GenerateBankListResponseModel generateBankListResponseModel) {
         banklist = new String[generateBankListResponseModel.getData().size()];
@@ -493,11 +544,16 @@ public class income extends Fragment implements BankListResponseInterface {
         }
     }
 
+
     @Override
     public void onFailure(ErrorBody errorBody, int statusCode) {
-
+        //do nothing
     }
 
+    /**
+     * @return
+     * @brief initializing the preferenceManager from shared preference for local use in this activity
+     */
     public PreferenceManager getPreferenceManager() {
         if (preferenceManager == null) {
             preferenceManager = PreferenceManager.getInstance();
@@ -506,27 +562,31 @@ public class income extends Fragment implements BankListResponseInterface {
         return preferenceManager;
     }
 
+    //getting result for requested contact,GalleryImage,cameraImage
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 2) {
             if (resultCode == RESULT_OK) {
                 if (data != null) {
-                    Uri uri = data.getData();
-                    String[] projection = {ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME};
+                     Uri uri = data.getData();
+                     String[] projection = {ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME};
 
-                    Cursor cursor = getActivity().getContentResolver().query(uri, projection,
-                            null, null, null);
-                    cursor.moveToFirst();
-                    int nameColumnIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
-                    nameForContact = new ArrayList<>();
-                    nameForContact.add(cursor.getString(nameColumnIndex));
-                    adapterForRvInContact = new AdapterForRvInContact(nameForContact);
-                    layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-                    recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.setAdapter(adapterForRvInContact);
+                     Cursor cursor = getActivity().getContentResolver().query(uri, projection,
+                             null, null, null);
+                     cursor.moveToFirst();
+                     int nameColumnIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+                     nameForContact = new ArrayList<>();
+                     nameForContact.add(cursor.getString(nameColumnIndex));
+                     adapterForRvInContact = new AdapterForRvInContact(nameForContact);
+                     layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+                     recyclerView.setLayoutManager(layoutManager);
+                     recyclerView.setAdapter(adapterForRvInContact);
+//                    List<Contact> contacts = (List<Contact>) data.getSerializableExtra(ContactPickerActivity.RESULT_CONTACT_DATA);
+//                    for (Contact contact : contacts) {
+//                        Toast.makeText(getContext(), ""+contact, Toast.LENGTH_SHORT).show();
+//                    }
                 }
-
             }
         }
         else if (requestCode == 3)
@@ -548,6 +608,5 @@ public class income extends Fragment implements BankListResponseInterface {
                 capture.setImageBitmap(photo);
             }
         }
-
     }
 }

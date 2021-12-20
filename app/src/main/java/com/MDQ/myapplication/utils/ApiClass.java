@@ -2,9 +2,8 @@ package com.MDQ.myapplication.utils;
 
 public class ApiClass {
 
-    public ApiClass(){
+    public ApiClass(){ }
 
-    }
     public static final String BASE_URL = "http://myfinalyst.com/api/";
     public static final String RESEND_URL=  BASE_URL+"api_resend_otp.php";
     public static final String REGISTER_URL=  BASE_URL+"api_user_register.php";
@@ -24,4 +23,9 @@ public class ApiClass {
     public static final String LIST_TRANSACTION=BASE_URL+"api_transaction_history.php";
     public static final String UPLOAD_VAULT=BASE_URL+"api_vault_upload.php";
     public static final String VAULT_LIST=BASE_URL+"api_vault_list.php";
+    public static final String DASH_BOARD=BASE_URL+"api_dashboard.php";
+    public static final String UPDATE_PROFILE=BASE_URL+"api_user_profile_update.php";
+    public static final String BIO_METRICS=BASE_URL+"api_enable_biometrics.php";
+    public static final String BIO_METRICS_VALIDATION=BASE_URL+"api_biometrics_validation.php";
+
 }

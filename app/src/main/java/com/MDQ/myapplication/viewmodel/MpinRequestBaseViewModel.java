@@ -1,5 +1,6 @@
 package com.MDQ.myapplication.viewmodel;
 
+//api request items
 public class MpinRequestBaseViewModel {
     //this  method also used for mpinValidation
     private String token;

@@ -1,5 +1,6 @@
 package com.MDQ.myapplication.viewmodel;
 
+//api request items
 public class OtpRequestBaseViewModel {
     private String phone;
     private String country_code;

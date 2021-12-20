@@ -3,6 +3,7 @@ package com.MDQ.myapplication.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+//For local Storage
 public class PreferenceManager {
 
     private SharedPreferences sharedPreferences;
@@ -10,15 +11,34 @@ public class PreferenceManager {
     private Context mContext;
     private int mPrivateMode = 0;
 
+    //For Storing user name
     private static final String PREF_NAME = "PREF_MYFINALYST";
+
+    //For storing token
     private static final String PREF_TOKEN = "PREF_TOKEN";
+
+    //For storing mpin
     private static final String PREF_MPIN = "PREF_MPIN";
+
+    //For storing phone num
     private static final String PREF_PHONE_NUM = "PREF_PHONE_NUM";
+
+    //For Storing account login or not
     private static final String PREF_IS_LOGGED_IN = "PREF_IS_LOGGED_IN";
+
+    //For storing chooseCategory imageURL
     private static final String PREF_IMAGE_URL = "PREF_IMAGE_URL";
+
+    //For storing ChooseCategory name
     private static final String PREF_NAME_IN_CATEGORY = "PREF_NAME";
+
+    //For storing OTP
     private static final String PREF_OTP = "PREF_OTP";
+
+    //For Storing Biometric is enabled or not
     private static final String PREF_BIOMETRIC = "PREF_BIOMETRIC";
+
+    //For Storing User Email
     private static final String PREF_EMAIL = "PREF_EMAIL";
 
     private static PreferenceManager mInstance;

@@ -39,8 +39,9 @@ public class AddSpentViewModel extends AddSpentBaseViewModel implements AddSpend
         generateAddSpendRequestModel.tag=getTag();
         generateAddSpendRequestModel.subcategory=getSubcategory();
         generateAddSpendRequestModel.note=getNote();
-        generateAddSpendRequestModel.profile_picture=getProfile_picture();
-        addSpendDataManager.callEnqueue(ApiClass.ADD_SPEND, getToken(),generateAddSpendRequestModel, new ResponseHandler<GenerateAddSpendResponceModel>() {
+        generateAddSpendRequestModel.type=getType();
+        generateAddSpendRequestModel.account_id=getAccount_id();
+        addSpendDataManager.callEnqueue(ApiClass.ADD_SPEND, getToken(),getAccount_id(),getAmount(),getType(),getCategory(),getSubcategory(),getDate(),getNote(),getTag(),getShare_with(),getLocation(),getProfile_picture(),generateAddSpendRequestModel, new ResponseHandler<GenerateAddSpendResponceModel>() {
             @Override
             public void onSuccess(String message) {}
             @Override

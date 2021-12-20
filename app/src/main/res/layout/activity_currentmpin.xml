@@ -211,6 +211,7 @@
         android:background="@drawable/backforregister"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
@@ -232,6 +233,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/zillaslabmedium"
                 android:gravity="center"
+                android:padding="5dp"
                 android:text="1"
                 android:textColor="#5EA7FF"
                 android:textSize="25sp" />
@@ -241,9 +243,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="@font/zillaslabmedium"
                 android:gravity="center"
                 android:text="2"
-                android:fontFamily="@font/zillaslabmedium"
+                android:padding="5dp"
                 android:textColor="#5EA7FF"
                 android:textSize="25dp" />
 
@@ -252,9 +255,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="@font/zillaslabmedium"
                 android:gravity="center"
                 android:text="3"
-                android:fontFamily="@font/zillaslabmedium"
+                android:padding="5dp"
                 android:textColor="#5EA7FF"
                 android:textSize="25dp" />
 
@@ -277,9 +281,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="4"
                 android:fontFamily="@font/zillaslabmedium"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="4"
                 android:textColor="#5EA7FF"
                 android:textSize="25dp" />
 
@@ -288,9 +293,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="5"
                 android:fontFamily="@font/zillaslabmedium"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="5"
                 android:textColor="#5EA7FF"
                 android:textSize="25dp" />
 
@@ -299,9 +305,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="@font/zillaslabmedium"
                 android:gravity="center"
                 android:text="6"
-                android:fontFamily="@font/zillaslabmedium"
+                android:padding="5dp"
                 android:textColor="#5EA7FF"
                 android:textSize="25dp" />
 
@@ -324,9 +331,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="7"
                 android:fontFamily="@font/zillaslabmedium"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="7"
                 android:textColor="#5EA7FF"
                 android:textSize="25dp" />
 
@@ -335,9 +343,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="@font/zillaslabmedium"
                 android:gravity="center"
                 android:text="8"
-                android:fontFamily="@font/zillaslabmedium"
+                android:padding="5dp"
                 android:textColor="#5EA7FF"
                 android:textSize="25dp" />
 
@@ -346,9 +355,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="@font/zillaslabmedium"
                 android:gravity="center"
                 android:text="9"
-                android:fontFamily="@font/zillaslabmedium"
+                android:padding="5dp"
                 android:textColor="#5EA7FF"
                 android:textSize="25dp" />
 
@@ -380,9 +390,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="@font/zillaslabmedium"
                 android:gravity="center"
                 android:text="0"
-                android:fontFamily="@font/zillaslabmedium"
+                android:padding="5dp"
                 android:textColor="#5EA7FF"
                 android:textSize="25dp" />
 
@@ -394,6 +405,7 @@
                 android:gravity="center"
                 android:src="@drawable/vg"
                 android:text="9"
+                android:padding="5dp"
                 android:textColor="#5EA7FF"
                 android:textSize="25dp" />
 

@@ -38,7 +38,6 @@ public class GetUserViewModel extends GetUserBaseViewModel implements GetUserReq
                 Log.i("otpR", "rr");
                 if (item.getMsg() != null) {
                     Log.i("otpRecevied", item.getMsg());
-                    Toast.makeText(mContext, "" + item.getMsg(), Toast.LENGTH_SHORT).show();
                     getUserResponseInterface.generateGetUserProcessed(item.getData().token,item.getData().user_name,item.getData().email,item.getData().phone,item.getData().getBiometrics_status());
                 }
 

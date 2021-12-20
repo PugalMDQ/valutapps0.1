@@ -2,6 +2,7 @@ package com.MDQ.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BlendMode;
@@ -46,6 +47,7 @@ public class Login extends AppCompatActivity implements LoginResponseInterface {
         super.onCreate(savedInstanceState);
         al=ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(al.getRoot());
+        //making status bar color as transparent
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -53,32 +55,16 @@ public class Login extends AppCompatActivity implements LoginResponseInterface {
         else {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
+
         Typeface tf=Typeface.createFromAsset(getAssets(),"fonts/ZillaSlab-Bold.ttf");
         al.welcome.setTypeface(tf);
         phoneinl=findViewById(R.id.Phonenumberl);
-        al.Phonenumberl.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                ViewGroup.LayoutParams layoutParams= al.cardforphonenumberinlogin.getLayoutParams();
-                al.cardforphonenumberinlogin.setLayoutParams(layoutParams);
-                al.cardforphonenumberinlogin.setCardElevation(20f);
-                return false;
-            }
-        });
-        al.cardforphonenumberinlogin.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                ViewGroup.LayoutParams layoutParams= al.cardforphonenumberinlogin.getLayoutParams();
-                al.cardforphonenumberinlogin.setLayoutParams(layoutParams);
-                al.cardforphonenumberinlogin.setCardElevation(20f);
-
-                return false;
-            }
-        });
+        touchListener();
 
         al.Logininl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //checking internet connection if available call declare else toast error message
                 ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext()
                         .getSystemService(Context.CONNECTIVITY_SERVICE);
                 if ((connectivityManager
@@ -108,6 +94,35 @@ public class Login extends AppCompatActivity implements LoginResponseInterface {
         loginRequestViewModel=new LoginRequestViewModel(getApplicationContext(),this);
     }
 
+    /**
+     * @breif get touchListener for changing elevation
+     */
+    @SuppressLint("ClickableViewAccessibility")
+    private void touchListener() {
+        al.Phonenumberl.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                ViewGroup.LayoutParams layoutParams= al.cardforphonenumberinlogin.getLayoutParams();
+                al.cardforphonenumberinlogin.setLayoutParams(layoutParams);
+                al.cardforphonenumberinlogin.setCardElevation(20f);
+                return false;
+            }
+        });
+        al.cardforphonenumberinlogin.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                ViewGroup.LayoutParams layoutParams= al.cardforphonenumberinlogin.getLayoutParams();
+                al.cardforphonenumberinlogin.setLayoutParams(layoutParams);
+                al.cardforphonenumberinlogin.setCardElevation(20f);
+
+                return false;
+            }
+        });
+    }
+
+    /**
+     * @breif if phones not equal null set Login api request items
+     */
     private void declare() {
         phones=phoneinl.getText().toString();
 
@@ -125,14 +140,20 @@ public class Login extends AppCompatActivity implements LoginResponseInterface {
 
     @Override
     public void ShowErrorMessage(MessageViewType messageViewType, String errorMessage) {
-
+        //do nothing
     }
 
     @Override
     public void ShowErrorMessage(MessageViewType messageViewType, ViewType viewType, String errorMessage) {
+        //do nothing
 
     }
 
+    /**
+     * @param Token
+     * @param Otp
+     * @breif getting response from api
+     */
     @Override
     public void generateLoginProcessed(String Token, String Otp) {
         this.otp=Otp;
@@ -140,6 +161,9 @@ public class Login extends AppCompatActivity implements LoginResponseInterface {
         move();
     }
 
+    /**
+     * if otp and token not equal null navigate to PhoneNumVerification Screen
+     */
     private void move() {
         if(otp!=null&&token!=null) {
             Intent intent=new Intent(Login.this,PhoneNumVerfication.class);
@@ -148,19 +172,29 @@ public class Login extends AppCompatActivity implements LoginResponseInterface {
             intent.putExtra("phone",phones);
             intent.putExtra("activity","Login");
             startActivity(intent);
-            getPreferenceManager().setPrefToken(token);
             finish();
         }
     }
 
     @Override
-    public void onFailure(ErrorBody errorBody, int statusCode) {}
+    public void onFailure(ErrorBody errorBody, int statusCode) {
+        //do nothing
+    }
 
+    /**
+     * @return
+     * @brief initializing the preferenceManager from shared preference for local use in this activity
+     */
     public PreferenceManager getPreferenceManager() {
         if (preferenceManager == null) {
             preferenceManager = PreferenceManager.getInstance();
             preferenceManager.initialize(getApplicationContext());
         }
         return preferenceManager;
+    }
+
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
     }
 }

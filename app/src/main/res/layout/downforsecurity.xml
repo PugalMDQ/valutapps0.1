@@ -119,6 +119,7 @@
                 android:gravity="center"
                 app:track="@drawable/custom_switch_track"
                 android:thumb="@drawable/custom_switch_key"
+                android:theme="@style/SCBSwitch"
                 />
         </LinearLayout>
     <androidx.constraintlayout.widget.ConstraintLayout

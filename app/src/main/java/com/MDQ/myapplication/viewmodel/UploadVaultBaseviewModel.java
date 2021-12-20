@@ -6,6 +6,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.http.Multipart;
 
+//api request items
 public class UploadVaultBaseviewModel {
 
     public RequestBody getProof() {
@@ -18,6 +19,16 @@ public class UploadVaultBaseviewModel {
 
     private RequestBody Proof;
     private String Token;
+
+    public String getEncoded() {
+        return encoded;
+    }
+
+    public void setEncoded(String encoded) {
+        this.encoded = encoded;
+    }
+
+    private String encoded;
     private MultipartBody.Part filename;
 
     public MultipartBody.Part getFilename() {

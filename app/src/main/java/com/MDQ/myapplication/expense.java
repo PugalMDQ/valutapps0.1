@@ -3,6 +3,7 @@
 import static android.app.Activity.RESULT_OK;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -53,10 +54,12 @@ import com.MDQ.myapplication.viewmodel.AddSpentViewModel;
 import com.MDQ.myapplication.viewmodel.BankListViewModel;
 import com.bumptech.glide.Glide;
 import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.karumi.dexter.listener.single.PermissionListener;
 import com.onegravity.contactpicker.contact.Contact;
 import com.onegravity.contactpicker.contact.ContactDescription;
@@ -64,13 +67,21 @@ import com.onegravity.contactpicker.contact.ContactSortOrder;
 import com.onegravity.contactpicker.core.ContactPickerActivity;
 import com.onegravity.contactpicker.picture.ContactPictureType;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.security.Permission;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
  public class expense extends Fragment implements BankListResponseInterface , AddSpendResponceInterface {
      TextView textView;
@@ -79,6 +90,8 @@ import java.util.Objects;
              cardforcategory, cardforday, cardfornotes;
      LinearLayout insta;
      int i = 0;
+     int fitImage = 0;
+     String nameOfContact;
      LinearLayout category;
      RecyclerView recyclerView;
      AdapterForRvInContact adapterForRvInContact;
@@ -90,20 +103,22 @@ import java.util.Objects;
      AddSpentViewModel addSpentViewModel;
      PreferenceManager preferenceManager;
      String[] banklist;
-     EditText Category, today, amount;
+     EditText Category, today, amount,note;
      int[] id;
-     String amounts, accounts, dates;
+     String amounts, accounts, dates,categories,notes,newDate;
      String logo, name;
      ImageView logosi;
      List<String> nameForContact;
      ImageView GalleryImage,capture;
      ArrayAdapter<String> adapterforBankList;
-
+     ImageView ImageForUserVisible,cross;
+     RequestBody requestFile,description;
+     MultipartBody.Part body;
      @Override
      public View onCreateView(LayoutInflater inflater, ViewGroup container,
                               Bundle savedInstanceState) {
-
          View view = inflater.inflate(R.layout.fragment_expense, container, false);
+         //initialize with view
          accountType = view.findViewById(R.id.Accounttypes);
          category = view.findViewById(R.id.categoryScroll);
          imageView = view.findViewById(R.id.additionaldetail);
@@ -127,9 +142,16 @@ import java.util.Objects;
          contactpicker = view.findViewById(R.id.contactpicker);
          GalleryImage = view.findViewById(R.id.GalaryImage);
          capture=view.findViewById(R.id.capture);
+         note=view.findViewById(R.id.Note);
+         ImageForUserVisible=view.findViewById(R.id.ImageForUserVisible);
+         cross=view.findViewById(R.id.cross);
+
+
          setclick();
          setbackround();
          setDeclare();
+
+         //set inputType as null to editText
          accountType.setRawInputType(InputType.TYPE_NULL);
          accountType.setFocusable(true);
          Category.setRawInputType(InputType.TYPE_NULL);
@@ -137,6 +159,7 @@ import java.util.Objects;
          today.setRawInputType(InputType.TYPE_NULL);
          today.setFocusable(true);
 
+         //checking permission of READ_CONTACT if available calling getContact methode else calling getPermission
          contactpicker.setOnClickListener(new View.OnClickListener() {
              @RequiresApi(api = Build.VERSION_CODES.M)
              @Override
@@ -148,11 +171,14 @@ import java.util.Objects;
                  }
              }
          });
+
+         //checking permission of CAMERA if available calling getCameraImage methode else calling getPermissionCamera
          capture.setOnClickListener(new View.OnClickListener() {
              @RequiresApi(api = Build.VERSION_CODES.M)
              @Override
              public void onClick(View v) {
-                 if (getContext().checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                 if (getContext().checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+                 && getContext().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                      getCameraImage();
                  } else {
                      getPermissionCamera();
@@ -160,57 +186,76 @@ import java.util.Objects;
              }
          });
 
+         //intent for getting image
          GalleryImage.setOnClickListener(new View.OnClickListener() {
+             @RequiresApi(api = Build.VERSION_CODES.M)
              @Override
              public void onClick(View v) {
-                 Intent intent = new Intent();
-                 intent.setType("image/*");
-                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                 startActivityForResult(Intent.createChooser(intent,
-                         "Select Picture"), 3);
+                 if (getContext().checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                     getFileImages();
+                 }else {
+                     getPermissionForSelectImage();
+                 }
              }
          });
 
+         cross.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 ImageForUserVisible.setImageDrawable(null);
+                 fitImage=0;
+                 ImageForUserVisible.setVisibility(View.GONE);
+                 cross.setVisibility(View.GONE);
+                 imageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
+                 cardforgone.setVisibility(View.VISIBLE);
+                 insta.setVisibility(View.VISIBLE);
+                 ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) AddTransactionscreen.constraintLayout.getLayoutParams();
+                 layoutParams.topMargin = 312;
+                 AddTransactionscreen.constraintLayout.setLayoutParams(layoutParams);
+                 AddTransactionscreen.buttons.bringToFront();
+             }
+         });
 
+         //set visibility of card for gone
          imageView.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
                  cardforgone.setVisibility(View.VISIBLE);
              }
          });
+         //changing visibility and layout params
          imageView.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
-                 if (i == 0) {
-                     i = 1;
-                     imageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
-                     cardforgone.setVisibility(View.VISIBLE);
-                     insta.setVisibility(View.VISIBLE);
-                     ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) AddTransactionscreen.constraintLayout.getLayoutParams();
-                     layoutParams.topMargin = 312;
-                     AddTransactionscreen.constraintLayout.setLayoutParams(layoutParams);
-                     AddTransactionscreen.buttons.bringToFront();
-                 } else {
-                     i = 0;
-                     imageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
-                     cardforgone.setVisibility(View.GONE);
-                     insta.setVisibility(View.GONE);
-                     ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) AddTransactionscreen.constraintLayout.getLayoutParams();
-                     layoutParams.topMargin = 412;
-                     AddTransactionscreen.constraintLayout.setLayoutParams(layoutParams);
-                     AddTransactionscreen.buttons.bringToFront();
+                 if(fitImage!=1) {
+                     if (i == 0) {
+                         i = 1;
+                         imageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
+                         cardforgone.setVisibility(View.VISIBLE);
+                         insta.setVisibility(View.VISIBLE);
+                         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) AddTransactionscreen.constraintLayout.getLayoutParams();
+                         layoutParams.topMargin = 312;
+                         AddTransactionscreen.constraintLayout.setLayoutParams(layoutParams);
+                         AddTransactionscreen.buttons.bringToFront();
+                     } else {
+                         i = 0;
+                         imageView.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+                         cardforgone.setVisibility(View.GONE);
+                         insta.setVisibility(View.GONE);
+                         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) AddTransactionscreen.constraintLayout.getLayoutParams();
+                         layoutParams.topMargin = 412;
+                         AddTransactionscreen.constraintLayout.setLayoutParams(layoutParams);
+                         AddTransactionscreen.buttons.bringToFront();
 
+                     }
                  }
              }
          });
 
+         //Checking internet connection and if available calling setDeclareFoeAddSpend method else toast an error message
          textView.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
-                 amounts = amount.getText().toString();
-                 accounts = accountType.getText().toString();
-                 dates = today.getText().toString();
-                 if (amounts != null && accounts != null && dates != null) {
                      ConnectivityManager connectivityManager = (ConnectivityManager) getContext()
                              .getSystemService(Context.CONNECTIVITY_SERVICE);
                      if ((connectivityManager
@@ -225,37 +270,60 @@ import java.util.Objects;
                          Toast.makeText(getContext(), "This App Require Internet", Toast.LENGTH_SHORT).show();
                      }
                  }
-             }
          });
          return view;
      }
 
-     private void getPermissionCamera() {
-         Dexter.withContext(getContext()).withPermission(Manifest.permission.CAMERA)
-                 .withListener(new PermissionListener() {
-                     @Override
-                     public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
-                         getCameraImage();
-                     }
-
-                     @Override
-                     public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
-
-                     }
-
-                     @Override
-                     public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
-                         permissionToken.continuePermissionRequest();
-                     }
-                 }).check();
+     private void getFileImages() {
+         Intent intent = new Intent();
+         intent.setType("image/*");
+         intent.setAction(Intent.ACTION_GET_CONTENT);
+         startActivityForResult(Intent.createChooser(intent,
+                 "Select Picture"), 3);
      }
 
+     private void getPermissionForSelectImage() {
+         Dexter.withContext(getContext()).withPermission(Manifest.permission.READ_EXTERNAL_STORAGE).withListener(new PermissionListener() {
+             @Override
+             public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
+                 getFileImages();
+             }
+
+             @Override
+             public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
+
+             }
+
+             @Override
+             public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
+                 permissionToken.continuePermissionRequest();
+             }
+         }).check();
+     }
+
+     //get permission
+     private void getPermissionCamera() {
+         Dexter.withContext(getContext()).withPermissions(Manifest.permission.CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE).withListener(new MultiplePermissionsListener() {
+             @Override
+             public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
+                 getCameraImage();
+             }
+
+             @Override
+             public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
+
+             }
+         }).check();
+     }
+
+     //set request for the get image from camera
      private void getCameraImage() {
          Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
          startActivityForResult(cameraIntent, 1);
 
      }
 
+     //getpermission
      private void getPermission() {
          Dexter.withContext(getContext()).withPermission(Manifest.permission.READ_CONTACTS)
                  .withListener(new PermissionListener() {
@@ -277,19 +345,12 @@ import java.util.Objects;
                  }).check();
      }
 
+     //get request for contack picker
      private void getContact() {
-         Intent intent = new Intent(getContext(), ContactPickerActivity.class)
-                 .putExtra(ContactPickerActivity.EXTRA_THEME,true)
-                 .putExtra(ContactPickerActivity.EXTRA_CONTACT_BADGE_TYPE, ContactPictureType.ROUND.name())
-                 .putExtra(ContactPickerActivity.EXTRA_SHOW_CHECK_ALL, true)
-                 .putExtra(ContactPickerActivity.EXTRA_CONTACT_DESCRIPTION, ContactDescription.ADDRESS.name())
-                 .putExtra(ContactPickerActivity.EXTRA_CONTACT_DESCRIPTION_TYPE, ContactsContract.CommonDataKinds.Email.TYPE_WORK)
-                 .putExtra(ContactPickerActivity.EXTRA_CONTACT_SORT_ORDER, ContactSortOrder.AUTOMATIC.name());
+        Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
          startActivityForResult(intent, 2);
-//        Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-//         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-//         startActivityForResult(intent, 2);
-     }
+    }
 
      @Override
      public void onDestroy() {
@@ -312,19 +373,39 @@ import java.util.Objects;
              }
          }
      }
+
+     //set request to the AddSpend api
      private void setDeclareForAddSpend() {
-         addSpentViewModel.setAmount(amounts);
-         addSpentViewModel.setAccount_id(accounts);
-         addSpentViewModel.setDate(dates);
-         addSpentViewModel.generateAddSpendRequest();
+         if(amounts!=null && accounts!=null&& dates!=null && Category!=null&& note!=null) {
+
+             addSpentViewModel.setAmount(amounts);
+             addSpentViewModel.setAccount_id(accounts);
+             addSpentViewModel.setDate(dates);
+             addSpentViewModel.setCategory(Category.getText().toString());
+             addSpentViewModel.setLocation("chennai");
+             addSpentViewModel.setNote(note.getText().toString());
+             addSpentViewModel.setSubcategory("get");
+             addSpentViewModel.setToken(getPreferenceManager().getPrefToken());
+             addSpentViewModel.setProfile_picture(body);
+             addSpentViewModel.setShare_with("sanjai");
+             addSpentViewModel.setTag("sam");
+             addSpentViewModel.setType("1");
+             addSpentViewModel.generateAddSpendRequest();
+
+         }else{
+             Toast.makeText(getActivity(), "Enter All Fields", Toast.LENGTH_SHORT).show();
+         }
      }
 
+     //set request to the bankList api
      private void setDeclare() {
          bankListViewModel.setToken(token);
          bankListViewModel.generateBankListRequest();
      }
 
+     @SuppressLint("ClickableViewAccessibility")
      private void setclick() {
+         //day picker
          cardforday.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
@@ -336,7 +417,8 @@ import java.util.Objects;
                  DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
                      @Override
                      public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                         String dates = year + "/" + month + "/" + dayOfMonth;
+                         month=month+1;
+                         dates = year + "-" + month + "-" + dayOfMonth;
                          today.setText(dates);
                      }
                  }, years, months, days);
@@ -350,7 +432,7 @@ import java.util.Objects;
              }
          });
 
-
+         //changing background
          cardforgone.setOnTouchListener(new View.OnTouchListener() {
              @Override
              public boolean onTouch(View v, MotionEvent event) {
@@ -365,7 +447,7 @@ import java.util.Objects;
              }
          });
 
-
+         //changing background
          cardforaccounttype.setOnTouchListener(new View.OnTouchListener() {
              @Override
              public boolean onTouch(View v, MotionEvent event) {
@@ -380,6 +462,7 @@ import java.util.Objects;
              }
          });
 
+         //changing background
          cardforamount.setOnTouchListener(new View.OnTouchListener() {
              @Override
              public boolean onTouch(View v, MotionEvent event) {
@@ -394,6 +477,7 @@ import java.util.Objects;
              }
          });
 
+         //changing background
          cardforday.setOnTouchListener(new View.OnTouchListener() {
              @Override
              public boolean onTouch(View v, MotionEvent event) {
@@ -408,6 +492,7 @@ import java.util.Objects;
              }
          });
 
+         //changing background
          cardforcategory.setOnTouchListener(new View.OnTouchListener() {
              @Override
              public boolean onTouch(View v, MotionEvent event) {
@@ -422,6 +507,7 @@ import java.util.Objects;
              }
          });
 
+         //changing background
          cardfornotes.setOnTouchListener(new View.OnTouchListener() {
              @Override
              public boolean onTouch(View v, MotionEvent event) {
@@ -436,6 +522,7 @@ import java.util.Objects;
              }
          });
 
+         //add position of selected item to the accounts
          accountType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
              @Override
              public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -443,12 +530,14 @@ import java.util.Objects;
              }
          });
 
+         //ScrollDown for accountType
          ScroolAccountType.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
                  accountType.showDropDown();
              }
          });
+         //ScrollDown for accountType
          accountType.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
@@ -456,12 +545,15 @@ import java.util.Objects;
              }
          });
 
+         //navigate to ChooseCategory screen
          cardforcategory.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
                  startActivity(new Intent(getActivity(), ChooseCategory.class));
              }
          });
+
+         ///Navigate to chooseCategory screen
          category.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
@@ -470,6 +562,7 @@ import java.util.Objects;
          });
      }
 
+     //set background for edit text
      private void setbackround() {
          cardforgone.setBackground(getResources().getDrawable(R.drawable.consbackroundforaddaccount));
          cardforamount.setBackground(getResources().getDrawable(R.drawable.consbackroundforaddaccount));
@@ -481,14 +574,19 @@ import java.util.Objects;
 
      @Override
      public void ShowErrorMessage(MessageViewType messageViewType, String errorMessage) {
-
+         //do nothing
      }
 
      @Override
      public void ShowErrorMessage(MessageViewType messageViewType, ViewType viewType, String errorMessage) {
+         //do nothing
 
      }
 
+     /**
+      * @param generateBankListResponseModel
+      * @breif get response from BankList api
+      */
      @Override
      public void generateBankListProcessed(GenerateBankListResponseModel generateBankListResponseModel) {
          banklist = new String[generateBankListResponseModel.getData().size()];
@@ -510,16 +608,25 @@ import java.util.Objects;
          }
      }
 
+     /**
+      * @param generateAddSpendResponceModel
+      * @breif get response from AddSpend api
+      */
      @Override
      public void generateAddSpendProcessed(GenerateAddSpendResponceModel generateAddSpendResponceModel) {
+         Toast.makeText(getContext(), generateAddSpendResponceModel.getMsg(), Toast.LENGTH_SHORT).show();
          startActivity(new Intent(getContext(),cardslist.class));
      }
 
      @Override
      public void onFailure(ErrorBody errorBody, int statusCode) {
-
+         //do nothing
      }
 
+     /**
+      * @return
+      * @brief initializing the preferenceManager from shared preference for local use in this activity
+      */
      public PreferenceManager getPreferenceManager() {
          if (preferenceManager == null) {
              preferenceManager = PreferenceManager.getInstance();
@@ -528,29 +635,30 @@ import java.util.Objects;
          return preferenceManager;
      }
 
+
+     //getting result for requested contact,GalleryImage,cameraImage
      @Override
      public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
          super.onActivityResult(requestCode, resultCode, data);
          if (requestCode == 2) {
              if (resultCode == RESULT_OK) {
                  if (data != null) {
-//                     Uri uri = data.getData();
-//                     String[] projection = {ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME};
-//
-//                     Cursor cursor = getActivity().getContentResolver().query(uri, projection,
-//                             null, null, null);
-//                     cursor.moveToFirst();
-//                     int nameColumnIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
-//                     nameForContact = new ArrayList<>();
-//                     nameForContact.add(cursor.getString(nameColumnIndex));
-//                     adapterForRvInContact = new AdapterForRvInContact(nameForContact);
-//                     layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-//                     recyclerView.setLayoutManager(layoutManager);
-//                     recyclerView.setAdapter(adapterForRvInContact);
-                     List<Contact> contacts = (List<Contact>) data.getSerializableExtra(ContactPickerActivity.RESULT_CONTACT_DATA);
-                     for (Contact contact : contacts) {
-                         Toast.makeText(getContext(), ""+contact, Toast.LENGTH_SHORT).show();
-                     }
+                     Uri uri = data.getData();
+                     String[] projection = {ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME};
+
+                     Cursor cursor = getActivity().getContentResolver().query(uri, projection,
+                             null, null, null);
+                     cursor.moveToFirst();
+                     int nameColumnIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+                     nameForContact = new ArrayList<>();
+                     nameForContact.add(cursor.getString(nameColumnIndex));
+                     nameOfContact=cursor.getString(nameColumnIndex);
+                     adapterForRvInContact = new AdapterForRvInContact(nameForContact);
+                     layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+                     recyclerView.setLayoutManager(layoutManager);
+                     recyclerView.setAdapter(adapterForRvInContact);
+
+
                  }
 
              }
@@ -562,18 +670,76 @@ import java.util.Objects;
                  Bitmap bitmap = null;
                  try {
                      bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), image);
+
                  } catch (IOException e) {
                  }
+                 insta.setVisibility(View.GONE);
+                 cardforgone.setVisibility(View.GONE);
+                 cross.setVisibility(View.VISIBLE);
+                 ImageForUserVisible.setVisibility(View.VISIBLE);
+                 ImageForUserVisible.setImageBitmap(bitmap);
+                 fitImage=1;
 
-                 GalleryImage.setImageBitmap(bitmap);
+                 File files=new File(image.getPath());
+                 File f1= new File(files.getAbsolutePath());
+                 File file = new File(FileUtils.getPath(getContext(), image));
+                 // create RequestBody instance from file
+                 requestFile =
+                         RequestBody.create(
+                                 MediaType.parse(getContext().getContentResolver().getType(image)),
+                                 file
+                         );
+                 // MultipartBody.Part is used to send also the actual file name
+                 body = MultipartBody.Part.createFormData("profile_picture", f1.getName(), requestFile);
+                 // add another part within the multipart request
+                 String descriptionString = "hello, this is description speaking";
+                 description =
+                         RequestBody.create(
+                                 okhttp3.MultipartBody.FORM, descriptionString);
              }
          }else if(requestCode==1){
              Bitmap photo = null;
-             if(data!=null) {
+             if(data!=null ) {
+
+                 Bundle extra = data.getExtras();
+                 Bitmap photos =(Bitmap)extra.get("data");
+
+                 Uri tempUri = getImageUri(getContext(), photos);
+
+                 cardforgone.setVisibility(View.GONE);
+                 insta.setVisibility(View.GONE);
+                 cross.setVisibility(View.VISIBLE);
                  photo = (Bitmap) data.getExtras().get("data");
-                 capture.setImageBitmap(photo);
+                 ImageForUserVisible.setVisibility(View.VISIBLE);
+                 ImageForUserVisible.setImageBitmap(photo);
+                 fitImage=1;
+
+                 File files=new File(tempUri.getPath());
+                 File f1= new File(files.getAbsolutePath());
+                 File file = new File(FileUtils.getPath(getContext(), tempUri));
+                 // create RequestBody instance from file
+                 requestFile =
+                         RequestBody.create(
+                                 MediaType.parse(getContext().getContentResolver().getType(tempUri)),
+                                 file
+                         );
+                 // MultipartBody.Part is used to send also the actual file name
+                 body = MultipartBody.Part.createFormData("profile_picture", f1.getName(), requestFile);
+                 // add another part within the multipart request
+                 String descriptionString = "hello, this is description speaking";
+                 description =
+                         RequestBody.create(
+                                 okhttp3.MultipartBody.FORM, descriptionString);
              }
          }
 
      }
+     public Uri getImageUri(Context inContext, Bitmap inImage) {
+         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+         return Uri.parse(path);
+     }
+
+
  }

@@ -1,10 +1,12 @@
 package com.MDQ.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -25,10 +27,14 @@ import com.MDQ.myapplication.enums.MessageViewType;
 import com.MDQ.myapplication.enums.ViewType;
 import com.MDQ.myapplication.interfaces.InterfaceForBalanceHome;
 import com.MDQ.myapplication.interfaces.viewresponceinterface.AccountListResponseInterface;
+import com.MDQ.myapplication.interfaces.viewresponceinterface.DashBoardResponseInterface;
+import com.MDQ.myapplication.pojo.jsonresponse.DataForDashBoard;
 import com.MDQ.myapplication.pojo.jsonresponse.ErrorBody;
 import com.MDQ.myapplication.pojo.jsonresponse.GenerateAccountListResponseModel;
+import com.MDQ.myapplication.pojo.jsonresponse.GenerateDashBoardResponseModel;
 import com.MDQ.myapplication.utils.PreferenceManager;
 import com.MDQ.myapplication.viewmodel.AccountListViewModel;
+import com.MDQ.myapplication.viewmodel.DashBoardViewModel;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.IMarker;
 import com.github.mikephil.charting.components.XAxis;
@@ -40,8 +46,15 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
-public class balancehome extends AppCompatActivity implements AccountListResponseInterface , InterfaceForBalanceHome {
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
+import android.widget.DatePicker;
+
+public class balancehome extends AppCompatActivity implements AccountListResponseInterface , InterfaceForBalanceHome, DashBoardResponseInterface {
     public static TabLayout tabs;
     public static ViewPager viewPager;
     public static LinearLayout linearLayout;
@@ -58,11 +71,19 @@ public class balancehome extends AppCompatActivity implements AccountListRespons
     public static TextView noaccount;
     public static RecyclerView  recyclerView;
     AutoCompleteTextView autoCompleteTextView;
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
+    String years,months;
+    DashBoardViewModel dashBoardViewModel;
+    List<DataForDashBoard> dataForDashBoardList;
+    List<String> days ;
+    List<Integer> total;
+    int year,month,day;
         @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ab=ActivityBalancehomeBinding.inflate(getLayoutInflater());
         setContentView(ab.getRoot());
+        //initializing the variables
         context=getApplication();
         tabs=findViewById(R.id.tabs);
         viewPager=findViewById(R.id.views);
@@ -73,6 +94,13 @@ public class balancehome extends AppCompatActivity implements AccountListRespons
         noaccount=findViewById(R.id.noaccount);
         recyclerView=findViewById(R.id.recyclerView);
         autoCompleteTextView=findViewById(R.id.values);
+        days=new ArrayList<>();
+        total=new ArrayList<>();
+
+
+        dashBoardViewModel=new DashBoardViewModel(getApplicationContext(),this);
+
+        //set status bar color as transparent
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -82,7 +110,7 @@ public class balancehome extends AppCompatActivity implements AccountListRespons
         }
 
 
-        //check internet
+        //checking internet connection if available proceeds  further else toast error message
         ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         if ((connectivityManager
@@ -95,35 +123,45 @@ public class balancehome extends AppCompatActivity implements AccountListRespons
             Toast.makeText(getApplicationContext(), "This App Require Internet ", Toast.LENGTH_SHORT).show();
         }
 
+        //set with adapter
         adapterstab=new Adapterstab(getSupportFragmentManager());
 
+        //navigate to AddCardScreen screen
         ab.addaccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(balancehome.this,AddCardScreen.class));
             }
         });
+
+        //navigate to vaultMain screen
         ab.linearvalut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(balancehome.this, vaultMain.class));
             }
         });
+
+        //navigate to profile screen
        ab.linearprofile.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
               startActivity(new Intent(balancehome.this,profile.class));
            }
        });
+
+       //navigate to AddTransaction screen
        ab.addtransaction.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
                startActivity(new Intent(balancehome.this,AddTransactionscreen.class));
            }
        });
-        charts();
+
         accountListViewModel =new AccountListViewModel(getApplicationContext(),this);
         setDeclare();
+
+        //navigate to notification screen
         ab.linearnotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,36 +169,166 @@ public class balancehome extends AppCompatActivity implements AccountListRespons
             }
         });
 
-            String[] months = {"jan'2021", "bef'2021", "mar'2021","apr'2021","may'2021","jun'2021","jul'2021"};
-            ArrayAdapter<String> mountlist=new ArrayAdapter<>(this,R.layout.support_simple_spinner_dropdown_item,months);
-            autoCompleteTextView.setAdapter(mountlist);
-            autoCompleteTextView.setText(months[0]);
+
+
+
+
+        ab.values.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar cal = Calendar.getInstance();
+                 year = cal.get(Calendar.YEAR);
+                 month = cal.get(Calendar.MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(
+                        balancehome.this,
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        mDateSetListener,
+                        year,month,day);
+                dialog.getDatePicker().findViewById(getResources().getIdentifier("day","id","android")).setVisibility(View.GONE);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                int positiveColor = ContextCompat.getColor(getApplicationContext(), R.color.blue);
+                int negativeColor = ContextCompat.getColor(getApplicationContext(), R.color.blue);
+
+                dialog.show();
+                dialog.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(positiveColor);
+                dialog.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(negativeColor);
+
+
+
+                years = String.valueOf(year);
+                months = String.valueOf(month);
+
+                String monthName = null;
+                switch (months){
+                    case "1":monthName="jan";
+                        break;
+                    case "2":monthName="feb";
+                        break;
+                    case "3":monthName="mar";
+                        break;
+                    case "4":monthName="apr";
+                        break;
+                    case "5":monthName="may";
+                        break;
+                    case "6":monthName="jun";
+                        break;
+                    case "7":monthName="jul";
+                        break;
+                    case "8":monthName="aug";
+                        break;
+                    case "9":monthName="sep";
+                        break;
+                    case "10":monthName="oct";
+                        break;
+                    case "11":monthName="nov";
+                        break;
+                    case "12":monthName="dec";
+                        break;
+
+                }
+                autoCompleteTextView.setText(monthName+"'"+years);
+                serDeclareForDashBoard();
+            }
+        });
+
+
+
+            //select month and year from datePicker
             ab.listimage.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-                    autoCompleteTextView.showDropDown();
+                public void onClick(View view) {
+                    Calendar cal = Calendar.getInstance();
+                    int year = cal.get(Calendar.YEAR);
+                    int month = cal.get(Calendar.MONTH);
+                    int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                    DatePickerDialog dialog = new DatePickerDialog(
+                            balancehome.this,
+                            android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                            mDateSetListener,
+                            year,month,day);
+                    dialog.getDatePicker().findViewById(getResources().getIdentifier("day","id","android")).setVisibility(View.GONE);
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    int positiveColor = ContextCompat.getColor(getApplicationContext(), R.color.blue);
+                    int negativeColor = ContextCompat.getColor(getApplicationContext(), R.color.blue);
+
+                    dialog.show();
+                    dialog.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(positiveColor);
+                    dialog.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(negativeColor);
+
                 }
             });
 
+            mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                    month = month + 1;
+                    months= String.valueOf(month);
+                    years= String.valueOf(year);
+                    String monthName = null;
+                    switch (month){
+                        case 1:monthName="jan";
+                            break;
+                             case 2:monthName="feb";
+                        break;
+                             case 3:monthName="mar";
+                        break;
+                             case 4:monthName="apr";
+                        break;
+                             case 5:monthName="may";
+                        break;
+                             case 6:monthName="jun";
+                        break;
+                             case 7:monthName="jul";
+                        break;
+                             case 8:monthName="aug";
+                        break;
+                             case 9:monthName="sep";
+                        break;
+                             case 10:monthName="oct";
+                        break;
+                             case 11:monthName="nov";
+                        break;
+                        case 12:monthName="dec";
+                            break;
+                            
+                    }
+                    autoCompleteTextView.setText(monthName+"'"+year);
+                    serDeclareForDashBoard();
+
+                }
+            };
         }
 
+    /**
+     * @breif set request for accountList api
+     */
+    private void serDeclareForDashBoard() {
+            dashBoardViewModel.setMonth(months);
+            dashBoardViewModel.setYear(years);
+            dashBoardViewModel.setToken(getPreferenceManager().getPrefToken());
+            dashBoardViewModel.generateDashBoardRequest();
+    }
+
+    //set request for accountList api
     private void setDeclare() {
         String token=getPreferenceManager().getPrefToken();
         accountListViewModel.setToken(token);
         accountListViewModel.generateAccountListRequest();
     }
 
+    //chart for trnsaction
     private void charts() {
 
         chart.setDragEnabled(true);
         chart.setScaleEnabled(false);
 
-
         chart.getDescription().setEnabled(false);
 
         //code for removing grid lines
         chart.getXAxis().setDrawGridLines(false);
-         chart.getAxisLeft().setDrawGridLines(false);
+        chart.getAxisLeft().setDrawGridLines(false);
         chart.getAxisRight().setDrawGridLines(false);
 
 
@@ -190,7 +358,6 @@ public class balancehome extends AppCompatActivity implements AccountListRespons
         xAxis.setLabelCount(5);
 
         xAxis.setTextColor(getResources().getColor(R.color.white));
-
         xAxis.setTextSize(14f);
 
         //to remove the description box
@@ -203,13 +370,10 @@ public class balancehome extends AppCompatActivity implements AccountListRespons
 
         ArrayList<Entry> yvalue=new ArrayList<>();
 
-        yvalue.add(new Entry(0,60));
-        yvalue.add(new Entry(1,65));
-        yvalue.add(new Entry(2,40));
-        yvalue.add(new Entry(3,45));
-        yvalue.add(new Entry(5,70));
-        yvalue.add(new Entry(6,60));
-
+        //set data, we got from api in chart
+        for(int i=0;i<days.size();i++) {
+            yvalue.add(new Entry(i, total.get(i)));
+        }
         LineDataSet set=new LineDataSet(yvalue,null);
         set.setFillDrawable(getResources().getDrawable(R.drawable.balancebackground));
         set.setMode(LineDataSet.Mode.CUBIC_BEZIER);
@@ -229,11 +393,20 @@ public class balancehome extends AppCompatActivity implements AccountListRespons
         dataSets.add(set);
         LineData data=new LineData(dataSets);
         chart.setData(data);
-        IMarker iMarker=new YourMarkerView(this,R.layout.tvcontent);
+        //setting iMarker for chart
+        IMarker iMarker=new YourMarkerView(this,R.layout.tvcontent, dataForDashBoardList);
         chart.setMarker(iMarker);
 
+        //set max no of dots visible in x and y axis
+        float minXRange = 10;
+        float maxXRange = 10;
+        chart.setVisibleXRange(minXRange, maxXRange);
     }
 
+    /**
+     * @param generateAccountListResponseModel
+     * @breif get response from AccountList api
+     */
     @Override
     public void generateAccountListProcessed(GenerateAccountListResponseModel generateAccountListResponseModel) {
 
@@ -245,22 +418,45 @@ public class balancehome extends AppCompatActivity implements AccountListRespons
     }
 
     @Override
+    public void generateDashBoardProcessed(GenerateDashBoardResponseModel generateDashBoardResponseModel) {
+        ab.totalamount.setText(generateDashBoardResponseModel.total_amount);
+        ab.credit.setText(generateDashBoardResponseModel.total_credit);
+        ab.debit.setText(generateDashBoardResponseModel.total_debit);
+       dataForDashBoardList=generateDashBoardResponseModel.getDay_data();
+       days.removeAll(days);
+       total.removeAll(total);
+       for(int i=0;i<generateDashBoardResponseModel.getDay_data().size();i++){
+           days.add(generateDashBoardResponseModel.getDay_data().get(i).getDay());
+           total.add(generateDashBoardResponseModel.getDay_data().get(i).getTotal());
+       }
+       charts();
+    }
+
+    /**
+     * @param errorBody
+     * @param statusCode
+     * @breif if any error during api process toast that error
+     */
+    @Override
     public void onFailure(ErrorBody errorBody, int statusCode) {
-        Toast.makeText(getApplicationContext(), ""+errorBody, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), ""+errorBody, Toast.LENGTH_SHORT).show();
 
     }
 
     @Override
     public void ShowErrorMessage(MessageViewType messageViewType, String errorMessage) {
-
+        //do nothing
     }
 
     @Override
     public void ShowErrorMessage(MessageViewType messageViewType, ViewType viewType, String errorMessage) {
-
+        //do nothing
     }
 
-
+    /**
+     * @return
+     * @brief initializing the preferenceManager from shared preference for local use in this activity
+     */
     public PreferenceManager getPreferenceManager() {
         if (preferenceManager == null) {
             preferenceManager = PreferenceManager.getInstance();
@@ -268,12 +464,20 @@ public class balancehome extends AppCompatActivity implements AccountListRespons
         }
         return preferenceManager;
     }
+
+    /**
+     * @breif close the app when back button has clicked
+     */
     @Override
     public void onBackPressed() {
-       // super.onBackPressed();
-        finish();
+        finishAffinity();
     }
 
+    /**
+     * @param index
+     * @param id
+     * @breif when card has clicked navigate to opencard screen
+     */
     @Override
     public void OpenCard(int index, int id) {
         Intent intent=new Intent(balancehome.this,opencard.class);

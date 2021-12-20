@@ -1,5 +1,6 @@
 package com.MDQ.myapplication.pojo.jsonrequest;
 
+//api request items
 public class GenerateAddSpendRequestModel {
     public String account_id;
     public String amount;

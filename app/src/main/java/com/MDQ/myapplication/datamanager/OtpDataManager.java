@@ -30,8 +30,16 @@ public class OtpDataManager {
         }
 
         public void callEnqueue(String url, GenerateOtpRequestModel generateOtpRequestModel, final ResponseHandler<GenerateOtpResponseModel> dataresponse) {
+
+            //calling the generatePostOtpCall methode from call apiInterface
             Call<GenerateOtpResponseModel> userLoginCall = apiInterface.generatePostOtpCall(url,generateOtpRequestModel);
             userLoginCall.enqueue(new Callback<GenerateOtpResponseModel>() {
+
+                /**
+                 * @param call
+                 * @param response
+                 * @breif getting response from api
+                 */
                 @Override
                 public void onResponse(Call<GenerateOtpResponseModel> call, Response<GenerateOtpResponseModel> response) {
                     /**
@@ -44,6 +52,8 @@ public class OtpDataManager {
                      * @param response
                      */
                     int statusCode = response.code();
+
+                    //if response is successful set the body of response to onSuccess methode in GenerateRegisterResponseModel else get the error body and set on onFailure in generateRegisterResponseModel
                     if (response.isSuccessful()) {
                         dataresponse.onSuccess(response.body(), "SuccessModel");
                     } else {
@@ -53,19 +63,21 @@ public class OtpDataManager {
                             ErrorBody errorBody = new Gson().fromJson(serviceResponse, ErrorBody.class);
                             dataresponse.onFailure(errorBody, statusCode);
                         } catch (JsonSyntaxException e) {
-//                        dataresponse.onTokenExpired("Something went wrong - Error Code: " + statusCode);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-
                     }
                 }
 
+                /**
+                 * @param call
+                 * @param t
+                 * @breif api call failure
+                 */
                 @Override
                 public void onFailure(Call<GenerateOtpResponseModel> call, Throwable t) {
                     Log.d(TAG, "onTokenExpired: " + t.getMessage());
                     Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
-//                dataresponse.onTokenExpired(t.getMessage());
                 }
             });
 

@@ -114,8 +114,7 @@ public class f001 extends Fragment {
         LineData data=new LineData(dataSets);
         chart.setData(data);
         chart.setExtraTopOffset(10f);
-        IMarker iMarker=new YourMarkerView(getContext(),R.layout.tvcontent);
-        chart.setMarker(iMarker);
+
 
         return view;
     }

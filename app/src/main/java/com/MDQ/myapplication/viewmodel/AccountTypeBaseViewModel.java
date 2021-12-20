@@ -1,5 +1,6 @@
 package com.MDQ.myapplication.viewmodel;
 
+//api request items
 public class AccountTypeBaseViewModel {
 
     public String getToken() {

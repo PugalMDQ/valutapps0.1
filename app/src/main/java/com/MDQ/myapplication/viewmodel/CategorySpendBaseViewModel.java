@@ -1,5 +1,6 @@
 package com.MDQ.myapplication.viewmodel;
 
+//api request items
 public class CategorySpendBaseViewModel {
     public String type;
 

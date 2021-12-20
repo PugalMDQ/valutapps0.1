@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+//api response inner arrayList items
 public class DataForCategorySpent {
 
     @SerializedName("id")

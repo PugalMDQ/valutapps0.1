@@ -1,6 +1,8 @@
 package com.MDQ.myapplication;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.MDQ.myapplication.interfaces.InterfaceForCardList;
 import com.MDQ.myapplication.pojo.jsonresponse.GenerateAccountListResponseModel;
 import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
@@ -21,10 +24,11 @@ import java.util.zip.Inflater;
 public class adapterforcardlist extends RecyclerView.Adapter<adapterforcardlist.mine> {
 
     int a;
+    InterfaceForCardList interfaceForCardList;
     Context context;
     GenerateAccountListResponseModel generateAccountListResponseModel;
-    adapterforcardlist(GenerateAccountListResponseModel generateAccountListResponseModel,Context context){
-
+    adapterforcardlist(GenerateAccountListResponseModel generateAccountListResponseModel, Context context, InterfaceForCardList interfaceForCardList){
+        this.interfaceForCardList=interfaceForCardList;
         this.generateAccountListResponseModel=generateAccountListResponseModel;
         this.context=context;
           }
@@ -37,7 +41,7 @@ public class adapterforcardlist extends RecyclerView.Adapter<adapterforcardlist.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull adapterforcardlist.mine holder, int position) {
+    public void onBindViewHolder(@NonNull adapterforcardlist.mine holder, @SuppressLint("RecyclerView") int position) {
         if(generateAccountListResponseModel.getData().size()>0){
             Glide.with(context)
                     .load(generateAccountListResponseModel.getData().get(position).getBank_logo())
@@ -51,6 +55,14 @@ public class adapterforcardlist extends RecyclerView.Adapter<adapterforcardlist.
             if(generateAccountListResponseModel.getData().get(position).getAccount_number()!=null){
                 holder.Accountnum.setText(generateAccountListResponseModel.getData().get(position).getAccount_number());
             }
+
+
+            holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    interfaceForCardList.OpenCard(position,generateAccountListResponseModel.getData().get(position).getId());
+                }
+            });
         }
 
     }
@@ -71,6 +83,9 @@ public class adapterforcardlist extends RecyclerView.Adapter<adapterforcardlist.
             heading=itemView.findViewById(R.id.heading);
             Accountnum=itemView.findViewById(R.id.Accountnum);
             constraintLayout=itemView.findViewById(R.id.constaraint);
+
+
+
         }
     }
 }

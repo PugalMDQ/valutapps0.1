@@ -1,5 +1,7 @@
 package com.MDQ.myapplication.viewmodel;
 
+
+//api request items
 public class ListTransactionBaseViewModel {
 
     private String account_id;

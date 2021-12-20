@@ -171,6 +171,7 @@
             android:fontFamily="@font/lato"
             android:gravity="center"
             android:text="Log out"
+            android:id="@+id/LogOut"
             android:textColor="#5EA7FF"
             android:textFontWeight="600"
             android:textSize="16sp"

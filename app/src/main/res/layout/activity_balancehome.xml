@@ -78,6 +78,7 @@
                         android:fontFamily="@font/roboto"
                         android:gravity="center_vertical"
                         android:text=" 0"
+                        android:id="@+id/totalamount"
                         android:textColor="@color/white"
                         android:textFontWeight="400"
                         android:textSize="32sp" />
@@ -129,6 +130,7 @@
                         android:fontFamily="@font/roboto"
                         android:gravity="center_vertical"
                         android:text="0"
+                        android:id="@+id/debit"
                         android:textColor="#73FFFFFF"
                         android:textFontWeight="300"
                         android:textSize="14sp" />
@@ -141,6 +143,7 @@
                     android:layout_height="0dp"
                     android:layout_gravity="start"
                     android:layout_weight="1.4"
+                    android:layout_marginTop="10dp"
                     android:orientation="horizontal"
                     android:weightSum="2">
 
@@ -161,11 +164,11 @@
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto"
-                        android:gravity="center_vertical"
                         android:text="0"
+                        android:id="@+id/credit"
                         android:textColor="#73FFFFFF"
                         android:textFontWeight="300"
                         android:textSize="14sp" />
@@ -223,7 +226,7 @@
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/line"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="0dp"
             android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -236,7 +239,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:layout_marginBottom="30dp"
             android:orientation="horizontal"
             android:weightSum="2"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -251,6 +253,7 @@
                 android:layout_weight="1.2"
                 android:fontFamily="@font/lato"
                 android:gravity="end"
+                android:text="Select Date"
                 android:inputType="none"
                 android:background="@null"
                 android:paddingRight="10dp"
@@ -263,7 +266,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
-                android:layout_weight="0.4"
+                android:layout_weight="0.5"
                 android:paddingRight="70dp"
                 android:src="@drawable/asa"
               />

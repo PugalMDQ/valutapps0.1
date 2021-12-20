@@ -44,7 +44,6 @@ public class LoginRequestViewModel extends LoginRequestBaseViewModel implements 
                 Log.i("otpR","rr");
                 if(item.getMsg()!=null) {
                     Log.i("otpRecevied", item.getMsg());
-                    Toast.makeText(mContext, ""+item.getMsg(), Toast.LENGTH_SHORT).show();
                     loginResponseInterface.generateLoginProcessed(item.getDataForRegister().getToken(),item.getDataForRegister().getOtp());
                 }
 

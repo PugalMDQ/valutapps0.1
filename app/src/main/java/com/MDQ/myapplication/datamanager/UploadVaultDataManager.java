@@ -30,10 +30,17 @@ public class UploadVaultDataManager {
         this.apiInterface = getApp().getRetrofitInterface();
     }
 
-    public void callEnqueue(String url, String token,MultipartBody.Part file,RequestBody proof, final ResponseHandler<GenerateUploadVaultResponseModel> dataresponse) {
+    public void callEnqueue(String url, String token,MultipartBody.Part file,RequestBody proof,String encoded, final ResponseHandler<GenerateUploadVaultResponseModel> dataresponse) {
+
+        //calling the generateUploadVaultCall methode from call apiInterface
         Call<GenerateUploadVaultResponseModel> userRegisterSuccessCall = apiInterface.generateUploadVaultCall(url,token,file);
         userRegisterSuccessCall.enqueue(new Callback<GenerateUploadVaultResponseModel>() {
 
+            /**
+             * @param call
+             * @param response
+             * @breif getting response from api
+             */
        @Override
             public void onResponse(Call<GenerateUploadVaultResponseModel> call, Response<GenerateUploadVaultResponseModel> response) {
                 /**
@@ -45,9 +52,11 @@ public class UploadVaultDataManager {
                  * @param call
                  * @param response
                  */
-                Log.i("responce","response get");
+                Log.i("response","response get");
                 int statusCode = response.code();
-                if (response.isSuccessful()) {
+
+           //if response is successful set the body of response to onSuccess methode in GenerateRegisterResponseModel else get the error body and set on onFailure in generateRegisterResponseModel
+           if (response.isSuccessful()) {
                     dataresponse.onSuccess(response.body(), "SuccessModel");
                 } else {
                     String serviceResponse = null;
@@ -56,22 +65,24 @@ public class UploadVaultDataManager {
                         ErrorBody errorBody = new Gson().fromJson(serviceResponse, ErrorBody.class);
                         dataresponse.onFailure(errorBody, statusCode);
                     } catch (JsonSyntaxException e) {
-//                        dataresponse.onTokenExpired("Something went wrong - Error Code: " + statusCode);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
             }
+
+            /**
+             * @param call
+             * @param t
+             * @breif when api call failure
+             */
             @Override
             public void onFailure(Call<GenerateUploadVaultResponseModel> call, Throwable t) {
                 Log.d(TAG, "onTokenExpired: " + t.getMessage());
                 Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_LONG).show();
-//                dataresponse.onTokenExpired(t.getMessage());
             }
         });
-
     }
-
 }
 
 

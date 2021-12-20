@@ -37,6 +37,7 @@ public class AddTransactionscreen extends AppCompatActivity  {
         setContentView(aab.getRoot());
         buttons=findViewById(R.id.buttons);
 
+        //set statusBar color as transparent
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -45,6 +46,7 @@ public class AddTransactionscreen extends AppCompatActivity  {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
 
+        //Checking internet connection if connection was of toast error message
         ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         if ((connectivityManager
@@ -57,13 +59,14 @@ public class AddTransactionscreen extends AppCompatActivity  {
             Toast.makeText(getApplicationContext(), "This App Require Internet", Toast.LENGTH_SHORT).show();
         }
 
-
+        //setting expense fragment to the fragmentContainer
         constraintLayout=findViewById(R.id.changeblecons);
         FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.framecontainer,new expense(),null).commit();
 
 
 
+        //Changing drawable background
         aab.expense.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,6 +80,7 @@ public class AddTransactionscreen extends AppCompatActivity  {
             }
         });
 
+        //Changing drawable background
         aab.income.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,6 +95,7 @@ public class AddTransactionscreen extends AppCompatActivity  {
             }
         });
 
+        //navigate to cardList screen
         aab.backc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,5 +103,11 @@ public class AddTransactionscreen extends AppCompatActivity  {
 
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(AddTransactionscreen.this,cardslist.class));
+
     }
 }

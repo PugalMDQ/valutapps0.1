@@ -1,5 +1,8 @@
 package com.MDQ.myapplication.viewmodel;
 
+import okhttp3.MultipartBody;
+
+//api request items
 public class AddSpentBaseViewModel {
     public String getAccount_id() {
         return account_id;
@@ -81,11 +84,11 @@ public class AddSpentBaseViewModel {
         this.location = location;
     }
 
-    public String getProfile_picture() {
+    public MultipartBody.Part getProfile_picture() {
         return profile_picture;
     }
 
-    public void setProfile_picture(String profile_picture) {
+    public void setProfile_picture(MultipartBody.Part profile_picture) {
         this.profile_picture = profile_picture;
     }
 
@@ -99,7 +102,7 @@ public class AddSpentBaseViewModel {
     private String tag;
     private String share_with;
     private String location;
-    private String profile_picture;
+    private MultipartBody.Part profile_picture;
 
     public String getToken() {
         return token;

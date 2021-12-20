@@ -34,8 +34,17 @@ public class LoginDataManager {
     }
 
     public void callEnqueue(String url, GenerateLoginRequestModel generateLoginRequestModel, final ResponseHandler<GenerateLoginResponseModel> dataresponse) {
+
+        //calling the generatePostLoginCall methode from call apiInterface
         Call<GenerateLoginResponseModel> userMpinCall = apiInterface.generatePostLoginCall(url,generateLoginRequestModel);
         userMpinCall.enqueue(new Callback<GenerateLoginResponseModel>() {
+
+
+            /**
+             * @param call
+             * @param response
+             * @breif getting response from api
+             */
             @Override
             public void onResponse(Call<GenerateLoginResponseModel> call, Response<GenerateLoginResponseModel> response) {
                 /**
@@ -49,6 +58,8 @@ public class LoginDataManager {
                  */
                 Log.i("responce","response get");
                 int statusCode = response.code();
+
+                //if response is successful set the body of response to onSuccess methode in GenerateRegisterResponseModel else get the error body and set on onFailure in generateRegisterResponseModel
                 if (response.isSuccessful()) {
                     dataresponse.onSuccess(response.body(), "SuccessModel");
                 } else {
@@ -58,19 +69,20 @@ public class LoginDataManager {
                         ErrorBody errorBody = new Gson().fromJson(serviceResponse, ErrorBody.class);
                         dataresponse.onFailure(errorBody, statusCode);
                     } catch (JsonSyntaxException e) {
-//                        dataresponse.onTokenExpired("Something went wrong - Error Code: " + statusCode);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
                 }
             }
-
+            /**
+             * @param call
+             * @param t
+             * @breif api call failure
+             */
             @Override
             public void onFailure(Call<GenerateLoginResponseModel> call, Throwable t) {
                 Log.d(TAG, "onTokenExpired: " + t.getMessage());
                 Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_LONG).show();
-//                dataresponse.onTokenExpired(t.getMessage());
             }
         });
 

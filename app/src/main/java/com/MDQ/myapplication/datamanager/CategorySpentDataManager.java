@@ -34,8 +34,16 @@ public class CategorySpentDataManager {
     }
 
     public void callEnqueue(String url, String token, GenerateCategorySpentRequestModel  generateCategorySpentRequestModel, final ResponseHandler<GenerateCategorySpentResponseModel> dataresponse) {
+
+        //calling the generatePostCategorySpendCall methode from call apiInterface
         Call<GenerateCategorySpentResponseModel> userCurrencyCall = apiInterface.generatePostCategorySpentCall(url,token,generateCategorySpentRequestModel);
         userCurrencyCall.enqueue(new Callback<GenerateCategorySpentResponseModel>() {
+
+            /**
+             * @param call
+             * @param response
+             * @breif getting response from api
+             */
             @Override
             public void onResponse(Call<GenerateCategorySpentResponseModel> call, Response<GenerateCategorySpentResponseModel> response) {
                 /**
@@ -49,6 +57,8 @@ public class CategorySpentDataManager {
                  */
                 Log.i("responce","response get");
                 int statusCode = response.code();
+
+                //if response is successful set the body of response to onSuccess methode in GenerateRegisterResponseModel else get the error body and set on onFailure in generateRegisterResponseModel
                 if (response.isSuccessful()) {
                     dataresponse.onSuccess(response.body(), "SuccessModel");
                 } else {
@@ -58,18 +68,21 @@ public class CategorySpentDataManager {
                         ErrorBody errorBody = new Gson().fromJson(serviceResponse, ErrorBody.class);
                         dataresponse.onFailure(errorBody, statusCode);
                     } catch (JsonSyntaxException e) {
-//                        dataresponse.onTokenExpired("Something went wrong - Error Code: " + statusCode);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
                 }
             }
+
+
+            /**
+             * @param call
+             * @param t
+             * @breif when api call failure
+             */
             @Override
             public void onFailure(Call<GenerateCategorySpentResponseModel> call, Throwable t) {
                 Log.d(TAG, "onTokenExpired: " + t.getMessage());
-                // Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_LONG).show();
-//                dataresponse.onTokenExpired(t.getMessage());
             }
         });
     }

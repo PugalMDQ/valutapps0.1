@@ -15,6 +15,7 @@ import com.MDQ.myapplication.pojo.jsonresponse.GenerateRegisterResponseModel;
 import com.MDQ.myapplication.pojo.jsonresponse.GenerateRegisterSuccessResponseModel;
 import com.MDQ.myapplication.utils.ApiClass;
 
+
 public class RegisterSuccessRequestViewModel extends RegisterSuccessRequestBaseViewModel implements RegisterSuccessRequestInterface {
 
     private RegisterSuccessDataManager registerSuccessDataManager;

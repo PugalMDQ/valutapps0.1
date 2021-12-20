@@ -62,30 +62,38 @@
             android:id="@+id/ADD"
             android:layout_width="match_parent"
             android:layout_height="54dp"
+            android:layout_marginLeft="24dp"
             android:layout_marginTop="27dp"
+            android:layout_marginRight="24dp"
             android:background="@drawable/consback3"
             android:fontFamily="@font/lato"
             android:gravity="center"
             android:text="Add new card / account"
             android:textColor="#A8C3EC"
-            android:textSize="16dp"
             android:textFontWeight="400"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
+            android:textSize="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvincardlist"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_height="0dp"
             android:layout_marginLeft="24dp"
+            android:layout_marginTop="30dp"
             android:layout_marginRight="24dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ADD" />
+            app:layout_constraintTop_toBottomOf="@+id/ADD">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvincardlist"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </ScrollView>
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.MDQ.myapplication.viewmodel;
 
+//api request items
 public class RegisterRequestBaseViewModel {
 
     public String getUser_name() {

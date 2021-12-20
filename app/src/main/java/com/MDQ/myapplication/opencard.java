@@ -45,11 +45,15 @@ public class opencard extends AppCompatActivity implements ListTransactionRespon
         super.onCreate(savedInstanceState);
         ao=ActivityOpencardBinding.inflate(getLayoutInflater());
         setContentView(ao.getRoot());
+        //initialize variables
         recyclerView=findViewById(R.id.rvs);
         back=findViewById(R.id.backc);
         second=findViewById(R.id.contains);
         constraintLayout=findViewById(R.id.bottomsheet);
+
+        // Initialize with bottomSheet layout
         bottomSheetBehavior=BottomSheetBehavior.from(constraintLayout);
+        //add bottom sheet call back for changing the visibility of constrainLayout1
         bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
@@ -57,7 +61,6 @@ public class opencard extends AppCompatActivity implements ListTransactionRespon
                     case BottomSheetBehavior.STATE_EXPANDED:
                         constraintLayout1=findViewById(R.id.secondLayout);
                         constraintLayout1.setBackground(getResources().getDrawable(R.drawable.backforregister));
-
                         constraintLayout.setBackgroundColor(getResources().getColor(R.color.new1));
                         second.setVisibility(View.VISIBLE);
                         break;
@@ -67,16 +70,13 @@ public class opencard extends AppCompatActivity implements ListTransactionRespon
                         second.setVisibility(View.GONE);
                         break;
                 }
-
             }
-
             @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) { }
 
-            }
         });
-        ao.back.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_keyboard_arrow_left_24));
 
+        //set status bar color as transparent
         if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -89,7 +89,7 @@ public class opencard extends AppCompatActivity implements ListTransactionRespon
         account_id=intent.getStringExtra("account_id");
         listTransactionViewModel=new ListTransactionViewModel(getApplicationContext(),this);
 
-
+        //Checking internet connection if available calling setDeclare methode else toast error message
         ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         if ((connectivityManager
@@ -104,11 +104,7 @@ public class opencard extends AppCompatActivity implements ListTransactionRespon
         else{
             Toast.makeText(getApplicationContext(), "This App Require Internet", Toast.LENGTH_SHORT).show();
         }
-
-
-
-
-
+        //calling onBackPress methode
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,6 +113,7 @@ public class opencard extends AppCompatActivity implements ListTransactionRespon
         });
     }
 
+    //set request for ListTransaction api
     private void setDeclare() {
         token=getPreferenceManager().getPrefToken();
         if(token!=null) {
@@ -124,8 +121,11 @@ public class opencard extends AppCompatActivity implements ListTransactionRespon
             listTransactionViewModel.setIndex(index);
             listTransactionViewModel.generateListTransactionRequest();
         }
-
     }
+    /**
+     * @return
+     * @brief initializing the preferenceManager from shared preference for local use in this activity
+     */
     public PreferenceManager getPreferenceManager() {
         if (preferenceManager == null) {
             preferenceManager = PreferenceManager.getInstance();
@@ -134,6 +134,10 @@ public class opencard extends AppCompatActivity implements ListTransactionRespon
         return preferenceManager;
     }
 
+    /**
+     * @param generateListTransactionResponseModel
+     * @breif get ListTransaction api response
+     */
     @Override
     public void generateListTransactionProcessed(GenerateListTransactionResponseModel generateListTransactionResponseModel) {
         if(generateListTransactionResponseModel.data.size()>0){
@@ -148,16 +152,18 @@ public class opencard extends AppCompatActivity implements ListTransactionRespon
 
     @Override
     public void onFailure(ErrorBody errorBody, int statusCode) {
-
+        //do nothing
     }
 
     @Override
     public void ShowErrorMessage(MessageViewType messageViewType, String errorMessage) {
+        //do nothing
 
     }
 
     @Override
     public void ShowErrorMessage(MessageViewType messageViewType, ViewType viewType, String errorMessage) {
+        //do nothing
 
     }
 

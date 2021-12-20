@@ -34,17 +34,19 @@ public class setmpin extends AppCompatActivity implements MpinResponseInterface 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //initialize with viewModel
         ap =ActivitySetmpinBinding.inflate(getLayoutInflater());
         setContentView(ap.getRoot());
 
+        //setting font for textView
         Typeface tf=Typeface.createFromAsset(getAssets(),"fonts/ZillaSlab-Bold.ttf");
         ap.set.setTypeface(tf);
 
+        //getting token from previous screen
         Intent intents=getIntent();
         token=intents.getStringExtra("token");
 
-        Log.i("token",token);
-
+        //set edit text input type as null
         ap.editthree.requestFocus();
         ap.editthree.setRawInputType(InputType.TYPE_NULL);
         ap.editthree.setFocusable(true);
@@ -55,6 +57,7 @@ public class setmpin extends AppCompatActivity implements MpinResponseInterface 
         ap.editsix.setRawInputType(InputType.TYPE_NULL);
         ap.editsix.setFocusable(true);
 
+        //setting touchListener for edittext when its touched it will change to blue color
         ap.editthree.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -92,6 +95,7 @@ public class setmpin extends AppCompatActivity implements MpinResponseInterface 
             }
         });
 
+        //adding textChangeListener for edit text when the first edittext filled it will focus on next edit text
         ap.editthree.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -196,7 +200,7 @@ public class setmpin extends AppCompatActivity implements MpinResponseInterface 
             }
         });
 
-        //for numbers
+        //set for numbers textView the num have clicked it will show on edit text
         ap.one.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -338,7 +342,7 @@ public class setmpin extends AppCompatActivity implements MpinResponseInterface 
             }
         });
 
-        //backspace
+        //backspace imageView when the view clicked it will delete the lastly typed number
         ap.backspace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -388,6 +392,7 @@ public class setmpin extends AppCompatActivity implements MpinResponseInterface 
                 mpins = ""+ ap.editthree.getText() + ap.editfour.getText() + ap.editfive.getText()
                         + ap.editsix.getText();
 
+                //Checking for internet connection if available call declare methode else toast the error message
                 if (mpins!=null) {
 
                     ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext()
@@ -418,13 +423,17 @@ public class setmpin extends AppCompatActivity implements MpinResponseInterface 
 
     }
 
+    //setting request item for setMpin api
     private void declare() {
-
         mpinRequestViewModel.setToken(token);
         mpinRequestViewModel.setMpin(mpins);
         mpinRequestViewModel.generateMpinRequest();
     }
 
+    /**
+     * @param Msg
+     * @breif getting response from set mpin api
+     */
     @Override
     public void generateMpinProcessed(String Msg) {
         String mm=" MPIN updated successfuly";
@@ -436,18 +445,24 @@ public class setmpin extends AppCompatActivity implements MpinResponseInterface 
 
     @Override
     public void onFailure(ErrorBody errorBody, int statusCode) {
-
+        //do nothing
     }
 
     @Override
     public void ShowErrorMessage(MessageViewType messageViewType, String errorMessage) {
+        //do nothing
 
     }
 
     @Override
     public void ShowErrorMessage(MessageViewType messageViewType, ViewType viewType, String errorMessage) {
+        //do nothing
 
     }
+    /**
+     * @return
+     * @brief initializing the preferenceManager from shared preference for local use in this activity
+     */
     public PreferenceManager getPreferenceManager() {
         if (preferenceManager == null) {
             preferenceManager = PreferenceManager.getInstance();

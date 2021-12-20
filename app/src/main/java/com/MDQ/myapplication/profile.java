@@ -7,13 +7,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.MDQ.myapplication.databinding.ActivityProfileBinding;
+import com.MDQ.myapplication.utils.PreferenceManager;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
@@ -25,14 +30,25 @@ public class profile extends AppCompatActivity {
     BottomSheetDialog bottomSheetDialog;
     LinearLayout personal,securities,help;
     LinearLayout transaction;
-
+    TextView LogOut;
     LinearLayout linearhome,linearvalut,linearnotification,linearprofile;
+    PreferenceManager preferenceManager;
+    ImageView addtransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ap=ActivityProfileBinding.inflate(getLayoutInflater());
         setContentView(ap.getRoot());
+
+        //making status bar color as transparent
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+        else {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
 
             group();
 
@@ -47,16 +63,26 @@ public class profile extends AppCompatActivity {
         personal=bottomSheetDialog.findViewById(R.id.personal);
         securities=bottomSheetDialog.findViewById(R.id.securities);
         help=bottomSheetDialog.findViewById(R.id.help);
-
+        LogOut=bottomSheetDialog.findViewById(R.id.LogOut);
 
 
         linearhome=bottomSheetDialog.findViewById(R.id.linearhome);
         linearvalut=bottomSheetDialog.findViewById(R.id.linearTransaction);
         linearnotification=bottomSheetDialog.findViewById(R.id.linearnotification);
         linearprofile=bottomSheetDialog.findViewById(R.id.linearprofile);
+        addtransaction=bottomSheetDialog.findViewById(R.id.addtransaction);
         setclick();
 
 
+        LogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getPreferenceManager().setPrefToken(null);
+                Intent intent=new Intent(getApplicationContext(),Login.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
 
         bottomSheetDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
@@ -121,6 +147,13 @@ public class profile extends AppCompatActivity {
 
     private void setclick() {
 
+        addtransaction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),AddTransactionscreen.class));
+            }
+        });
+
         linearnotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,5 +182,17 @@ public class profile extends AppCompatActivity {
         super.onBackPressed();
         startActivity(new Intent(profile.this,balancehome.class));
 
+    }
+
+    /**
+     * @return
+     * @brief initializing the preferenceManager from shared preference for local use in this activity
+     */
+    public PreferenceManager getPreferenceManager() {
+        if (preferenceManager == null) {
+            preferenceManager = PreferenceManager.getInstance();
+            preferenceManager.initialize(getApplicationContext());
+        }
+        return preferenceManager;
     }
 }

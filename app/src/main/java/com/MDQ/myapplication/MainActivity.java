@@ -42,9 +42,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ab=ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(ab.getRoot());
+
+        //making status bar color as transparent
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+        else {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+
         //initialized the widgets
         tabLayout=findViewById(R.id.tabs);
         viewPager=findViewById(R.id.photos_viewpager);
+
         //initialized the adapter for the tutorial of myFinalyst app
         adapters=new adapter(getSupportFragmentManager());
         viewPager.setAdapter(adapters);
@@ -79,6 +90,9 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.P)
             @Override
             public void onClick(View v) {
+
+                //For checking the internet connection and if connection is available and if token is available  navigate the  to user to enteryourmpin  screen
+                //else navigate to Login Screen
                 ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext()
                         .getSystemService(Context.CONNECTIVITY_SERVICE);
                 if ((connectivityManager
@@ -93,12 +107,10 @@ public class MainActivity extends AppCompatActivity {
                     if(token!=null) {
                         startActivity(new Intent(MainActivity.this, enteryourmpin.class));
                         finish();
-
                     }
                     else {
                         startActivity(new Intent(MainActivity.this, Login.class));
                         finish();
-
                     }
 
                 }

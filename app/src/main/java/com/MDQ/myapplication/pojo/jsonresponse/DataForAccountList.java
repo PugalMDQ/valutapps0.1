@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.stream.Stream;
 
+//api response inner arrayList items
 public class DataForAccountList {
 
 
