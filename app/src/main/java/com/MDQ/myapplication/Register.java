@@ -101,38 +101,40 @@ public class Register extends AppCompatActivity implements RegisterResponseInter
                     emails = email.getText().toString().trim();
                     phones = phone.getText().toString();
                     users = user.getText().toString();
-
-                    Pattern mPattern = Pattern.compile("^([1-9][0-9]{0,2})?(\\.[0-9]?)?$");
-                    Matcher matcher = mPattern.matcher(user.getText().toString());
-
-                    if(user.getText().toString().contains(" ")){
-                        Toast.makeText(getApplicationContext(), "Enter the name without space", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        if(!Patterns.EMAIL_ADDRESS.matcher(emails).matches()){
-                            Toast.makeText(getApplicationContext(), "Enter valid email", Toast.LENGTH_SHORT).show();
-                        }else {
-                            if(phones.length()<10 ) {
-                                Toast.makeText(getApplicationContext(), "Enter valid mobile number", Toast.LENGTH_SHORT).show();
-                            }else{
-                                if(!phones.startsWith("0") && !phones.startsWith("1") && !phones.startsWith("2") && !phones.startsWith("3") && !phones.startsWith("4") && !phones.startsWith("5"))
-                                {
-                                    if(user.getText().toString().length()>3) {
-                                        if (emails != null && phones != null && users != null) {
-                                            getPreferenceManager().setPrefPhoneNum(phones);
-                                            getPreferenceManager().setPrefEmail(emails);
-                                            setDecler();
-
-                                        }
-                                    }else {
-                                        Toast.makeText(getApplicationContext(),"Enter User Name At Least Five letters ", Toast.LENGTH_SHORT).show();
-                                    }
-                                }else {
+//
+//                    Pattern mPattern = Pattern.compile("^([1-9][0-9]{0,2})?(\\.[0-9]?)?$");
+//                    Matcher matcher = mPattern.matcher(user.getText().toString());
+                    if (users.matches(".*[a-z].*")) {
+                        if (user.getText().toString().contains(" ")) {
+                            Toast.makeText(getApplicationContext(), "Enter the name without space", Toast.LENGTH_SHORT).show();
+                        } else {
+                            if (!Patterns.EMAIL_ADDRESS.matcher(emails).matches()) {
+                                Toast.makeText(getApplicationContext(), "Enter valid email", Toast.LENGTH_SHORT).show();
+                            } else {
+                                if (phones.length() < 10) {
                                     Toast.makeText(getApplicationContext(), "Enter valid mobile number", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    if (!phones.startsWith("0") && !phones.startsWith("1") && !phones.startsWith("2") && !phones.startsWith("3") && !phones.startsWith("4") && !phones.startsWith("5")) {
+                                        if (user.getText().toString().length() > 3) {
+                                            if (emails != null && phones != null && users != null) {
+                                                getPreferenceManager().setPrefPhoneNum(phones);
+                                                getPreferenceManager().setPrefEmail(emails);
+                                                setDecler();
+
+                                            }
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), "Enter User Name At Least Five letters ", Toast.LENGTH_SHORT).show();
+                                        }
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Enter valid mobile number", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             }
                         }
+                    }else{
+                        Toast.makeText(getApplicationContext(), "Enter User Name With Letters", Toast.LENGTH_SHORT).show();
                     }
+
                 }
                 else{
                     Toast.makeText(getApplicationContext(), "This App Require Internet", Toast.LENGTH_SHORT).show();
