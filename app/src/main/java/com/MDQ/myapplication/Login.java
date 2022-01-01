@@ -126,7 +126,7 @@ public class Login extends AppCompatActivity implements LoginResponseInterface {
     private void declare() {
         phones=phoneinl.getText().toString();
 
-        if(phones!=null) {
+        if(phones.length()==10) {
             getPreferenceManager().setPrefPhoneNum(phones);
             loginRequestViewModel.setPhone(phones);
             loginRequestViewModel.setCountry_code("91");

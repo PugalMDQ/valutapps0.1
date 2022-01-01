@@ -6,7 +6,7 @@ import com.MDQ.myapplication.pojo.jsonresponse.ErrorBody;
 import com.MDQ.myapplication.pojo.jsonresponse.GenerateCurrencyResponseModel;
 
 import java.util.List;
-
+//Response interface for Currency List
 public interface CurrencyResponseInterface extends StateViewInterface {
 
     void generateCurrencyProcessed(GenerateCurrencyResponseModel generateCurrencyResponseModel);

@@ -30,15 +30,16 @@ public class RegisterDataManager {
     private final String TAG = RegisterDataManager.class.getSimpleName();
     private ApiInterface apiInterface;
     Context context;
-    public RegisterDataManager(Context  context) {
-        this.context=context;
+
+    public RegisterDataManager(Context context) {
+        this.context = context;
         this.apiInterface = getApp().getRetrofitInterface();
     }
 
     public void callEnqueue(String url, GenerateRegisterRequestModel generateRegisterRequestModel, final ResponseHandler<GenerateRegisterResponseModel> dataresponse) {
 
         //calling the generatePostRegisterCall methode from call apiInterface
-        Call<GenerateRegisterResponseModel> userLoginCall = apiInterface.generatePostRegisterCall(url,generateRegisterRequestModel);
+        Call<GenerateRegisterResponseModel> userLoginCall = apiInterface.generatePostRegisterCall(url, generateRegisterRequestModel);
         userLoginCall.enqueue(new Callback<GenerateRegisterResponseModel>() {
 
 
@@ -57,7 +58,7 @@ public class RegisterDataManager {
                  * @param call
                  * @param response
                  */
-                Log.i("responce","response get");
+                Log.i("responce", "response get");
                 int statusCode = response.code();
 
 
@@ -86,7 +87,7 @@ public class RegisterDataManager {
             @Override
             public void onFailure(Call<GenerateRegisterResponseModel> call, Throwable t) {
                 Log.d(TAG, "onTokenExpired: " + t.getMessage());
-                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "" + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
 

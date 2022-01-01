@@ -31,6 +31,7 @@ class YourMarkerView extends MarkerView {
     // content (user-interface)
     @Override
      public void refreshContent(Entry e, Highlight highlight) {
+        //initialize x and y axis values
         int i= (int) e.getX();
         tvContent.setText(data.get(i).getDay());
         tvContent1.setText("" + e.getY());

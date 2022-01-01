@@ -27,15 +27,16 @@ public class AddSpendDataManager {
     private final String TAG = AddSpendDataManager.class.getSimpleName();
     private ApiInterface apiInterface;
     Context context;
-    public AddSpendDataManager(Context  context) {
-        this.context=context;
+
+    public AddSpendDataManager(Context context) {
+        this.context = context;
         this.apiInterface = getApp().getRetrofitInterface();
     }
 
     public void callEnqueue(String url, String token, String account_id, String amount, String type, String category, String subcategory, String Date, String note, String tag, String share_with, String location, MultipartBody.Part profile_picture, GenerateAddSpendRequestModel generateAddSpendRequestModel, final ResponseHandler<GenerateAddSpendResponceModel> dataresponse) {
 
         //calling the generatePostAddSpendCall methode from call apiInterface
-        Call<GenerateAddSpendResponceModel> userAddSpendCall = apiInterface.generatePostAddSpendCall(url,token,account_id,amount,type,category,subcategory,Date,note,tag,share_with,profile_picture);
+        Call<GenerateAddSpendResponceModel> userAddSpendCall = apiInterface.generatePostAddSpendCall(url, token, account_id, amount, type, category, subcategory, Date, note, tag, share_with, profile_picture);
         userAddSpendCall.enqueue(new Callback<GenerateAddSpendResponceModel>() {
 
 
@@ -55,7 +56,7 @@ public class AddSpendDataManager {
                  * @param call
                  * @param response
                  */
-                Log.i("responce","response get");
+                Log.i("responce", "response get");
                 int statusCode = response.code();
 
                 //if response is successful set the body of response to onSuccess methode in GenerateRegisterResponseModel else get the error body and set on onFailure in generateRegisterResponseModel
@@ -83,7 +84,7 @@ public class AddSpendDataManager {
             @Override
             public void onFailure(Call<GenerateAddSpendResponceModel> call, Throwable t) {
                 Log.d(TAG, "onTokenExpired: " + t.getMessage());
-                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "" + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
 

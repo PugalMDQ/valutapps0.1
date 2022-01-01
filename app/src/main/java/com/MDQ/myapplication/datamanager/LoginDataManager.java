@@ -28,15 +28,16 @@ public class LoginDataManager {
     private final String TAG = LoginDataManager.class.getSimpleName();
     private ApiInterface apiInterface;
     Context context;
-    public LoginDataManager(Context  context) {
-        this.context=context;
+
+    public LoginDataManager(Context context) {
+        this.context = context;
         this.apiInterface = getApp().getRetrofitInterface();
     }
 
     public void callEnqueue(String url, GenerateLoginRequestModel generateLoginRequestModel, final ResponseHandler<GenerateLoginResponseModel> dataresponse) {
 
         //calling the generatePostLoginCall methode from call apiInterface
-        Call<GenerateLoginResponseModel> userMpinCall = apiInterface.generatePostLoginCall(url,generateLoginRequestModel);
+        Call<GenerateLoginResponseModel> userMpinCall = apiInterface.generatePostLoginCall(url, generateLoginRequestModel);
         userMpinCall.enqueue(new Callback<GenerateLoginResponseModel>() {
 
 
@@ -56,7 +57,7 @@ public class LoginDataManager {
                  * @param call
                  * @param response
                  */
-                Log.i("responce","response get");
+                Log.i("responce", "response get");
                 int statusCode = response.code();
 
                 //if response is successful set the body of response to onSuccess methode in GenerateRegisterResponseModel else get the error body and set on onFailure in generateRegisterResponseModel
@@ -74,6 +75,7 @@ public class LoginDataManager {
                     }
                 }
             }
+
             /**
              * @param call
              * @param t
@@ -82,7 +84,7 @@ public class LoginDataManager {
             @Override
             public void onFailure(Call<GenerateLoginResponseModel> call, Throwable t) {
                 Log.d(TAG, "onTokenExpired: " + t.getMessage());
-                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "" + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
 

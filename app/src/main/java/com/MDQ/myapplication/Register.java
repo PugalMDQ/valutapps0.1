@@ -101,9 +101,7 @@ public class Register extends AppCompatActivity implements RegisterResponseInter
                     emails = email.getText().toString().trim();
                     phones = phone.getText().toString();
                     users = user.getText().toString();
-//
-//                    Pattern mPattern = Pattern.compile("^([1-9][0-9]{0,2})?(\\.[0-9]?)?$");
-//                    Matcher matcher = mPattern.matcher(user.getText().toString());
+
                     if (users.matches(".*[a-z].*")) {
                         if (user.getText().toString().contains(" ")) {
                             Toast.makeText(getApplicationContext(), "Enter the name without space", Toast.LENGTH_SHORT).show();
@@ -314,6 +312,7 @@ public class Register extends AppCompatActivity implements RegisterResponseInter
     public void onFailure(ErrorBody errorBody, int statusCode) {
 
         // do nothing
+
     }
 
     /**

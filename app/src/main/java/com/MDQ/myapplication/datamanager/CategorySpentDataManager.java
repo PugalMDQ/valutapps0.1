@@ -24,19 +24,19 @@ import retrofit2.Response;
 public class CategorySpentDataManager {
 
 
-
     private final String TAG = CategorySpentDataManager.class.getSimpleName();
     private ApiInterface apiInterface;
     Context context;
-    public CategorySpentDataManager(Context  context) {
-        this.context=context;
+
+    public CategorySpentDataManager(Context context) {
+        this.context = context;
         this.apiInterface = getApp().getRetrofitInterface();
     }
 
-    public void callEnqueue(String url, String token, GenerateCategorySpentRequestModel  generateCategorySpentRequestModel, final ResponseHandler<GenerateCategorySpentResponseModel> dataresponse) {
+    public void callEnqueue(String url, String token, GenerateCategorySpentRequestModel generateCategorySpentRequestModel, final ResponseHandler<GenerateCategorySpentResponseModel> dataresponse) {
 
         //calling the generatePostCategorySpendCall methode from call apiInterface
-        Call<GenerateCategorySpentResponseModel> userCurrencyCall = apiInterface.generatePostCategorySpentCall(url,token,generateCategorySpentRequestModel);
+        Call<GenerateCategorySpentResponseModel> userCurrencyCall = apiInterface.generatePostCategorySpentCall(url, token, generateCategorySpentRequestModel);
         userCurrencyCall.enqueue(new Callback<GenerateCategorySpentResponseModel>() {
 
             /**
@@ -55,7 +55,7 @@ public class CategorySpentDataManager {
                  * @param call
                  * @param response
                  */
-                Log.i("responce","response get");
+                Log.i("responce", "response get");
                 int statusCode = response.code();
 
                 //if response is successful set the body of response to onSuccess methode in GenerateRegisterResponseModel else get the error body and set on onFailure in generateRegisterResponseModel

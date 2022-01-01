@@ -6,6 +6,7 @@ import com.MDQ.myapplication.pojo.jsonresponse.GenerateBankListResponseModel;
 
 import java.util.List;
 
+//Response interface for bank list
 public interface BankListResponseInterface extends StateViewInterface {
 
     void generateBankListProcessed(GenerateBankListResponseModel generateBankListResponseModel);

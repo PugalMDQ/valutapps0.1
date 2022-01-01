@@ -24,14 +24,15 @@ public class AccountListDataManager {
     private final String TAG = AccountListDataManager.class.getSimpleName();
     private ApiInterface apiInterface;
     Context context;
-    public AccountListDataManager(Context  context) {
-        this.context=context;
+
+    public AccountListDataManager(Context context) {
+        this.context = context;
         this.apiInterface = getApp().getRetrofitInterface();
     }
 
     public void callEnqueue(String url, String token, final ResponseHandler<GenerateAccountListResponseModel> dataresponse) {
         //calling the generatePostAccountListCall methode from call apiInterface
-        Call<GenerateAccountListResponseModel> userAccountListCall = apiInterface.generatePostAccountListCall(url,token);
+        Call<GenerateAccountListResponseModel> userAccountListCall = apiInterface.generatePostAccountListCall(url, token);
         userAccountListCall.enqueue(new Callback<GenerateAccountListResponseModel>() {
 
 
@@ -51,7 +52,7 @@ public class AccountListDataManager {
                  * @param call
                  * @param response
                  */
-                Log.i("responce","response get");
+                Log.i("responce", "response get");
                 int statusCode = response.code();
 
                 //if response is successful set the body of response to onSuccess methode in GenerateRegisterResponseModel else get the error body and set on onFailure in generateRegisterResponseModel
@@ -70,6 +71,7 @@ public class AccountListDataManager {
 
                 }
             }
+
             /**
              * @param call
              * @param t

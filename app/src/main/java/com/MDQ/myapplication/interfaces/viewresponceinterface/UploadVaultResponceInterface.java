@@ -4,6 +4,7 @@ import com.MDQ.myapplication.interfaces.StateViewInterface;
 import com.MDQ.myapplication.pojo.jsonresponse.ErrorBody;
 import com.MDQ.myapplication.pojo.jsonresponse.GenerateUploadVaultResponseModel;
 
+//Response interface for upload vault
 public interface UploadVaultResponceInterface extends StateViewInterface {
 
     void generateUploadVaultProcessed(GenerateUploadVaultResponseModel generateUploadVaultResponseInterface);

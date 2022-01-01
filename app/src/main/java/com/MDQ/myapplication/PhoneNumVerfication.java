@@ -595,7 +595,7 @@ public class PhoneNumVerfication extends AppCompatActivity implements RegisterSu
         ap.backc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                startActivity(new Intent(getApplicationContext(),Login.class));
             }
         });
 

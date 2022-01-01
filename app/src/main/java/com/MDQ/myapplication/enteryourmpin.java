@@ -245,13 +245,11 @@ public class enteryourmpin extends AppCompatActivity implements OtpResponseInter
         ap.editsix.setRawInputType(InputType.TYPE_NULL);
         ap.editsix.setFocusable(true);
 
-
         //For numbers textView the num have clicked it will show on edit text
         ap.one.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addpin("1");
-
             }
         });
         ap.two.setOnClickListener(new View.OnClickListener() {
@@ -271,14 +269,12 @@ public class enteryourmpin extends AppCompatActivity implements OtpResponseInter
             @Override
             public void onClick(View v) {
                 addpin("4");
-
             }
         });
         ap.five.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addpin("5");
-
             }
         });
         ap.six.setOnClickListener(new View.OnClickListener() {
@@ -297,7 +293,6 @@ public class enteryourmpin extends AppCompatActivity implements OtpResponseInter
             @Override
             public void onClick(View v) {
                 addpin("8");
-
             }
         });
         ap.nine.setOnClickListener(new View.OnClickListener() {
@@ -310,7 +305,6 @@ public class enteryourmpin extends AppCompatActivity implements OtpResponseInter
             @Override
             public void onClick(View v) {
                 addpin("0");
-
             }
         });
 
@@ -389,8 +383,6 @@ public class enteryourmpin extends AppCompatActivity implements OtpResponseInter
             },1000);
         }
     }
-
-
 
     //set request for mpinValidaton api
     private void setDeclareforvalidation() {

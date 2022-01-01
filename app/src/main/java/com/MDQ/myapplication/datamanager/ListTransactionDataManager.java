@@ -26,15 +26,16 @@ public class ListTransactionDataManager {
     private final String TAG = ListTransactionDataManager.class.getSimpleName();
     private ApiInterface apiInterface;
     Context context;
-    public ListTransactionDataManager(Context  context) {
-        this.context=context;
+
+    public ListTransactionDataManager(Context context) {
+        this.context = context;
         this.apiInterface = getApp().getRetrofitInterface();
     }
 
-    public void callEnqueue(String url, String token, GenerateListTransactionRequestModel generateListTransactionRequestModel,final ResponseHandler<GenerateListTransactionResponseModel> dataresponse) {
+    public void callEnqueue(String url, String token, GenerateListTransactionRequestModel generateListTransactionRequestModel, final ResponseHandler<GenerateListTransactionResponseModel> dataresponse) {
 
         //calling the generatePostListTransactionCall methode from call apiInterface
-        Call<GenerateListTransactionResponseModel> userListTransactionCall = apiInterface.generatePostListTransactionCall(url,token, generateListTransactionRequestModel );
+        Call<GenerateListTransactionResponseModel> userListTransactionCall = apiInterface.generatePostListTransactionCall(url, token, generateListTransactionRequestModel);
         userListTransactionCall.enqueue(new Callback<GenerateListTransactionResponseModel>() {
 
             /**
@@ -53,7 +54,7 @@ public class ListTransactionDataManager {
                  * @param call
                  * @param response
                  */
-                Log.i("responce","response get");
+                Log.i("responce", "response get");
                 int statusCode = response.code();
 
                 //if response is successful set the body of response to onSuccess methode in GenerateRegisterResponseModel else get the error body and set on onFailure in generateRegisterResponseModel

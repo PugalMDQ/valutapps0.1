@@ -26,15 +26,16 @@ public class MpinDataManager {
     private final String TAG = MpinDataManager.class.getSimpleName();
     private ApiInterface apiInterface;
     Context context;
-    public MpinDataManager(Context  context) {
-        this.context=context;
+
+    public MpinDataManager(Context context) {
+        this.context = context;
         this.apiInterface = getApp().getRetrofitInterface();
     }
 
-    public void callEnqueue(String url,String token, GenerateMpinRequestModel generateMpinRequestModel, final ResponseHandler<GenerateMpinResponseModel> dataresponse) {
+    public void callEnqueue(String url, String token, GenerateMpinRequestModel generateMpinRequestModel, final ResponseHandler<GenerateMpinResponseModel> dataresponse) {
 
         //calling the generatePostMpinCall methode from call apiInterface
-        Call<GenerateMpinResponseModel> userMpinCall = apiInterface.generatePostMpinCall(url,token,generateMpinRequestModel);
+        Call<GenerateMpinResponseModel> userMpinCall = apiInterface.generatePostMpinCall(url, token, generateMpinRequestModel);
         userMpinCall.enqueue(new Callback<GenerateMpinResponseModel>() {
 
             /**
@@ -53,7 +54,7 @@ public class MpinDataManager {
                  * @param call
                  * @param response
                  */
-                Log.i("responce","response get");
+                Log.i("responce", "response get");
                 int statusCode = response.code();
 
                 //if response is successful set the body of response to onSuccess methode in GenerateRegisterResponseModel else get the error body and set on onFailure in generateRegisterResponseModel
@@ -81,7 +82,7 @@ public class MpinDataManager {
             @Override
             public void onFailure(Call<GenerateMpinResponseModel> call, Throwable t) {
                 Log.d(TAG, "onTokenExpired: " + t.getMessage());
-                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "" + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
 

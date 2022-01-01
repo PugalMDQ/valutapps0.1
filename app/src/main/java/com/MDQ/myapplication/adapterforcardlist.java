@@ -56,7 +56,6 @@ public class adapterforcardlist extends RecyclerView.Adapter<adapterforcardlist.
                 holder.Accountnum.setText(generateAccountListResponseModel.getData().get(position).getAccount_number());
             }
 
-
             holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -64,7 +63,6 @@ public class adapterforcardlist extends RecyclerView.Adapter<adapterforcardlist.
                 }
             });
         }
-
     }
 
     @Override
@@ -83,9 +81,6 @@ public class adapterforcardlist extends RecyclerView.Adapter<adapterforcardlist.
             heading=itemView.findViewById(R.id.heading);
             Accountnum=itemView.findViewById(R.id.Accountnum);
             constraintLayout=itemView.findViewById(R.id.constaraint);
-
-
-
         }
     }
 }

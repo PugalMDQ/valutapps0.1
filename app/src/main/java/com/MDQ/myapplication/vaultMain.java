@@ -55,6 +55,9 @@ public class vaultMain extends AppCompatActivity implements InterfaceForValut, V
     ActivityValutMainBinding av;
     PreferenceManager preferenceManager;
     int position;
+    ArrayList<String> nameList =new ArrayList<>();
+    ArrayList<String> newlist=new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +89,14 @@ public class vaultMain extends AppCompatActivity implements InterfaceForValut, V
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+                String me=s.toString().toLowerCase();
+
+                for (String lists:nameList){
+                    if(lists.toLowerCase().contains(me)){
+                        newlist.add(lists);
+                    }
+                }
+//                ap.update(newlist);
             }
 
             @Override
@@ -113,7 +124,6 @@ public class vaultMain extends AppCompatActivity implements InterfaceForValut, V
 //        adapter.filterList(filterdNames);
     }
     private void setclick() {
-
         av.linearnotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -200,6 +210,9 @@ public class vaultMain extends AppCompatActivity implements InterfaceForValut, V
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapterforvalutrv);
         this.generateVaultListResponseModel=generateVaultListResponseModel;
+        for(int i=0;i<=generateVaultListResponseModel.getData().size();i++) {
+            nameList.add(generateVaultListResponseModel.getData().get(i).getName());
+        }
     }
 
     @Override

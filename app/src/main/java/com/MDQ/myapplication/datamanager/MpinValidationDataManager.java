@@ -29,16 +29,16 @@ public class MpinValidationDataManager {
     private final String TAG = MpinValidationDataManager.class.getSimpleName();
     private ApiInterface apiInterface;
     Context context;
+
     public MpinValidationDataManager(Context context) {
-        this.context=context;
+        this.context = context;
         this.apiInterface = getApp().getRetrofitInterface();
     }
 
-    public void callEnqueue(String url,String Token, GenerateMpinValidationRequestModel generateMpinRequestModel, final ResponseHandler<GenerateMpinValidationResponseModel> dataresponse) {
-
+    public void callEnqueue(String url, String Token, GenerateMpinValidationRequestModel generateMpinRequestModel, final ResponseHandler<GenerateMpinValidationResponseModel> dataresponse) {
 
         //calling the generatePostMpinValidationCall methode from call apiInterface
-        Call<GenerateMpinValidationResponseModel> userMpinValidationCall = apiInterface.generatePostMpinValidationCall(url,Token,generateMpinRequestModel);
+        Call<GenerateMpinValidationResponseModel> userMpinValidationCall = apiInterface.generatePostMpinValidationCall(url, Token, generateMpinRequestModel);
         userMpinValidationCall.enqueue(new Callback<GenerateMpinValidationResponseModel>() {
 
 
@@ -85,7 +85,7 @@ public class MpinValidationDataManager {
             @Override
             public void onFailure(Call<GenerateMpinValidationResponseModel> call, Throwable t) {
                 Log.d(TAG, "onTokenExpired: " + t.getMessage());
-                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -49,6 +49,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Url;
 
+//calling backend with api
 public interface ApiInterface {
 
     @POST
@@ -98,21 +99,21 @@ public interface ApiInterface {
 
     @POST
     @Multipart
-    Call<GenerateAddSpendResponceModel> generatePostAddSpendCall(@Url String url, @Header("Authtoken") String authtoken, @Part("account_id") String accountid,@Part("amount") String amount,
-                                                                 @Part("type") String type,@Part("category") String category,@Part("subcategory") String subcategory,@Part("Date") String Date,@Part("note") String note,@Part("tag") String tag,@Part("share_with") String share_with,@Part MultipartBody.Part profile_picture);
+    Call<GenerateAddSpendResponceModel> generatePostAddSpendCall(@Url String url, @Header("Authtoken") String authtoken, @Part("account_id") String accountid, @Part("amount") String amount,
+                                                                 @Part("type") String type, @Part("category") String category, @Part("subcategory") String subcategory, @Part("Date") String Date, @Part("note") String note, @Part("tag") String tag, @Part("share_with") String share_with, @Part MultipartBody.Part profile_picture);
 
     @Multipart
     @POST
-    Call<GenerateUploadVaultResponseModel> generateUploadVaultCall(@Url String url, @Header("Authtoken") String authtoken,@Part MultipartBody.Part proof);
+    Call<GenerateUploadVaultResponseModel> generateUploadVaultCall(@Url String url, @Header("Authtoken") String authtoken, @Part MultipartBody.Part proof);
 
     @POST
     Call<GenerateVaultListResponseModel> generateVaultListCall(@Url String url, @Header("Authtoken") String authtoken);
 
-     @POST
-    Call<GenerateDashBoardResponseModel> generateDashBoardCall(@Url String url, @Header("Authtoken") String authtoken,@Body GenerateDashBoardRequestModel generateDashBoardRequestModel);
+    @POST
+    Call<GenerateDashBoardResponseModel> generateDashBoardCall(@Url String url, @Header("Authtoken") String authtoken, @Body GenerateDashBoardRequestModel generateDashBoardRequestModel);
 
-     @POST
-     Call<GenerateUpdateProfileResponseModel> generateUpdateProfileCall(@Url String url,@Header("Authtoken") String authtoken, @Body GenerateUpdateProfileRequestModel generateUpdateProfileRequestModel);
+    @POST
+    Call<GenerateUpdateProfileResponseModel> generateUpdateProfileCall(@Url String url, @Header("Authtoken") String authtoken, @Body GenerateUpdateProfileRequestModel generateUpdateProfileRequestModel);
 
     @POST
     Call<GenerateBioMetricsResponseModel> generateBioMetricsCall(@Url String url, @Header("Authtoken") String authtoken, @Body GenerateBioMetricsRequestModel generateBioMetricsRequestModel);

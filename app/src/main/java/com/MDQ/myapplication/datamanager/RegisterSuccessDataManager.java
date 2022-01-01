@@ -26,13 +26,14 @@ public class RegisterSuccessDataManager {
     private final String TAG = RegisterDataManager.class.getSimpleName();
     private ApiInterface apiInterface;
     Context context;
-    public RegisterSuccessDataManager(Context  context) {
-        this.context=context;
+
+    public RegisterSuccessDataManager(Context context) {
+        this.context = context;
         this.apiInterface = getApp().getRetrofitInterface();
     }
 
     public void callEnqueue(String url, String token, final ResponseHandler<GenerateRegisterSuccessResponseModel> dataresponse) {
-        Call<GenerateRegisterSuccessResponseModel> userRegisterSuccessCall = apiInterface.generatePostRegisterSuccessCall(url,token);
+        Call<GenerateRegisterSuccessResponseModel> userRegisterSuccessCall = apiInterface.generatePostRegisterSuccessCall(url, token);
         userRegisterSuccessCall.enqueue(new Callback<GenerateRegisterSuccessResponseModel>() {
 
 
@@ -47,7 +48,7 @@ public class RegisterSuccessDataManager {
                  * @param call
                  * @param response
                  */
-                Log.i("responce","response get");
+                Log.i("responce", "response get");
                 int statusCode = response.code();
                 if (response.isSuccessful()) {
                     dataresponse.onSuccess(response.body(), "SuccessModel");
@@ -65,10 +66,11 @@ public class RegisterSuccessDataManager {
 
                 }
             }
+
             @Override
             public void onFailure(Call<GenerateRegisterSuccessResponseModel> call, Throwable t) {
                 Log.d(TAG, "onTokenExpired: " + t.getMessage());
-                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "" + t.getMessage(), Toast.LENGTH_LONG).show();
 //                dataresponse.onTokenExpired(t.getMessage());
             }
         });

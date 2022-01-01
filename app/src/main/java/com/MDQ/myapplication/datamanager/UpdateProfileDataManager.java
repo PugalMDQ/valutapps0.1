@@ -26,15 +26,16 @@ public class UpdateProfileDataManager {
     private final String TAG = UpdateProfileDataManager.class.getSimpleName();
     private ApiInterface apiInterface;
     Context context;
-    public UpdateProfileDataManager(Context  context) {
-        this.context=context;
+
+    public UpdateProfileDataManager(Context context) {
+        this.context = context;
         this.apiInterface = getApp().getRetrofitInterface();
     }
 
-    public void callEnqueue(String url, String token,GenerateUpdateProfileRequestModel generateUpdateProfileRequestModel, final ResponseHandler<GenerateUpdateProfileResponseModel> dataresponse) {
+    public void callEnqueue(String url, String token, GenerateUpdateProfileRequestModel generateUpdateProfileRequestModel, final ResponseHandler<GenerateUpdateProfileResponseModel> dataresponse) {
 
         //calling the generatePostRegisterCall methode from call apiInterface
-        Call<GenerateUpdateProfileResponseModel> generateUpdateProfileResponseModelCall = apiInterface.generateUpdateProfileCall(url,token,generateUpdateProfileRequestModel);
+        Call<GenerateUpdateProfileResponseModel> generateUpdateProfileResponseModelCall = apiInterface.generateUpdateProfileCall(url, token, generateUpdateProfileRequestModel);
         generateUpdateProfileResponseModelCall.enqueue(new Callback<GenerateUpdateProfileResponseModel>() {
 
             /**
@@ -52,7 +53,7 @@ public class UpdateProfileDataManager {
                  * @param call
                  * @param response
                  */
-                Log.i("responce","response get");
+                Log.i("responce", "response get");
                 int statusCode = response.code();
 
 
@@ -81,7 +82,7 @@ public class UpdateProfileDataManager {
             @Override
             public void onFailure(Call<GenerateUpdateProfileResponseModel> call, Throwable t) {
                 Log.d(TAG, "onTokenExpired: " + t.getMessage());
-                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "" + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
 

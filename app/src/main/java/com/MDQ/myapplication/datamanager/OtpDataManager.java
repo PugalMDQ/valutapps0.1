@@ -21,65 +21,66 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class OtpDataManager {
-        private final String TAG = OtpDataManager.class.getSimpleName();
-        private ApiInterface apiInterface;
-        Context context;
-        public OtpDataManager(Context context) {
-            this.context=context;
-            this.apiInterface = getApp().getRetrofitInterface();
-        }
+    private final String TAG = OtpDataManager.class.getSimpleName();
+    private ApiInterface apiInterface;
+    Context context;
 
-        public void callEnqueue(String url, GenerateOtpRequestModel generateOtpRequestModel, final ResponseHandler<GenerateOtpResponseModel> dataresponse) {
+    public OtpDataManager(Context context) {
+        this.context = context;
+        this.apiInterface = getApp().getRetrofitInterface();
+    }
 
-            //calling the generatePostOtpCall methode from call apiInterface
-            Call<GenerateOtpResponseModel> userLoginCall = apiInterface.generatePostOtpCall(url,generateOtpRequestModel);
-            userLoginCall.enqueue(new Callback<GenerateOtpResponseModel>() {
+    public void callEnqueue(String url, GenerateOtpRequestModel generateOtpRequestModel, final ResponseHandler<GenerateOtpResponseModel> dataresponse) {
 
+        //calling the generatePostOtpCall methode from call apiInterface
+        Call<GenerateOtpResponseModel> userLoginCall = apiInterface.generatePostOtpCall(url, generateOtpRequestModel);
+        userLoginCall.enqueue(new Callback<GenerateOtpResponseModel>() {
+
+            /**
+             * @param call
+             * @param response
+             * @breif getting response from api
+             */
+            @Override
+            public void onResponse(Call<GenerateOtpResponseModel> call, Response<GenerateOtpResponseModel> response) {
                 /**
+                 * Invoked for a received HTTP response.
+                 * <p>
+                 * Note: An HTTP response may still indicate an application-level failure such as a 404 or 500.
+                 * Call {@link Response#isSuccessful()} to determine if the response indicates success.
+                 *
                  * @param call
                  * @param response
-                 * @breif getting response from api
                  */
-                @Override
-                public void onResponse(Call<GenerateOtpResponseModel> call, Response<GenerateOtpResponseModel> response) {
-                    /**
-                     * Invoked for a received HTTP response.
-                     * <p>
-                     * Note: An HTTP response may still indicate an application-level failure such as a 404 or 500.
-                     * Call {@link Response#isSuccessful()} to determine if the response indicates success.
-                     *
-                     * @param call
-                     * @param response
-                     */
-                    int statusCode = response.code();
+                int statusCode = response.code();
 
-                    //if response is successful set the body of response to onSuccess methode in GenerateRegisterResponseModel else get the error body and set on onFailure in generateRegisterResponseModel
-                    if (response.isSuccessful()) {
-                        dataresponse.onSuccess(response.body(), "SuccessModel");
-                    } else {
-                        String serviceResponse = null;
-                        try {
-                            serviceResponse = response.errorBody().string();
-                            ErrorBody errorBody = new Gson().fromJson(serviceResponse, ErrorBody.class);
-                            dataresponse.onFailure(errorBody, statusCode);
-                        } catch (JsonSyntaxException e) {
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                //if response is successful set the body of response to onSuccess methode in GenerateRegisterResponseModel else get the error body and set on onFailure in generateRegisterResponseModel
+                if (response.isSuccessful()) {
+                    dataresponse.onSuccess(response.body(), "SuccessModel");
+                } else {
+                    String serviceResponse = null;
+                    try {
+                        serviceResponse = response.errorBody().string();
+                        ErrorBody errorBody = new Gson().fromJson(serviceResponse, ErrorBody.class);
+                        dataresponse.onFailure(errorBody, statusCode);
+                    } catch (JsonSyntaxException e) {
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
+            }
 
-                /**
-                 * @param call
-                 * @param t
-                 * @breif api call failure
-                 */
-                @Override
-                public void onFailure(Call<GenerateOtpResponseModel> call, Throwable t) {
-                    Log.d(TAG, "onTokenExpired: " + t.getMessage());
-                    Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
+            /**
+             * @param call
+             * @param t
+             * @breif api call failure
+             */
+            @Override
+            public void onFailure(Call<GenerateOtpResponseModel> call, Throwable t) {
+                Log.d(TAG, "onTokenExpired: " + t.getMessage());
+                Toast.makeText(context, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
-        }
+    }
 }

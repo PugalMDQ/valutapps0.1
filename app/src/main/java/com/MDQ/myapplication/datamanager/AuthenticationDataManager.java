@@ -28,15 +28,16 @@ public class AuthenticationDataManager {
     private final String TAG = AuthenticationDataManager.class.getSimpleName();
     private ApiInterface apiInterface;
     Context context;
-    public AuthenticationDataManager(Context  context) {
-        this.context=context;
+
+    public AuthenticationDataManager(Context context) {
+        this.context = context;
         this.apiInterface = getApp().getRetrofitInterface();
     }
 
     public void callEnqueue(String url, GenerateAuthenticationRequestModel generateAuthenticationRequestModel, final ResponseHandler<GenerateAuthenticationResponseModel> dataresponse) {
 
         //calling the generatePostAuthenticationCall methode from call apiInterface
-        Call<GenerateAuthenticationResponseModel> authenticationCall = apiInterface.generatePostAuthenticationCall(url,generateAuthenticationRequestModel);
+        Call<GenerateAuthenticationResponseModel> authenticationCall = apiInterface.generatePostAuthenticationCall(url, generateAuthenticationRequestModel);
         authenticationCall.enqueue(new Callback<GenerateAuthenticationResponseModel>() {
 
             /**
@@ -55,7 +56,7 @@ public class AuthenticationDataManager {
                  * @param call
                  * @param response
                  */
-                Log.i("responce","response get");
+                Log.i("responce", "response get");
                 int statusCode = response.code();
 
                 //if response is successful set the body of response to onSuccess methode in GenerateRegisterResponseModel else get the error body and set on onFailure in generateRegisterResponseModel
@@ -83,7 +84,7 @@ public class AuthenticationDataManager {
             @Override
             public void onFailure(Call<GenerateAuthenticationResponseModel> call, Throwable t) {
                 Log.d(TAG, "onTokenExpired: " + t.getMessage());
-                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "" + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
 

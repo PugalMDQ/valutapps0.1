@@ -25,15 +25,16 @@ public class BioMetricsValidationDataManager {
     private final String TAG = BioMetricsValidationDataManager.class.getSimpleName();
     private ApiInterface apiInterface;
     Context context;
-    public BioMetricsValidationDataManager(Context  context) {
-        this.context=context;
+
+    public BioMetricsValidationDataManager(Context context) {
+        this.context = context;
         this.apiInterface = getApp().getRetrofitInterface();
     }
 
     public void callEnqueue(String url, String token, final ResponseHandler<GenerateBioMetricsValidationResponseModel> dataresponse) {
 
         //calling the generateBioMetricsCall methode from call apiInterface
-        Call<GenerateBioMetricsValidationResponseModel> userBioMetricsCall = apiInterface.generateBioMetricsValidationCall(url,token);
+        Call<GenerateBioMetricsValidationResponseModel> userBioMetricsCall = apiInterface.generateBioMetricsValidationCall(url, token);
         userBioMetricsCall.enqueue(new Callback<GenerateBioMetricsValidationResponseModel>() {
 
 
@@ -53,11 +54,11 @@ public class BioMetricsValidationDataManager {
                  * @param call
                  * @param response
                  */
-                Log.i("responce","response get");
+                Log.i("responce", "response get");
                 int statusCode = response.code();
 
                 //if response is successful set the body of response to onSuccess methode in GenerateRegisterResponseModel else get the error body and set on onFailure in generateRegisterResponseModel
-                if (response.isSuccessful()&& response!=null) {
+                if (response.isSuccessful() && response != null) {
                     dataresponse.onSuccess(response.body(), "SuccessModel");
                 } else {
                     String serviceResponse = null;

@@ -26,15 +26,16 @@ public class DashBoardDataManager {
     private final String TAG = DashBoardDataManager.class.getSimpleName();
     private ApiInterface apiInterface;
     Context context;
-    public DashBoardDataManager(Context  context) {
-        this.context=context;
+
+    public DashBoardDataManager(Context context) {
+        this.context = context;
         this.apiInterface = getApp().getRetrofitInterface();
     }
 
-    public void callEnqueue(String url, String token,GenerateDashBoardRequestModel generateDashBoardRequestModel, final ResponseHandler<GenerateDashBoardResponseModel> dataresponse) {
+    public void callEnqueue(String url, String token, GenerateDashBoardRequestModel generateDashBoardRequestModel, final ResponseHandler<GenerateDashBoardResponseModel> dataresponse) {
 
         //calling the generateDashBoardCall methode from call apiInterface
-        Call<GenerateDashBoardResponseModel> generateDashBoardCall = apiInterface.generateDashBoardCall(url,token, generateDashBoardRequestModel);
+        Call<GenerateDashBoardResponseModel> generateDashBoardCall = apiInterface.generateDashBoardCall(url, token, generateDashBoardRequestModel);
         generateDashBoardCall.enqueue(new Callback<GenerateDashBoardResponseModel>() {
 
             /**
@@ -53,7 +54,7 @@ public class DashBoardDataManager {
                  * @param call
                  * @param response
                  */
-                Log.i("responce","response get");
+                Log.i("responce", "response get");
                 int statusCode = response.code();
 
                 //if response is successful set the body of response to onSuccess methode in GenerateRegisterResponseModel else get the error body and set on onFailure in generateRegisterResponseModel
@@ -81,7 +82,7 @@ public class DashBoardDataManager {
             @Override
             public void onFailure(Call<GenerateDashBoardResponseModel> call, Throwable t) {
                 Log.d(TAG, "onTokenExpired: " + t.getMessage());
-                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "" + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
 

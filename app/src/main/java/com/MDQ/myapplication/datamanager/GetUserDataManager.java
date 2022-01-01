@@ -26,15 +26,16 @@ public class GetUserDataManager {
     private final String TAG = GetUserDataManager.class.getSimpleName();
     private ApiInterface apiInterface;
     Context context;
-    public GetUserDataManager(Context  context) {
-        this.context=context;
+
+    public GetUserDataManager(Context context) {
+        this.context = context;
         this.apiInterface = getApp().getRetrofitInterface();
     }
 
-    public void callEnqueue(String url,  String token, GenerateGetUserRequestModel generateGetUserRequestModel, final ResponseHandler<GenerateGetUserResponseModel> dataresponse) {
+    public void callEnqueue(String url, String token, GenerateGetUserRequestModel generateGetUserRequestModel, final ResponseHandler<GenerateGetUserResponseModel> dataresponse) {
 
         //calling the generatePostGetUserCall methode from call apiInterface
-        Call<GenerateGetUserResponseModel> userMpinCall = apiInterface.generatePostGetUserCall(url,token);
+        Call<GenerateGetUserResponseModel> userMpinCall = apiInterface.generatePostGetUserCall(url, token);
         userMpinCall.enqueue(new Callback<GenerateGetUserResponseModel>() {
 
             /**
@@ -53,7 +54,7 @@ public class GetUserDataManager {
                  * @param call
                  * @param response
                  */
-                Log.i("responce","response get");
+                Log.i("responce", "response get");
                 int statusCode = response.code();
 
                 //if response is successful set the body of response to onSuccess methode in GenerateRegisterResponseModel else get the error body and set on onFailure in generateRegisterResponseModel

@@ -26,15 +26,16 @@ public class BioMetricsDataManager {
     private final String TAG = BioMetricsDataManager.class.getSimpleName();
     private ApiInterface apiInterface;
     Context context;
-    public BioMetricsDataManager(Context  context) {
-        this.context=context;
+
+    public BioMetricsDataManager(Context context) {
+        this.context = context;
         this.apiInterface = getApp().getRetrofitInterface();
     }
 
-    public void callEnqueue(String url, String token, GenerateBioMetricsRequestModel generateBioMetricsRequestModel,final ResponseHandler<GenerateBioMetricsResponseModel> dataresponse) {
+    public void callEnqueue(String url, String token, GenerateBioMetricsRequestModel generateBioMetricsRequestModel, final ResponseHandler<GenerateBioMetricsResponseModel> dataresponse) {
 
         //calling the generateBioMetricsCall methode from call apiInterface
-        Call<GenerateBioMetricsResponseModel> userBioMetricsCall = apiInterface.generateBioMetricsCall(url,token,generateBioMetricsRequestModel);
+        Call<GenerateBioMetricsResponseModel> userBioMetricsCall = apiInterface.generateBioMetricsCall(url, token, generateBioMetricsRequestModel);
         userBioMetricsCall.enqueue(new Callback<GenerateBioMetricsResponseModel>() {
 
 
@@ -54,11 +55,11 @@ public class BioMetricsDataManager {
                  * @param call
                  * @param response
                  */
-                Log.i("responce","response get");
+                Log.i("responce", "response get");
                 int statusCode = response.code();
 
                 //if response is successful set the body of response to onSuccess methode in GenerateRegisterResponseModel else get the error body and set on onFailure in generateRegisterResponseModel
-                if (response.isSuccessful()&& response!=null) {
+                if (response.isSuccessful() && response != null) {
                     dataresponse.onSuccess(response.body(), "SuccessModel");
                 } else {
                     String serviceResponse = null;
@@ -70,10 +71,8 @@ public class BioMetricsDataManager {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
                 }
             }
-
 
             /**
              * @param call

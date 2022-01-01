@@ -5,6 +5,7 @@ import com.MDQ.myapplication.pojo.jsonresponse.ErrorBody;
 import com.MDQ.myapplication.pojo.jsonresponse.GenerateBankListResponseModel;
 import com.MDQ.myapplication.pojo.jsonresponse.GenerateListTransactionResponseModel;
 
+//Response interface for Transaction list
 public interface ListTransactionResponseInterface extends StateViewInterface {
 
 

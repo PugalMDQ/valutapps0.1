@@ -26,15 +26,16 @@ public class CurrencyDataManager {
     private final String TAG = CurrencyDataManager.class.getSimpleName();
     private ApiInterface apiInterface;
     Context context;
-    public CurrencyDataManager(Context  context) {
-        this.context=context;
+
+    public CurrencyDataManager(Context context) {
+        this.context = context;
         this.apiInterface = getApp().getRetrofitInterface();
     }
 
     public void callEnqueue(String url, String token, final ResponseHandler<GenerateCurrencyResponseModel> dataresponse) {
 
         //calling the generatePostCurrencyCall methode from call apiInterface
-        Call<GenerateCurrencyResponseModel> userCurrencyCall = apiInterface.generatePostCurrencyCall(url,token);
+        Call<GenerateCurrencyResponseModel> userCurrencyCall = apiInterface.generatePostCurrencyCall(url, token);
         userCurrencyCall.enqueue(new Callback<GenerateCurrencyResponseModel>() {
 
 
@@ -54,7 +55,7 @@ public class CurrencyDataManager {
                  * @param call
                  * @param response
                  */
-                Log.i("responce","response get");
+                Log.i("responce", "response get");
                 int statusCode = response.code();
 
                 //if response is successful set the body of response to onSuccess methode in GenerateRegisterResponseModel else get the error body and set on onFailure in generateRegisterResponseModel
@@ -82,7 +83,7 @@ public class CurrencyDataManager {
             @Override
             public void onFailure(Call<GenerateCurrencyResponseModel> call, Throwable t) {
                 Log.d(TAG, "onTokenExpired: " + t.getMessage());
-               Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "" + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

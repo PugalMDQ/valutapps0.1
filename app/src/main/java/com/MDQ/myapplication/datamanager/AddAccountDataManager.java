@@ -27,8 +27,9 @@ public class AddAccountDataManager {
     private final String TAG = AddAccountDataManager.class.getSimpleName();
     private ApiInterface apiInterface;
     Context context;
-    public AddAccountDataManager(Context  context) {
-        this.context=context;
+
+    public AddAccountDataManager(Context context) {
+        this.context = context;
         this.apiInterface = getApp().getRetrofitInterface();
     }
 
@@ -36,7 +37,7 @@ public class AddAccountDataManager {
 
 
         //calling the generatePostAddAccountCall methode from call apiInterface
-        Call<GenerateAddAccountResponseModel> userAddAccountCall = apiInterface.generatePostAddAccountCall(url,token,generateAddAccountRequestModel);
+        Call<GenerateAddAccountResponseModel> userAddAccountCall = apiInterface.generatePostAddAccountCall(url, token, generateAddAccountRequestModel);
         userAddAccountCall.enqueue(new Callback<GenerateAddAccountResponseModel>() {
 
             /**
@@ -55,7 +56,7 @@ public class AddAccountDataManager {
                  * @param call
                  * @param response
                  */
-                Log.i("responce","response get");
+                Log.i("responce", "response get");
                 int statusCode = response.code();
 
                 //if response is successful set the body of response to onSuccess methode in GenerateRegisterResponseModel else get the error body and set on onFailure in generateRegisterResponseModel
@@ -82,7 +83,7 @@ public class AddAccountDataManager {
             @Override
             public void onFailure(Call<GenerateAddAccountResponseModel> call, Throwable t) {
                 Log.d(TAG, "onTokenExpired: " + t.getMessage());
-                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "" + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
 

@@ -42,8 +42,6 @@ public class MyFinalystApp  extends Application {
             super.attachBaseContext(base);
         }
 
-
-
     }
 
 

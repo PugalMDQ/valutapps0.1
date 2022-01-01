@@ -25,15 +25,16 @@ public class VaultListDataManger {
     private final String TAG = VaultListDataManger.class.getSimpleName();
     private ApiInterface apiInterface;
     Context context;
-    public VaultListDataManger(Context  context) {
-        this.context=context;
+
+    public VaultListDataManger(Context context) {
+        this.context = context;
         this.apiInterface = getApp().getRetrofitInterface();
     }
 
     public void callEnqueue(String url, String token, final ResponseHandler<GenerateVaultListResponseModel> dataresponse) {
 
         //calling the generateVaultListCall methode from call apiInterface
-        Call<GenerateVaultListResponseModel> userAccountListCall = apiInterface.generateVaultListCall(url,token);
+        Call<GenerateVaultListResponseModel> userAccountListCall = apiInterface.generateVaultListCall(url, token);
         userAccountListCall.enqueue(new Callback<GenerateVaultListResponseModel>() {
 
 
@@ -53,7 +54,7 @@ public class VaultListDataManger {
                  * @param call
                  * @param response
                  */
-                Log.i("responce","response get");
+                Log.i("responce", "response get");
                 int statusCode = response.code();
 
                 //if response is successful set the body of response to onSuccess methode in GenerateRegisterResponseModel else get the error body and set on onFailure in generateRegisterResponseModel

@@ -25,15 +25,16 @@ public class UploadVaultDataManager {
     private final String TAG = UploadVaultDataManager.class.getSimpleName();
     private ApiInterface apiInterface;
     Context context;
-    public UploadVaultDataManager(Context  context) {
-        this.context=context;
+
+    public UploadVaultDataManager(Context context) {
+        this.context = context;
         this.apiInterface = getApp().getRetrofitInterface();
     }
 
-    public void callEnqueue(String url, String token,MultipartBody.Part file,RequestBody proof,String encoded, final ResponseHandler<GenerateUploadVaultResponseModel> dataresponse) {
+    public void callEnqueue(String url, String token, MultipartBody.Part file, RequestBody proof, String encoded, final ResponseHandler<GenerateUploadVaultResponseModel> dataresponse) {
 
         //calling the generateUploadVaultCall methode from call apiInterface
-        Call<GenerateUploadVaultResponseModel> userRegisterSuccessCall = apiInterface.generateUploadVaultCall(url,token,file);
+        Call<GenerateUploadVaultResponseModel> userRegisterSuccessCall = apiInterface.generateUploadVaultCall(url, token, file);
         userRegisterSuccessCall.enqueue(new Callback<GenerateUploadVaultResponseModel>() {
 
             /**
@@ -41,7 +42,7 @@ public class UploadVaultDataManager {
              * @param response
              * @breif getting response from api
              */
-       @Override
+            @Override
             public void onResponse(Call<GenerateUploadVaultResponseModel> call, Response<GenerateUploadVaultResponseModel> response) {
                 /**
                  * Invoked for a received HTTP response.
@@ -52,11 +53,11 @@ public class UploadVaultDataManager {
                  * @param call
                  * @param response
                  */
-                Log.i("response","response get");
+                Log.i("response", "response get");
                 int statusCode = response.code();
 
-           //if response is successful set the body of response to onSuccess methode in GenerateRegisterResponseModel else get the error body and set on onFailure in generateRegisterResponseModel
-           if (response.isSuccessful()) {
+                //if response is successful set the body of response to onSuccess methode in GenerateRegisterResponseModel else get the error body and set on onFailure in generateRegisterResponseModel
+                if (response.isSuccessful()) {
                     dataresponse.onSuccess(response.body(), "SuccessModel");
                 } else {
                     String serviceResponse = null;
@@ -79,7 +80,7 @@ public class UploadVaultDataManager {
             @Override
             public void onFailure(Call<GenerateUploadVaultResponseModel> call, Throwable t) {
                 Log.d(TAG, "onTokenExpired: " + t.getMessage());
-                Toast.makeText(context, ""+t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "" + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -29,13 +29,9 @@ public class f001 extends Fragment {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_f001, container, false);
 
-
-
-
         chart=view.findViewById(R.id.line);
         chart.setDragEnabled(true);
         chart.setScaleEnabled(false);
-
         chart.getDescription().setEnabled(false);
 
         //code for removing grid lines
